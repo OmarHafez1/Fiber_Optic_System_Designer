@@ -1,0 +1,23 @@
+{
+  "runtimeTarget": {
+    "name": ".NETCoreApp,Version=v6.0",
+    "signature": ""
+  },
+  "compilationOptions": {},
+  "targets": {
+    ".NETCoreApp,Version=v6.0": {
+      "Fiber_Optic_System_Designer/1.0.0": {
+        "runtime": {
+          "Fiber_Optic_System_Designer.dll": {}
+        }
+      }
+    }
+  },
+  "libraries": {
+    "Fiber_Optic_System_Designer/1.0.0": {
+      "type": "project",
+      "serviceable": false,
+      "sha512": ""
+    }
+  }
+}
