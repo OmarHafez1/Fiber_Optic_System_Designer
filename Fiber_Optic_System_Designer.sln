@@ -1,0 +1,25 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Version 17
+VisualStudioVersion = 17.6.33723.286
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Fiber_Optic_System_Designer", "Fiber_Optic_System_Designer\Fiber_Optic_System_Designer.csproj", "{90CD71EE-E9E1-4A0C-871C-1D7ED96E359E}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{90CD71EE-E9E1-4A0C-871C-1D7ED96E359E}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{90CD71EE-E9E1-4A0C-871C-1D7ED96E359E}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{90CD71EE-E9E1-4A0C-871C-1D7ED96E359E}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{90CD71EE-E9E1-4A0C-871C-1D7ED96E359E}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {21AC180E-B35D-481B-9D7F-CCD8B0AB56F9}
+	EndGlobalSection
+EndGlobal
