@@ -8,5 +8,9 @@ namespace Fiber_Optic_System_Designer.ValuesAndCalculations
 {
     internal class DesignSystem
     {
+        public void calculate()
+        {
+
+        }
     }
 }

@@ -1,4 +1,5 @@
 ﻿using Fiber_Optic_System_Designer.Themes;
+using Fiber_Optic_System_Designer.ValuesAndCalculations;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
@@ -17,15 +18,14 @@ namespace Fiber_Optic_System_Designer
         {
             InitializeComponent();
 
-            MyButton designButton = new MyButton(designButtonPanel, DesignButtonLabel, DesignSystem);
+            MyButton designButton = new MyButton(designButtonPanel, DesignButtonLabel, delegate ()
+            {
+                new DesignSystem().calculate();
+            });
             new AddButtonTheme(designButton);
 
         }
 
-        public void DesignSystem()
-        {
-
-        }
     }
 
     /*    private void TxtID_TextChanged(object sender, EventArgs e)

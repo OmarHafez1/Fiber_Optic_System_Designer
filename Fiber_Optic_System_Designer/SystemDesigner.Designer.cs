@@ -43,6 +43,8 @@
             radioButton2 = new RadioButton();
             designButtonPanel = new Panel();
             DesignButtonLabel = new Label();
+            label6 = new Label();
+            textBox6 = new TextBox();
             tableLayoutPanel1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)splitContainer1).BeginInit();
             splitContainer1.Panel1.SuspendLayout();
@@ -68,27 +70,29 @@
             tableLayoutPanel1.Controls.Add(label5, 0, 4);
             tableLayoutPanel1.Controls.Add(label2, 0, 1);
             tableLayoutPanel1.Controls.Add(splitContainer1, 1, 0);
-            tableLayoutPanel1.Controls.Add(designButtonPanel, 1, 5);
+            tableLayoutPanel1.Controls.Add(designButtonPanel, 1, 6);
+            tableLayoutPanel1.Controls.Add(label6, 0, 5);
+            tableLayoutPanel1.Controls.Add(textBox6, 1, 5);
             tableLayoutPanel1.Location = new Point(-21, -51);
             tableLayoutPanel1.Margin = new Padding(0);
             tableLayoutPanel1.Name = "tableLayoutPanel1";
             tableLayoutPanel1.Padding = new Padding(70, 70, 70, 0);
-            tableLayoutPanel1.RowCount = 6;
-            tableLayoutPanel1.RowStyles.Add(new RowStyle(SizeType.Percent, 16.6666718F));
-            tableLayoutPanel1.RowStyles.Add(new RowStyle(SizeType.Percent, 16.6666679F));
-            tableLayoutPanel1.RowStyles.Add(new RowStyle(SizeType.Percent, 16.6666679F));
-            tableLayoutPanel1.RowStyles.Add(new RowStyle(SizeType.Percent, 16.6666679F));
-            tableLayoutPanel1.RowStyles.Add(new RowStyle(SizeType.Percent, 16.6666679F));
-            tableLayoutPanel1.RowStyles.Add(new RowStyle(SizeType.Percent, 16.6666679F));
-            tableLayoutPanel1.RowStyles.Add(new RowStyle(SizeType.Absolute, 20F));
+            tableLayoutPanel1.RowCount = 7;
+            tableLayoutPanel1.RowStyles.Add(new RowStyle(SizeType.Percent, 14.2857141F));
+            tableLayoutPanel1.RowStyles.Add(new RowStyle(SizeType.Percent, 14.2857141F));
+            tableLayoutPanel1.RowStyles.Add(new RowStyle(SizeType.Percent, 14.2857141F));
+            tableLayoutPanel1.RowStyles.Add(new RowStyle(SizeType.Percent, 14.2857141F));
+            tableLayoutPanel1.RowStyles.Add(new RowStyle(SizeType.Percent, 14.2857141F));
+            tableLayoutPanel1.RowStyles.Add(new RowStyle(SizeType.Percent, 14.2857141F));
+            tableLayoutPanel1.RowStyles.Add(new RowStyle(SizeType.Percent, 14.2857141F));
             tableLayoutPanel1.Size = new Size(820, 674);
             tableLayoutPanel1.TabIndex = 0;
             // 
             // textBox5
             // 
             textBox5.Dock = DockStyle.Fill;
-            textBox5.Font = new Font("Segoe UI", 15.75F, FontStyle.Bold, GraphicsUnit.Point);
-            textBox5.Location = new Point(454, 470);
+            textBox5.Font = new Font("Segoe UI", 15.75F, FontStyle.Regular, GraphicsUnit.Point);
+            textBox5.Location = new Point(454, 414);
             textBox5.Margin = new Padding(0);
             textBox5.Name = "textBox5";
             textBox5.Size = new Size(296, 35);
@@ -97,8 +101,8 @@
             // textBox4
             // 
             textBox4.Dock = DockStyle.Fill;
-            textBox4.Font = new Font("Segoe UI", 15.75F, FontStyle.Bold, GraphicsUnit.Point);
-            textBox4.Location = new Point(454, 370);
+            textBox4.Font = new Font("Segoe UI", 15.75F, FontStyle.Regular, GraphicsUnit.Point);
+            textBox4.Location = new Point(454, 328);
             textBox4.Margin = new Padding(0);
             textBox4.Name = "textBox4";
             textBox4.Size = new Size(296, 35);
@@ -107,8 +111,8 @@
             // textBox3
             // 
             textBox3.Dock = DockStyle.Fill;
-            textBox3.Font = new Font("Segoe UI", 15.75F, FontStyle.Bold, GraphicsUnit.Point);
-            textBox3.Location = new Point(454, 270);
+            textBox3.Font = new Font("Segoe UI", 15.75F, FontStyle.Regular, GraphicsUnit.Point);
+            textBox3.Location = new Point(454, 242);
             textBox3.Margin = new Padding(0);
             textBox3.Name = "textBox3";
             textBox3.Size = new Size(296, 35);
@@ -117,8 +121,8 @@
             // textBox2
             // 
             textBox2.Dock = DockStyle.Fill;
-            textBox2.Font = new Font("Segoe UI", 15.75F, FontStyle.Bold, GraphicsUnit.Point);
-            textBox2.Location = new Point(454, 170);
+            textBox2.Font = new Font("Segoe UI Semibold", 15.75F, FontStyle.Bold, GraphicsUnit.Point);
+            textBox2.Location = new Point(454, 156);
             textBox2.Margin = new Padding(0);
             textBox2.Name = "textBox2";
             textBox2.Size = new Size(296, 35);
@@ -131,7 +135,7 @@
             label1.Font = new Font("Segoe UI Semibold", 15.75F, FontStyle.Bold, GraphicsUnit.Point);
             label1.Location = new Point(73, 70);
             label1.Name = "label1";
-            label1.Size = new Size(378, 100);
+            label1.Size = new Size(378, 86);
             label1.TabIndex = 0;
             label1.Text = "System Type:";
             // 
@@ -140,9 +144,9 @@
             label3.AutoSize = true;
             label3.Dock = DockStyle.Fill;
             label3.Font = new Font("Segoe UI Semibold", 15.75F, FontStyle.Bold, GraphicsUnit.Point);
-            label3.Location = new Point(73, 270);
+            label3.Location = new Point(73, 242);
             label3.Name = "label3";
-            label3.Size = new Size(378, 100);
+            label3.Size = new Size(378, 86);
             label3.TabIndex = 2;
             label3.Text = "Transmission Distance:";
             // 
@@ -151,9 +155,9 @@
             label4.AutoSize = true;
             label4.Dock = DockStyle.Fill;
             label4.Font = new Font("Segoe UI Semibold", 15.75F, FontStyle.Bold, GraphicsUnit.Point);
-            label4.Location = new Point(73, 370);
+            label4.Location = new Point(73, 328);
             label4.Name = "label4";
-            label4.Size = new Size(378, 100);
+            label4.Size = new Size(378, 86);
             label4.TabIndex = 3;
             label4.Text = "Required Bit Error Rate (BER):";
             // 
@@ -162,20 +166,20 @@
             label5.AutoSize = true;
             label5.Dock = DockStyle.Fill;
             label5.Font = new Font("Segoe UI Semibold", 15.75F, FontStyle.Bold, GraphicsUnit.Point);
-            label5.Location = new Point(73, 470);
+            label5.Location = new Point(73, 414);
             label5.Name = "label5";
-            label5.Size = new Size(378, 100);
+            label5.Size = new Size(378, 86);
             label5.TabIndex = 4;
-            label5.Text = "Number of connectors:";
+            label5.Text = "Required SNR:";
             // 
             // label2
             // 
             label2.AutoSize = true;
             label2.Dock = DockStyle.Fill;
             label2.Font = new Font("Segoe UI Semibold", 15.75F, FontStyle.Bold, GraphicsUnit.Point);
-            label2.Location = new Point(73, 170);
+            label2.Location = new Point(73, 156);
             label2.Name = "label2";
-            label2.Size = new Size(378, 100);
+            label2.Size = new Size(378, 86);
             label2.TabIndex = 1;
             label2.Text = "Required Bit Rate:";
             // 
@@ -194,7 +198,7 @@
             // 
             splitContainer1.Panel2.Controls.Add(radioButton2);
             splitContainer1.Panel2.Font = new Font("Segoe UI Semibold", 15.75F, FontStyle.Bold, GraphicsUnit.Point);
-            splitContainer1.Size = new Size(290, 94);
+            splitContainer1.Size = new Size(290, 80);
             splitContainer1.SplitterDistance = 145;
             splitContainer1.TabIndex = 12;
             // 
@@ -229,8 +233,8 @@
             designButtonPanel.AutoSizeMode = AutoSizeMode.GrowAndShrink;
             designButtonPanel.Controls.Add(DesignButtonLabel);
             designButtonPanel.Dock = DockStyle.Right;
-            designButtonPanel.Location = new Point(521, 595);
-            designButtonPanel.Margin = new Padding(40, 25, 40, 25);
+            designButtonPanel.Location = new Point(521, 603);
+            designButtonPanel.Margin = new Padding(40, 17, 40, 17);
             designButtonPanel.Name = "designButtonPanel";
             designButtonPanel.Size = new Size(189, 54);
             designButtonPanel.TabIndex = 13;
@@ -245,6 +249,27 @@
             DesignButtonLabel.Size = new Size(70, 25);
             DesignButtonLabel.TabIndex = 0;
             DesignButtonLabel.Text = "Design";
+            // 
+            // label6
+            // 
+            label6.AutoSize = true;
+            label6.Dock = DockStyle.Fill;
+            label6.Font = new Font("Segoe UI Semibold", 15.75F, FontStyle.Bold, GraphicsUnit.Point);
+            label6.Location = new Point(73, 500);
+            label6.Name = "label6";
+            label6.Size = new Size(378, 86);
+            label6.TabIndex = 14;
+            label6.Text = "Number of connectors:";
+            // 
+            // textBox6
+            // 
+            textBox6.Dock = DockStyle.Fill;
+            textBox6.Font = new Font("Segoe UI", 15.75F, FontStyle.Regular, GraphicsUnit.Point);
+            textBox6.Location = new Point(454, 500);
+            textBox6.Margin = new Padding(0);
+            textBox6.Name = "textBox6";
+            textBox6.Size = new Size(296, 35);
+            textBox6.TabIndex = 15;
             // 
             // SystemDesigner
             // 
@@ -282,5 +307,7 @@
         private RadioButton radioButton2;
         private Panel designButtonPanel;
         private Label DesignButtonLabel;
+        private Label label6;
+        private TextBox textBox6;
     }
 }
