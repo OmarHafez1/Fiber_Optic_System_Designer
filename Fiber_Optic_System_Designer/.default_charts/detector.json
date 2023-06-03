@@ -1,0 +1,102 @@
+﻿[
+    {
+        "DEVICE STRUCTURE": "PIN",
+        "ACTIVE MATERIAL": "Si",
+        "RISE TIME": "1",
+        "WAVELENGTH OF PEAK SENSITIVITY": "850",
+        "MIN. ACCEPTABLE POWER LEVEL": "-80",
+        "RESPONSITIVITY": "0.5",
+        "PACKAGING ": "SMA",
+        "MODEL": "D01"
+    },
+    {
+        "DEVICE STRUCTURE": "apd",
+        "ACTIVE MATERIAL": "Ge",
+        "RISE TIME": "2",
+        "WAVELENGTH OF PEAK SENSITIVITY": "850",
+        "MIN. ACCEPTABLE POWER LEVEL": "-51",
+        "RESPONSITIVITY": "1",
+        "PACKAGING ": "SMA",
+        "MODEL": "D02"
+    },
+    {
+        "DEVICE STRUCTURE": "PIN",
+        "ACTIVE MATERIAL": "Si",
+        "RISE TIME": "0.1",
+        "WAVELENGTH OF PEAK SENSITIVITY": "850",
+        "MIN. ACCEPTABLE POWER LEVEL": "-47",
+        "RESPONSITIVITY": "0.5",
+        "PACKAGING ": "SMA",
+        "MODEL": "D03"
+    },
+    {
+        "DEVICE STRUCTURE": "PIN",
+        "ACTIVE MATERIAL": "Ge",
+        "RISE TIME": "1",
+        "WAVELENGTH OF PEAK SENSITIVITY": "1300",
+        "MIN. ACCEPTABLE POWER LEVEL": "-41",
+        "RESPONSITIVITY": "0.5",
+        "PACKAGING ": "SMA",
+        "MODEL": "D04"
+    },
+    {
+        "DEVICE STRUCTURE": "apd",
+        "ACTIVE MATERIAL": "InGaAs",
+        "RISE TIME": "1.2",
+        "WAVELENGTH OF PEAK SENSITIVITY": "1300",
+        "MIN. ACCEPTABLE POWER LEVEL": "-36",
+        "RESPONSITIVITY": "1.5",
+        "PACKAGING ": "SMA",
+        "MODEL": "D05"
+    },
+    {
+        "DEVICE STRUCTURE": "apd",
+        "ACTIVE MATERIAL": "Ge",
+        "RISE TIME": "1.1",
+        "WAVELENGTH OF PEAK SENSITIVITY": "1300",
+        "MIN. ACCEPTABLE POWER LEVEL": "-58",
+        "RESPONSITIVITY": "2.1",
+        "PACKAGING ": "pigtail",
+        "MODEL": "D06"
+    },
+    {
+        "DEVICE STRUCTURE": "PIN",
+        "ACTIVE MATERIAL": "Si",
+        "RISE TIME": "0.9",
+        "WAVELENGTH OF PEAK SENSITIVITY": "1550",
+        "MIN. ACCEPTABLE POWER LEVEL": "-28",
+        "RESPONSITIVITY": "0.5",
+        "PACKAGING ": "pigtail",
+        "MODEL": "D07"
+    },
+    {
+        "DEVICE STRUCTURE": "PIN",
+        "ACTIVE MATERIAL": "Ge",
+        "RISE TIME": "1",
+        "WAVELENGTH OF PEAK SENSITIVITY": "1300",
+        "MIN. ACCEPTABLE POWER LEVEL": "-51",
+        "RESPONSITIVITY": "0.5",
+        "PACKAGING ": "pigtail",
+        "MODEL": "D08"
+    },
+    {
+        "DEVICE STRUCTURE": "apd",
+        "ACTIVE MATERIAL": "Si",
+        "RISE TIME": "0.8",
+        "WAVELENGTH OF PEAK SENSITIVITY": "1550",
+        "MIN. ACCEPTABLE POWER LEVEL": "-36",
+        "RESPONSITIVITY": "1.9",
+        "PACKAGING ": "pigtail",
+        "MODEL": "D09"
+    },
+    {
+        "DEVICE STRUCTURE": "apd",
+        "ACTIVE MATERIAL": "Ge",
+        "RISE TIME": "1",
+        "WAVELENGTH OF PEAK SENSITIVITY": "1550",
+        "MIN. ACCEPTABLE POWER LEVEL": "-43",
+        "RESPONSITIVITY": "5",
+        "PACKAGING ": "pigtail",
+        "MODEL": "D10"
+    }
+]

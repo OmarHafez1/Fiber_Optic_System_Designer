@@ -1,0 +1,72 @@
+﻿[
+    {
+        "FIBER TYPE": "Single Mode",
+        "FIBER SIZE": "3.2/125",
+        "ATTENUATION": "0.25",
+        "COMPATIBLE WITH": "SMA/pigtail",
+        "MODEL": "C01"
+    },
+    {
+        "FIBER TYPE": "Single Mode",
+        "FIBER SIZE": "4/125",
+        "ATTENUATION": "0.7",
+        "COMPATIBLE WITH": "SMA/pigtail",
+        "MODEL": "C02"
+    },
+    {
+        "FIBER TYPE": "Single Mode",
+        "FIBER SIZE": "5/125",
+        "ATTENUATION": "1",
+        "COMPATIBLE WITH": "SMA/pigtail",
+        "MODEL": "C03"
+    },
+    {
+        "FIBER TYPE": "Single Mode",
+        "FIBER SIZE": "6.7/125",
+        "ATTENUATION": "0.35",
+        "COMPATIBLE WITH": "SMA/pigtail",
+        "MODEL": "C04"
+    },
+    {
+        "FIBER TYPE": "Single Mode",
+        "FIBER SIZE": "8/125",
+        "ATTENUATION": "0.35",
+        "COMPATIBLE WITH": "SMA/pigtail",
+        "MODEL": "C05"
+    },
+    {
+        "FIBER TYPE": "Multi Mode",
+        "FIBER SIZE": "50/125",
+        "ATTENUATION": "3",
+        "COMPATIBLE WITH": "SMA",
+        "MODEL": "C06"
+    },
+    {
+        "FIBER TYPE": "Multi Mode",
+        "FIBER SIZE": "50/125",
+        "ATTENUATION": "1",
+        "COMPATIBLE WITH": "pigtail",
+        "MODEL": "C07"
+    },
+    {
+        "FIBER TYPE": "Multi Mode",
+        "FIBER SIZE": "62.5/125",
+        "ATTENUATION": "1.25",
+        "COMPATIBLE WITH": "SMA/pigtail",
+        "MODEL": "C08"
+    },
+    {
+        "FIBER TYPE": "Multi Mode",
+        "FIBER SIZE": "62.5/125",
+        "ATTENUATION": "1.35",
+        "COMPATIBLE WITH": "SMA/pigtail",
+        "MODEL": "C09"
+    },
+    {
+        "FIBER TYPE": "Multi Mode",
+        "FIBER SIZE": "100/125",
+        "ATTENUATION": "1.2",
+        "COMPATIBLE WITH": "SMA/pigtail",
+        "MODEL": "C10"
+    }
+]

@@ -9,6 +9,17 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <Content Include=".default_charts\connector.json" />
+    <Content Include=".default_charts\detector.json" />
+    <Content Include=".default_charts\optical_fiber.json" />
+    <Content Include=".default_charts\source.json" />
+    <Content Include=".user_charts\connector.json" />
+    <Content Include=".user_charts\detector.json" />
+    <Content Include=".user_charts\optical_fiber.json" />
+    <Content Include=".user_charts\source.json" />
+  </ItemGroup>
+
+  <ItemGroup>
     <Compile Update="Properties\Resources.Designer.cs">
       <DesignTime>True</DesignTime>
       <AutoGen>True</AutoGen>

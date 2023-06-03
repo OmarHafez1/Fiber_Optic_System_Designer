@@ -1,0 +1,102 @@
+﻿[
+    {
+        "SOURCE TYPE": "LED",
+        "OPERATING WAVELENGTH": "1300",
+        "OUTPUT POWER ": "300",
+        "SPECTRAL WIDTH": "40",
+        "RISE TIME": "8",
+        "DRIVE CURRENT": "2",
+        "PACKAGING ": "PIGTAIL ",
+        "MODEL": "S01"
+    },
+    {
+        "SOURCE TYPE": "LED",
+        "OPERATING WAVELENGTH": "850",
+        "OUTPUT POWER ": "500",
+        "SPECTRAL WIDTH": "35",
+        "RISE TIME": "10",
+        "DRIVE CURRENT": "10",
+        "PACKAGING ": "PIGTAIL ",
+        "MODEL": "S02"
+    },
+    {
+        "SOURCE TYPE": "LED ",
+        "OPERATING WAVELENGTH": "780",
+        "OUTPUT POWER ": "300",
+        "SPECTRAL WIDTH": "25",
+        "RISE TIME": "4.9",
+        "DRIVE CURRENT": "15",
+        "PACKAGING ": "PIGTAIL ",
+        "MODEL": "S03"
+    },
+    {
+        "SOURCE TYPE": "LED ",
+        "OPERATING WAVELENGTH": "850",
+        "OUTPUT POWER ": "30",
+        "SPECTRAL WIDTH": "30",
+        "RISE TIME": "0.25",
+        "DRIVE CURRENT": "20",
+        "PACKAGING ": "PIGTAIL ",
+        "MODEL": "S04"
+    },
+    {
+        "SOURCE TYPE": "LED ",
+        "OPERATING WAVELENGTH": "1300",
+        "OUTPUT POWER ": "1000",
+        "SPECTRAL WIDTH": "40",
+        "RISE TIME": "4.1",
+        "DRIVE CURRENT": "20",
+        "PACKAGING ": "PIGTAIL ",
+        "MODEL": "S05"
+    },
+    {
+        "SOURCE TYPE": "LASER ",
+        "OPERATING WAVELENGTH": "1300",
+        "OUTPUT POWER ": "1000",
+        "SPECTRAL WIDTH": "4",
+        "RISE TIME": "2.1",
+        "DRIVE CURRENT": "40",
+        "PACKAGING ": "PIGTAIL ",
+        "MODEL": "S06"
+    },
+    {
+        "SOURCE TYPE": "LASER ",
+        "OPERATING WAVELENGTH": "850",
+        "OUTPUT POWER ": "4000",
+        "SPECTRAL WIDTH": "4",
+        "RISE TIME": "1.5",
+        "DRIVE CURRENT": "60",
+        "PACKAGING ": "SMA ",
+        "MODEL": "S07"
+    },
+    {
+        "SOURCE TYPE": "LASER ",
+        "OPERATING WAVELENGTH": "1300",
+        "OUTPUT POWER ": "10000",
+        "SPECTRAL WIDTH": "4",
+        "RISE TIME": "3",
+        "DRIVE CURRENT": "50",
+        "PACKAGING ": "SMA ",
+        "MODEL": "S08"
+    },
+    {
+        "SOURCE TYPE": "LASER ",
+        "OPERATING WAVELENGTH": "1550",
+        "OUTPUT POWER ": "5000",
+        "SPECTRAL WIDTH": "2",
+        "RISE TIME": "2",
+        "DRIVE CURRENT": "50",
+        "PACKAGING ": "SMA ",
+        "MODEL": "S09"
+    },
+    {
+        "SOURCE TYPE": "LASER ",
+        "OPERATING WAVELENGTH": "1300",
+        "OUTPUT POWER ": "1000",
+        "SPECTRAL WIDTH": "4",
+        "RISE TIME": "2.1",
+        "DRIVE CURRENT": "80",
+        "PACKAGING ": "SMA ",
+        "MODEL": "S10"
+    }
+]

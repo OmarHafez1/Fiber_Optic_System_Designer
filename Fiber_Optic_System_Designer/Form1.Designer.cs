@@ -70,8 +70,8 @@
             // 
             splitContainer1.Panel2.Controls.Add(systemDesigner1);
             splitContainer1.Panel2MinSize = 650;
-            splitContainer1.Size = new Size(1032, 761);
-            splitContainer1.SplitterDistance = 148;
+            splitContainer1.Size = new Size(908, 691);
+            splitContainer1.SplitterDistance = 144;
             splitContainer1.SplitterWidth = 3;
             splitContainer1.TabIndex = 0;
             // 
@@ -79,10 +79,10 @@
             // 
             pictureBox2.Dock = DockStyle.Bottom;
             pictureBox2.Image = Properties.Resources.pngegg;
-            pictureBox2.Location = new Point(0, 617);
+            pictureBox2.Location = new Point(0, 547);
             pictureBox2.Margin = new Padding(0);
             pictureBox2.Name = "pictureBox2";
-            pictureBox2.Size = new Size(148, 144);
+            pictureBox2.Size = new Size(144, 144);
             pictureBox2.SizeMode = PictureBoxSizeMode.StretchImage;
             pictureBox2.TabIndex = 2;
             pictureBox2.TabStop = false;
@@ -113,7 +113,7 @@
             pictureBox1.Location = new Point(0, 0);
             pictureBox1.Margin = new Padding(0);
             pictureBox1.Name = "pictureBox1";
-            pictureBox1.Size = new Size(148, 154);
+            pictureBox1.Size = new Size(144, 154);
             pictureBox1.SizeMode = PictureBoxSizeMode.StretchImage;
             pictureBox1.TabIndex = 1;
             pictureBox1.TabStop = false;
@@ -163,17 +163,18 @@
             systemDesigner1.Location = new Point(0, 0);
             systemDesigner1.Margin = new Padding(0);
             systemDesigner1.Name = "systemDesigner1";
-            systemDesigner1.Size = new Size(881, 761);
+            systemDesigner1.Size = new Size(761, 691);
             systemDesigner1.TabIndex = 0;
             // 
             // Form1
             // 
             AutoScaleDimensions = new SizeF(7F, 15F);
             AutoScaleMode = AutoScaleMode.Font;
-            ClientSize = new Size(1032, 761);
+            ClientSize = new Size(908, 691);
             Controls.Add(splitContainer1);
-            MinimumSize = new Size(800, 650);
+            MinimumSize = new Size(900, 700);
             Name = "Form1";
+            StartPosition = FormStartPosition.CenterScreen;
             Text = "Fiber Optic System Design";
             Load += Form1_Load;
             splitContainer1.Panel1.ResumeLayout(false);

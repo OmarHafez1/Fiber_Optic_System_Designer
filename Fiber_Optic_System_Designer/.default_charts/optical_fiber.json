@@ -1,0 +1,102 @@
+﻿[
+    {
+        "OPERATING WAVELENGTH OF MODEL": "1300:1550",
+        "FIBER SIZE": "3.2/125",
+        "NUMERICAL APERTURE": "0.11",
+        "BANDWIDTH DIST. PROD.": "",
+        "DISPERSION": "425",
+        "ATTENUATION": ".3:2",
+        "SPOOL LENGTH": "500",
+        "MODEL": "F01"
+    },
+    {
+        "OPERATING WAVELENGTH OF MODEL": "780",
+        "FIBER SIZE": "4/125",
+        "NUMERICAL APERTURE": "0.1",
+        "BANDWIDTH DIST. PROD.": "",
+        "DISPERSION": "285",
+        "ATTENUATION": "3",
+        "SPOOL LENGTH": "500",
+        "MODEL": "F02"
+    },
+    {
+        "OPERATING WAVELENGTH OF MODEL": "850",
+        "FIBER SIZE": "5/125",
+        "NUMERICAL APERTURE": "0.1",
+        "BANDWIDTH DIST. PROD.": "",
+        "DISPERSION": "120",
+        "ATTENUATION": "3",
+        "SPOOL LENGTH": "500",
+        "MODEL": "F03"
+    },
+    {
+        "OPERATING WAVELENGTH OF MODEL": "1550",
+        "FIBER SIZE": "6.7/125",
+        "NUMERICAL APERTURE": "0.11",
+        "BANDWIDTH DIST. PROD.": "",
+        "DISPERSION": "3",
+        "ATTENUATION": "2",
+        "SPOOL LENGTH": "500",
+        "MODEL": "F04"
+    },
+    {
+        "OPERATING WAVELENGTH OF MODEL": "1300",
+        "FIBER SIZE": "8/125",
+        "NUMERICAL APERTURE": "0.1",
+        "BANDWIDTH DIST. PROD.": "",
+        "DISPERSION": "2",
+        "ATTENUATION": "4",
+        "SPOOL LENGTH": "500",
+        "MODEL": "F05"
+    },
+    {
+        "OPERATING WAVELENGTH OF MODEL": "850:1300",
+        "FIBER SIZE": "50/125",
+        "NUMERICAL APERTURE": "0.2",
+        "BANDWIDTH DIST. PROD.": "1000",
+        "DISPERSION": "",
+        "ATTENUATION": "7.1:8.4",
+        "SPOOL LENGTH": "500",
+        "MODEL": "F06"
+    },
+    {
+        "OPERATING WAVELENGTH OF MODEL": "850:1300",
+        "FIBER SIZE": "50/125",
+        "NUMERICAL APERTURE": "0.2",
+        "BANDWIDTH DIST. PROD.": "400",
+        "DISPERSION": "",
+        "ATTENUATION": "4.0:5.0",
+        "SPOOL LENGTH": "500",
+        "MODEL": "F07"
+    },
+    {
+        "OPERATING WAVELENGTH OF MODEL": "850:1300",
+        "FIBER SIZE": "62.5/125",
+        "NUMERICAL APERTURE": "0.27",
+        "BANDWIDTH DIST. PROD.": "250",
+        "DISPERSION": "",
+        "ATTENUATION": "1.0:3.0",
+        "SPOOL LENGTH": "500",
+        "MODEL": "F08"
+    },
+    {
+        "OPERATING WAVELENGTH OF MODEL": "850:1300",
+        "FIBER SIZE": "62.5/125",
+        "NUMERICAL APERTURE": "0.27",
+        "BANDWIDTH DIST. PROD.": "200",
+        "DISPERSION": "",
+        "ATTENUATION": "3.0:5.0",
+        "SPOOL LENGTH": "500",
+        "MODEL": "F09"
+    },
+    {
+        "OPERATING WAVELENGTH OF MODEL": "850:1300",
+        "FIBER SIZE": "100/125",
+        "NUMERICAL APERTURE": "0.3",
+        "BANDWIDTH DIST. PROD.": "100",
+        "DISPERSION": "",
+        "ATTENUATION": "2.0:4.5",
+        "SPOOL LENGTH": "500",
+        "MODEL": "F10"
+    }
+]

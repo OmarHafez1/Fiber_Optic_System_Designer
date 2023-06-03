@@ -1,3 +1,4 @@
+using Fiber_Optic_System_Designer.Themes;
 using System.ComponentModel;
 using System.Drawing.Imaging;
 using System.Runtime.CompilerServices;
@@ -7,13 +8,13 @@ namespace Fiber_Optic_System_Designer
 {
     public partial class Form1 : Form
     {
-        List<LeftButton> leftPanelChilds = new List<LeftButton>();
+        List<MyLeftButton> leftPanelChilds = new List<MyLeftButton>();
         public Form1()
         {
             InitializeComponent();
-            leftPanelChilds.Add(new LeftButton(home_button, home_button_label, deSelectAll));
-            leftPanelChilds.Add(new LeftButton(settings_button, settings_button_label, deSelectAll));
-            leftPanelChilds.Add(new LeftButton(aboutus_button, aboutus_button_label, deSelectAll));
+            leftPanelChilds.Add(new MyLeftButton(home_button, home_button_label, deSelectAll));
+            leftPanelChilds.Add(new MyLeftButton(settings_button, settings_button_label, deSelectAll));
+            leftPanelChilds.Add(new MyLeftButton(aboutus_button, aboutus_button_label, deSelectAll));
             leftPanelChilds[0].select();
         }
 
@@ -50,68 +51,4 @@ namespace Fiber_Optic_System_Designer
         }
     }
 
-    class LeftButton
-    {
-        public Panel button;
-        public Label label;
-        public int width;
-        bool isSelected = false;
-        Action deSelectAll;
-        public LeftButton(Panel button, Label label, Action deSelectAll)
-        {
-            this.button = button;
-            this.label = label;
-            this.deSelectAll = deSelectAll;
-            setLeftButtonThemes();
-        }
-        public void deSelect()
-        {
-            isSelected = false;
-            updateColor();
-        }
-
-        public void select()
-        {
-            isSelected = true;
-            updateColor();
-        }
-
-        public void updateWidth(int width)
-        {
-            this.width = width;
-            button.Width = width;
-        }
-
-        public void updateColor()
-        {
-            label.BackColor = isSelected ? KColors.KLeftButtonColor_Selected : KColors.KLeftButtonColor_NotSelected;
-        }
-
-        public void setLeftButtonThemes()
-        {
-            label.Padding = new Padding(0, 5, 0, 5);
-            label.ForeColor = Color.White;
-            label.AutoSize = false;
-            label.TextAlign = ContentAlignment.MiddleCenter;
-            label.Dock = DockStyle.Fill;
-            updateColor();
-            updateWidth(button.Parent.Width);
-            button.Height = 65;
-            PropertyChangedEventHandler pp;
-            label.MouseEnter += delegate (object? sender, EventArgs e)
-            {
-                label.BackColor = KColors.LightenBy(label.BackColor, 10);
-            };
-            label.MouseLeave += delegate (object? sender, EventArgs e)
-            {
-                updateColor();
-            };
-            label.MouseClick += delegate (object? sender, MouseEventArgs e)
-            {
-                deSelectAll();
-                select();
-            };
-
-        }
-    }
 }

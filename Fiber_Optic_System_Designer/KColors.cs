@@ -8,12 +8,12 @@ namespace Fiber_Optic_System_Designer
 {
     internal class KColors
     {
-
-        public static Color KLeftPanelColor = ColorTranslator.FromHtml("#0C134F");
-        public static Color KLeftButtonColor_Selected = ColorTranslator.FromHtml("#3474d0");
-        public static Color KLeftButtonColor_NotSelected = ColorTranslator.FromHtml("#0c1d4f");
         public static Color KBaseColor = ColorTranslator.FromHtml("#FFFFFF");
-        public static Color KLeftButtonLableColor = ColorTranslator.FromHtml("#FFFFFF");
+        public static Color KLeftPanelColor = ColorTranslator.FromHtml("#0C134F");
+        public static Color KButtonColor = ColorTranslator.FromHtml("#3474d0");
+        public static Color KButtonColor_Selected = ColorTranslator.FromHtml("#3474d0");
+        public static Color KButtonColor_NotSelected = ColorTranslator.FromHtml("#0c1d4f");
+        public static Color KButtonTextColor = ColorTranslator.FromHtml("#FFFFFF");
 
         public static Color LightenBy(Color color, int percent)
         {
