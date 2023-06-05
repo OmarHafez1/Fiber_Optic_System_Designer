@@ -1,19 +1,15 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
-namespace Fiber_Optic_System_Designer.ValuesAndCalculations
+﻿namespace Fiber_Optic_System_Designer.ValuesAndCalculations.Values
 {
     public enum values_name
     {
         SYSTEM_TYPE,
-        REQUIRED_BW,
         REQUIRED_BIT_RATE,
+        TRANSMISSION_DISTANCE,
+        REQUIRED_BW,
         REQUIRED_BER,
         REQUIRED_SNR,
         NUMBER_OF_CONNECTORS,
+        PHOTODETECTOR_TYPE,
         //
         MODULATION_CODE,
         ENVIRONMENT,

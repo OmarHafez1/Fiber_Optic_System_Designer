@@ -1,17 +1,11 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using Fiber_Optic_System_Designer.Themes;
-
-namespace Fiber_Optic_System_Designer.Themes
+﻿namespace Fiber_Optic_System_Designer.Themes
 {
     class AddButtonTheme
     {
         MyButton button;
-        
-        public AddButtonTheme(MyButton button) { 
+
+        public AddButtonTheme(MyButton button)
+        {
             this.button = button;
             button.button_label.TextAlign = ContentAlignment.MiddleCenter;
             button.button_label.ForeColor = KColors.KButtonTextColor;

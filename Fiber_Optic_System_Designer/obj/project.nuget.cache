@@ -1,8 +1,10 @@
 {
   "version": 2,
-  "dgSpecHash": "wauUuNvQnAQiJTnbU+HDyoAMUFMHd1eWc30uvyu7Hm89TZadM9L6rtMa91AqYaOQkMexiTTNE+16aLqtzLSYBw==",
+  "dgSpecHash": "oV8IQ+jEmNu9Z8ojvConj8Qd1yIsKEZ6qvUY2Y8jGOtkOLKT2ePE1+ierTcPUPT/qpeWdOAvpZ4/z4GlOlp0tA==",
   "success": true,
   "projectFilePath": "O:\\FIber_Optic_System_Designer\\Fiber_Optic_System_Designer\\Fiber_Optic_System_Designer.csproj",
-  "expectedPackageFiles": [],
+  "expectedPackageFiles": [
+    "C:\\Users\\omara\\.nuget\\packages\\newtonsoft.json\\13.0.3\\newtonsoft.json.13.0.3.nupkg.sha512"
+  ],
   "logs": []
 }

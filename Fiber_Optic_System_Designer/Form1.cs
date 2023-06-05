@@ -1,8 +1,4 @@
 using Fiber_Optic_System_Designer.Themes;
-using System.ComponentModel;
-using System.Drawing.Imaging;
-using System.Runtime.CompilerServices;
-using System.Xml.Linq;
 
 namespace Fiber_Optic_System_Designer
 {
@@ -31,6 +27,7 @@ namespace Fiber_Optic_System_Designer
         }
         private void splitContainer1_SplitterMoved(System.Object sender, System.Windows.Forms.SplitterEventArgs e)
         {
+            updateImagesWidth();
             foreach (var leftButton in leftPanelChilds)
             {
                 leftButton.updateWidth(splitContainer1.Panel1.Width);
@@ -49,6 +46,13 @@ namespace Fiber_Optic_System_Designer
         {
 
         }
+
+        public void updateImagesWidth()
+        {
+            //  pictureBox1.Height = Parent.Width;
+
+        }
+
     }
 
 }

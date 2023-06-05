@@ -1,9 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.ComponentModel;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using System.ComponentModel;
 
 namespace Fiber_Optic_System_Designer.Themes
 {
@@ -21,7 +16,7 @@ namespace Fiber_Optic_System_Designer.Themes
             this.deSelectAll = deSelectAll;
             setLeftButtonThemes();
         }
- 
+
         public void setLeftButtonThemes()
         {
             label.ForeColor = KColors.KButtonTextColor;

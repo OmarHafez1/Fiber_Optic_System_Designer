@@ -1,42 +1,79 @@
 ﻿using Fiber_Optic_System_Designer.Themes;
 using Fiber_Optic_System_Designer.ValuesAndCalculations;
-using System;
-using System.Collections.Generic;
-using System.ComponentModel;
-using System.Data;
-using System.Drawing;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using System.Windows.Forms;
+using Fiber_Optic_System_Designer.ValuesAndCalculations.Values;
 
 namespace Fiber_Optic_System_Designer
 {
+    // WHEN ADD THE DIGITAL AND ANALOG FEATHUER DON'T FORGET TO MAKE THE BIT RATE AND BAND WIDTD BE THE SAME IN THE SYSTEM DATA VALUES!!
     public partial class SystemDesigner : UserControl
     {
+        List<Tuple<values_name, TextBox, Label>> FormDataInputsCompination;
+
+        List<Tuple<values_name, String>> SystemRequirements;
+
         public SystemDesigner()
         {
             InitializeComponent();
 
-            MyButton designButton = new MyButton(designButtonPanel, DesignButtonLabel, delegate ()
-            {
-                new DesignSystem().calculate();
-            });
+            comboBox1.SelectedIndex = 0;
+
+            FormDataInputsCompination = new List<Tuple<values_name, TextBox, Label>>() {
+                new Tuple<values_name, TextBox, Label> (values_name.REQUIRED_BIT_RATE, textBox2, notValid2),
+                new Tuple<values_name, TextBox, Label> (values_name.TRANSMISSION_DISTANCE, textBox3, notValid3),
+                new Tuple<values_name, TextBox, Label> (values_name.REQUIRED_BER, textBox4, notValid4),
+                new Tuple<values_name, TextBox, Label> (values_name.REQUIRED_SNR, textBox5, notValid5),
+                new Tuple<values_name, TextBox, Label> (values_name.NUMBER_OF_CONNECTORS, textBox6, notValid6),
+            };
+
+            MyButton designButton = new MyButton(designButtonPanel, DesignButtonLabel,
+                delegate ()
+                {
+                    DesignSystem ds;
+                    SystemRequirements = new List<Tuple<values_name, String>>();
+                    if (isDataValid())
+                    {
+                        ds = new DesignSystem(SystemRequirements);
+                    }
+                }
+            );
             new AddButtonTheme(designButton);
+        }
+
+        bool isDataValid()
+        {
+            bool isOk = true;
+            float val;
+            foreach (Tuple<values_name, TextBox, Label> input in FormDataInputsCompination)
+            {
+                input.Item3.Visible = false;
+                if (float.TryParse(input.Item2.Text, out val))
+                {
+                    SystemRequirements.Add(new Tuple<values_name, String>(input.Item1, input.Item2.Text));
+                }
+                else
+                {
+                    input.Item3.Visible = true;
+                    isOk = false;
+                }
+            }
+            return isOk;
+        }
+
+        public void SetSystemRequirements(SystemData values)
+        {
+            string userInput = textBox2.Text;
+
+            float floatValue;
+            if (float.TryParse(userInput, out floatValue))
+            {
+                textBox3.Text = userInput;
+            }
+            else
+            {
+                textBox4.Text = userInput;
+            }
 
         }
 
     }
-
-    /*    private void TxtID_TextChanged(object sender, EventArgs e)
-        {
-            Control ctrl = (sender as Control);
-
-            string value = string.Concat(ctrl
-              .Text
-              .Where(c => c >= '0' && c <= '9'));
-
-            if (value != ctrl.Text)
-                ctrl.Text = value;
-    */
 }

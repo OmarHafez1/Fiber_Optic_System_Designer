@@ -9,14 +9,18 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <Content Include=".default_charts\connector.json" />
-    <Content Include=".default_charts\detector.json" />
-    <Content Include=".default_charts\optical_fiber.json" />
-    <Content Include=".default_charts\source.json" />
-    <Content Include=".user_charts\connector.json" />
-    <Content Include=".user_charts\detector.json" />
-    <Content Include=".user_charts\optical_fiber.json" />
-    <Content Include=".user_charts\source.json" />
+    <EmbeddedResource Include="JSON_Files\default_charts\connector.json" />
+    <EmbeddedResource Include="JSON_Files\default_charts\detector.json" />
+    <EmbeddedResource Include="JSON_Files\default_charts\optical_fiber.json" />
+    <EmbeddedResource Include="JSON_Files\default_charts\source.json" />
+    <EmbeddedResource Include="JSON_Files\user_charts\connector.json" />
+    <EmbeddedResource Include="JSON_Files\user_charts\detector.json" />
+    <EmbeddedResource Include="JSON_Files\user_charts\optical_fiber.json" />
+    <EmbeddedResource Include="JSON_Files\user_charts\source.json" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <PackageReference Include="Newtonsoft.Json" Version="13.0.3" />
   </ItemGroup>
 
   <ItemGroup>

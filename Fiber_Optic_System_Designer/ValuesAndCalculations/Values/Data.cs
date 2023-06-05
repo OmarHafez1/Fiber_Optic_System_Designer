@@ -1,19 +1,19 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
-namespace Fiber_Optic_System_Designer.ValuesAndCalculations
+﻿namespace Fiber_Optic_System_Designer.ValuesAndCalculations
 {
-    internal class Data
+    public class Data
     {
-        String name, value;
+        private String name, value;
         public Data(String name, String value)
         {
             this.name = name;
             this.value = value;
         }
+
+        public String getName() { return name; }
+        public String getValue() { return value; }
+
+        public void setName(String name) { this.name = name; }
+        public void setValue(String value) { this.value = value; }
 
         public override String ToString()
         {

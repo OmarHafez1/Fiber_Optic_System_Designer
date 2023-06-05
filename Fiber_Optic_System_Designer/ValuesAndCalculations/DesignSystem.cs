@@ -1,16 +1,21 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
+﻿using Fiber_Optic_System_Designer.ValuesAndCalculations.Values;
 namespace Fiber_Optic_System_Designer.ValuesAndCalculations
 {
-    internal class DesignSystem
+    public class DesignSystem
     {
-        public void calculate()
-        {
+        SystemData systemData;
 
+        public DesignSystem(List<Tuple<values_name, String>> SystemRequirements)
+        {
+            systemData = new SystemData();
+            initializeSystemRequirements(SystemRequirements);
+        }
+        void initializeSystemRequirements(List<Tuple<values_name, String>> SystemRequirements)
+        {
+            foreach (var input in SystemRequirements)
+            {
+                systemData.SetValue(input.Item1, input.Item2);
+            }
         }
     }
 }

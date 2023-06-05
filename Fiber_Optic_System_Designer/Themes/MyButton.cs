@@ -1,10 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
-namespace Fiber_Optic_System_Designer.Themes
+﻿namespace Fiber_Optic_System_Designer.Themes
 {
     internal class MyButton
     {
@@ -16,7 +10,7 @@ namespace Fiber_Optic_System_Designer.Themes
             this.button_panel = button;
             this.button_label = label;
             this.action = action;
-            button_panel.MouseClick += delegate (object? sender, MouseEventArgs e)
+            button_label.MouseClick += delegate (object? sender, MouseEventArgs e)
             {
                 action();
             };
