@@ -7,9 +7,6 @@ namespace Fiber_Optic_System_Designer.ValuesAndCalculations
     {
         const double ELECTRON_CHARGE = 1.6e-19;
 
-        List<Func<int>> intCalculationFunctions = new List<Func<int>>();
-        List<Func<String>> StringCalculationFunctions = new List<Func<String>>();
-
         SystemData systemData;
         public Calculations(SystemData systemData)
         {
@@ -19,7 +16,6 @@ namespace Fiber_Optic_System_Designer.ValuesAndCalculations
         {
             String TMP;
             if ((TMP = systemData.GetValue(values_name.ENVIRONMENT).getValue()) != null) return TMP;
-            StringCalculationFunctions.Add(GetEnvironment);
             TMP = (double.Parse(systemData.GetValue(values_name.TRANSMISSION_DISTANCE).getValue()) >= 1.0) ? "outdoor" : "indoor";
             systemData.SetValue(values_name.ENVIRONMENT, TMP);
             return TMP;
@@ -27,20 +23,18 @@ namespace Fiber_Optic_System_Designer.ValuesAndCalculations
 
         public String GetModulationCode()
         {
-            StringCalculationFunctions.Add(GetModulationCode);
+            systemData.SetValue(values_name.MODULATION_CODE, "NRZ");
             return "NRZ";
         }
 
         public String GetNoiseFactorOfPhotodetector()
         {
-            StringCalculationFunctions.Add(GetNoiseFactorOfPhotodetector);
             return "1";
             /*String photoDetectorType = systemData.GetValue(values_name.PHOTODETECTOR_TYPE).getValue().ToLower();
             return (photoDetectorType.Contains("pin") ? "1" : photoDetectorType.Contains("si") ? ".4" : ".1");*/
         }
         public String GetRespositivityOfPhotodetector()
         {
-            StringCalculationFunctions.Add(GetRespositivityOfPhotodetector);
             return ".5";
             /*String photoDetectorType = systemData.GetValue(values_name.PHOTODETECTOR_TYPE).getValue().ToLower();
             return (photoDetectorType.Contains("pin") ? ".58" : photoDetectorType.Contains("si") ? "100" : ".6");*/
@@ -52,7 +46,6 @@ namespace Fiber_Optic_System_Designer.ValuesAndCalculations
             {
                 return TMP;
             }
-            StringCalculationFunctions.Add(GetReceiverSensitivity);
             double snr = double.Parse(systemData.GetValue(values_name.REQUIRED_SNR).getValue());
             double k_2 = Math.Pow(10, .1 * snr);
             double F = double.Parse(GetNoiseFactorOfPhotodetector());
@@ -69,9 +62,7 @@ namespace Fiber_Optic_System_Designer.ValuesAndCalculations
         {
             if (systemData.GetUsedDetectorIndex() != -1) return systemData.GetUsedDetectorIndex();
 
-            intCalculationFunctions.Add(ChoseDetector);
-
-            List<string> minAccepablePowerLevelColumn = systemData.GetDetectorListOf("MIN.ACCEPTABLE POWER LEVEL");
+            List<string> minAccepablePowerLevelColumn = systemData.GetDetectorListOf("MIN. ACCEPTABLE POWER LEVEL");
             List<string> deviceStructureColumnn = systemData.GetDetectorListOf("DEVICE STRUCTURE");
 
             List<List<String>> availableDetectors = new List<List<string>>();
@@ -100,7 +91,7 @@ namespace Fiber_Optic_System_Designer.ValuesAndCalculations
             if (availableDetectors.Count - 1 > 1)
             {
                 String title = "Chose a detector";
-                String message = "We found different available detectors sutable for your system, Please select one:";
+                String message = "We have found different available detectors sutable for your system, Please select one:";
                 int chosed_index = ChoseTableDialoge.InputDialog(title, message, availableDetectors);
                 systemData.setUsedDetectorIndex(real_index[chosed_index]);
                 return real_index[chosed_index];
@@ -114,7 +105,6 @@ namespace Fiber_Optic_System_Designer.ValuesAndCalculations
         {
             String TMP;
             if ((TMP = systemData.GetValue(values_name.FIBER_TYPE).getValue()) != null) return TMP;
-            StringCalculationFunctions.Add(GetFiberType);
             TMP = double.Parse(systemData.GetValue(values_name.REQUIRED_BIT_RATE).getValue()) >= 1000 ? "Single Mode" : "Multi Mode";
             systemData.SetValue(values_name.FIBER_TYPE, TMP);
             return TMP;
@@ -123,9 +113,8 @@ namespace Fiber_Optic_System_Designer.ValuesAndCalculations
         public int ChoseOpticalFiber()
         {
             if (systemData.GetUsedOpticalFiberIndex() != -1) return systemData.GetUsedOpticalFiberIndex();
-            intCalculationFunctions.Add(ChoseOpticalFiber);
 
-            List<string> BW_Distacne_Product_Column = systemData.GetDetectorListOf("BANDWIDTH DIST. PROD.");
+            List<string> BW_Distacne_Product_Column = systemData.GetOpticaFiberListOf("BANDWIDTH DIST. PROD.");
 
             List<List<String>> availableOpticalFibers = new List<List<string>>();
             availableOpticalFibers.Add(systemData.GetColumnsNamesOf(systemData.GetOpticalFiberChart()));
@@ -155,7 +144,7 @@ namespace Fiber_Optic_System_Designer.ValuesAndCalculations
             if (availableOpticalFibers.Count - 1 > 1)
             {
                 String title = "Chose an optical fiber";
-                String message = "We found different available optical fibers sutable for your system, Please select one:";
+                String message = "We have found different available optical fibers sutable for your system, Please select one:";
                 int chosed_index = ChoseTableDialoge.InputDialog(title, message, availableOpticalFibers);
                 systemData.setUsedOpticalFiberIndex(real_index[chosed_index]);
                 return real_index[chosed_index];
@@ -170,7 +159,6 @@ namespace Fiber_Optic_System_Designer.ValuesAndCalculations
         {
             String TMP;
             if ((TMP = systemData.GetValue(values_name.FIBER_ATTENUATION).getValue()) != null) return TMP;
-            StringCalculationFunctions.Add(GetFiberAttenuation);
             TMP = systemData.GetOpticaFiberListOf("ATTENUATION")[ChoseOpticalFiber()];
             if (TMP.Contains(':')) TMP = TMP.Split(':')[1];
             systemData.SetValue(values_name.FIBER_ATTENUATION, TMP);
@@ -181,7 +169,6 @@ namespace Fiber_Optic_System_Designer.ValuesAndCalculations
         {
             String TMP;
             if ((TMP = systemData.GetValue(values_name.TOTAL_FIBER_LOSS).getValue()) != null) return TMP;
-            StringCalculationFunctions.Add(GetTotalFiberLoss);
             double value = double.Parse(GetFiberAttenuation()) * double.Parse(systemData.GetValue(values_name.TRANSMISSION_DISTANCE).getValue());
             TMP = value.ToString();
             systemData.SetValue(values_name.TOTAL_FIBER_LOSS, TMP);
@@ -192,7 +179,6 @@ namespace Fiber_Optic_System_Designer.ValuesAndCalculations
         {
             String TMP;
             if ((TMP = systemData.GetValue(values_name.SOURCE_TYPE).getValue()) != null) return TMP;
-            StringCalculationFunctions.Add(GetSourceType);
             bool isHightSpeed = double.Parse(systemData.GetValue(values_name.REQUIRED_BIT_RATE).getValue()) >= 1000;
             bool isLongDistance = double.Parse(systemData.GetValue(values_name.TRANSMISSION_DISTANCE).getValue()) >= 1;
             TMP = (!isHightSpeed && !isLongDistance) ? "LED" : (isHightSpeed && !isLongDistance) ? "LASER/LED" : "LASER";
@@ -203,9 +189,8 @@ namespace Fiber_Optic_System_Designer.ValuesAndCalculations
         public int ChoseSource()
         {
             if (systemData.GetUsedSourceIndex() != -1) return systemData.GetUsedSourceIndex();
-            intCalculationFunctions.Add(ChoseSource);
-            List<string> SourceType = systemData.GetDetectorListOf("SOURCE TYPE");
-            List<string> OperatingWaveLength = systemData.GetDetectorListOf("OPERATING WAVELENGTH");
+            List<string> SourceType = systemData.GetSourceListOf("SOURCE TYPE");
+            List<string> OperatingWaveLength = systemData.GetSourceListOf("OPERATING WAVELENGTH");
             List<List<String>> availableSources = new List<List<string>>();
             availableSources.Add(systemData.GetColumnsNamesOf(systemData.GetSourceChart()));
 
@@ -249,7 +234,7 @@ namespace Fiber_Optic_System_Designer.ValuesAndCalculations
             if (availableSources.Count - 1 > 1)
             {
                 String title = "Chose an optical fiber";
-                String message = "We found different available optical fibers sutable for your system, Please select one:";
+                String message = "We have found different available Sources sutable for your system, Please select one:";
                 int chosed_index = ChoseTableDialoge.InputDialog(title, message, availableSources);
                 systemData.setUsedSourceIndex(real_index[chosed_index]);
                 return real_index[chosed_index];
@@ -263,7 +248,6 @@ namespace Fiber_Optic_System_Designer.ValuesAndCalculations
         {
             String TMP;
             if ((TMP = systemData.GetValue(values_name.AVERAGE_SOURCE_OUTPUT).getValue()) != null) return TMP;
-            StringCalculationFunctions.Add(GetAverageSourceOutput);
             double outputPower = double.Parse(systemData.GetSourceListOf("OUTPUT POWER")[ChoseSource()]) / 1000.0;
             TMP = (10 * Math.Log10(outputPower)).ToString();
             systemData.SetValue(values_name.AVERAGE_SOURCE_OUTPUT, TMP);
@@ -274,7 +258,6 @@ namespace Fiber_Optic_System_Designer.ValuesAndCalculations
         {
             String TMP;
             if ((TMP = systemData.GetValue(values_name.SPLICE).getValue()) != null) return TMP;
-            StringCalculationFunctions.Add(GetSplice);
             TMP = GetFiberType().Contains("Single") ? "fusion" : "mechanical";
             systemData.SetValue(values_name.SPLICE, TMP);
             return TMP;
@@ -284,7 +267,6 @@ namespace Fiber_Optic_System_Designer.ValuesAndCalculations
         {
             String TMP;
             if ((TMP = systemData.GetValue(values_name.NUMBER_OF_SPLICES).getValue()) != null) return TMP;
-            StringCalculationFunctions.Add(GetNumberOfSplices);
             double transmission_distance = double.Parse(systemData.GetValue(values_name.TRANSMISSION_DISTANCE).getValue());
             double spool_length = double.Parse(systemData.GetOpticaFiberListOf("SPOOL LENGTH")[ChoseOpticalFiber()]);
             TMP = ((int)Math.Ceiling(transmission_distance / spool_length)).ToString();
@@ -296,7 +278,6 @@ namespace Fiber_Optic_System_Designer.ValuesAndCalculations
         {
             String TMP;
             if ((TMP = systemData.GetValue(values_name.SPLICE_INSERTION_LOSS).getValue()) != null) return TMP;
-            StringCalculationFunctions.Add(GetSplicesInsertionLoss);
             TMP = (GetSplice().ToLower().Contains("fusion") ? .1 : .5).ToString();
             systemData.SetValue(values_name.SPLICE_INSERTION_LOSS, TMP);
             return TMP;
@@ -306,7 +287,6 @@ namespace Fiber_Optic_System_Designer.ValuesAndCalculations
         {
             String TMP;
             if ((TMP = systemData.GetValue(values_name.TOTAL_SPLICE_LOSS).getValue()) != null) return TMP;
-            StringCalculationFunctions.Add(GetTotalSpliceLoss);
             TMP = (double.Parse(GetSplicesInsertionLoss()) * double.Parse(GetNumberOfSplices())).ToString();
             systemData.SetValue(values_name.TOTAL_SPLICE_LOSS, TMP);
             return TMP;
@@ -315,9 +295,8 @@ namespace Fiber_Optic_System_Designer.ValuesAndCalculations
         public int ChoseConnector()
         {
             if (systemData.GetUsedConnectorIndex() != -1) return systemData.GetUsedConnectorIndex();
-            intCalculationFunctions.Add(ChoseConnector);
-            List<string> ConnectorsFiberType = systemData.GetDetectorListOf("FIBER TYPE");
-            List<string> ConnectorsFiberSize = systemData.GetDetectorListOf("FIBER SIZE");
+            List<string> ConnectorsFiberType = systemData.GetConnectorListOf("FIBER TYPE");
+            List<string> ConnectorsFiberSize = systemData.GetConnectorListOf("FIBER SIZE");
             List<List<String>> availableConnnectors = new List<List<string>>();
             availableConnnectors.Add(systemData.GetColumnsNamesOf(systemData.GetConnectorChart()));
 
@@ -346,7 +325,7 @@ namespace Fiber_Optic_System_Designer.ValuesAndCalculations
             if (availableConnnectors.Count - 1 > 1)
             {
                 String title = "Chose an connector";
-                String message = "We found different available connectors sutable for your system, Please select one:";
+                String message = "We have found different available connectors sutable for your system, Please select one:";
                 int chosed_index = ChoseTableDialoge.InputDialog(title, message, availableConnnectors);
                 systemData.setUsedSourceIndex(real_index[chosed_index]);
                 return real_index[chosed_index];
@@ -359,7 +338,6 @@ namespace Fiber_Optic_System_Designer.ValuesAndCalculations
         {
             String TMP;
             if ((TMP = systemData.GetValue(values_name.CONNECTOR_INSERTION_LOSS).getValue()) != null) return TMP;
-            StringCalculationFunctions.Add(GetConnectorsInsertionLoss);
             TMP = systemData.GetConnectorListOf("ATTENUATION")[ChoseConnector()];
             systemData.SetValue(values_name.CONNECTOR_INSERTION_LOSS, TMP);
             return TMP;
@@ -369,17 +347,12 @@ namespace Fiber_Optic_System_Designer.ValuesAndCalculations
         {
             String TMP;
             if ((TMP = systemData.GetValue(values_name.TOTAL_CONNECTOR_LOSS).getValue()) != null) return TMP;
-            StringCalculationFunctions.Add(GetTotalConnectorLoss);
             TMP = (double.Parse(GetConnectorsInsertionLoss()) * int.Parse(systemData.GetValue(values_name.NUMBER_OF_CONNECTORS).getValue())).ToString();
             systemData.SetValue(values_name.TOTAL_CONNECTOR_LOSS, TMP);
             return TMP;
         }
         public String GetTimeDegradationFactor()
         {
-            if (systemData.GetValue(values_name.TIME_DEGRADATION_FACTOR).getValue() == null)
-            {
-                StringCalculationFunctions.Add(GetTimeDegradationFactor);
-            }
             systemData.SetValue(values_name.TIME_DEGRADATION_FACTOR, "3");
 
             return systemData.GetValue(values_name.TIME_DEGRADATION_FACTOR).getValue();
@@ -388,7 +361,6 @@ namespace Fiber_Optic_System_Designer.ValuesAndCalculations
         {
             String TMP;
             if ((TMP = systemData.GetValue(values_name.ENV_DEGRADATION_FACTOR).getValue()) != null) return TMP;
-            StringCalculationFunctions.Add(GetEnvDegradationFactor);
             TMP = GetEnvironment().ToLower().Trim()[0] == 'i' ? "2" : "5";
             systemData.SetValue(values_name.ENV_DEGRADATION_FACTOR, TMP);
             return TMP;
@@ -398,7 +370,6 @@ namespace Fiber_Optic_System_Designer.ValuesAndCalculations
         {
             String TMP;
             if ((TMP = systemData.GetValue(values_name.TOTAL_ATTENUATION).getValue()) != null) return TMP;
-            StringCalculationFunctions.Add(GetTotalAttenuation);
             double res = double.Parse(GetTotalFiberLoss()) + double.Parse(GetTotalSpliceLoss()) + double.Parse(GetTotalConnectorLoss());
             res += double.Parse(GetTimeDegradationFactor()) + double.Parse(GetEnvDegradationFactor());
             TMP = res.ToString();
@@ -410,7 +381,6 @@ namespace Fiber_Optic_System_Designer.ValuesAndCalculations
         {
             String TMP;
             if ((TMP = systemData.GetValue(values_name.TOTAL_LOSS_MARGIN).getValue()) != null) return TMP;
-            StringCalculationFunctions.Add(GetTotalLossMargin);
             TMP = (double.Parse(GetAverageSourceOutput()) - double.Parse(GetReceiverSensitivity())).ToString();
             systemData.SetValue(values_name.TOTAL_LOSS_MARGIN, TMP);
             return TMP;
@@ -419,7 +389,6 @@ namespace Fiber_Optic_System_Designer.ValuesAndCalculations
         {
             String TMP;
             if ((TMP = systemData.GetValue(values_name.EXCESS_POWER).getValue()) != null) return TMP;
-            StringCalculationFunctions.Add(GetExcessPower);
             TMP = (double.Parse(GetTotalLossMargin()) + double.Parse(GetTotalAttenuation())).ToString();
             systemData.SetValue(values_name.EXCESS_POWER, TMP);
             return TMP;
@@ -428,7 +397,6 @@ namespace Fiber_Optic_System_Designer.ValuesAndCalculations
         {
             String TMP;
             if ((TMP = systemData.GetValue(values_name.ACTUAL_POWER_AT_THE_RECEIVER).getValue()) != null) return TMP;
-            StringCalculationFunctions.Add(GetActualPowerAtReceiver);
             TMP = (double.Parse(GetReceiverSensitivity()) + double.Parse(GetExcessPower())).ToString();
             systemData.SetValue(values_name.ACTUAL_POWER_AT_THE_RECEIVER, TMP);
             return TMP;
@@ -438,7 +406,6 @@ namespace Fiber_Optic_System_Designer.ValuesAndCalculations
         {
             String TMP;
             if ((TMP = systemData.GetValue(values_name.REQUIRED_SYSTEM_RISE_TIME).getValue()) != null) return TMP;
-            StringCalculationFunctions.Add(GetRequiredSystemRiseTime);
             String tmp = GetModulationCode().Trim().ToLower();
             TMP = (tmp == "nrz" || tmp == "nrzi" || tmp == "miller") ? ".7" : ".35";
             systemData.SetValue(values_name.REQUIRED_SYSTEM_RISE_TIME, TMP);
@@ -449,7 +416,6 @@ namespace Fiber_Optic_System_Designer.ValuesAndCalculations
         {
             String TMP;
             if ((TMP = systemData.GetValue(values_name.FIBER_BANDWIDTH).getValue()) != null) return TMP;
-            StringCalculationFunctions.Add(GetFiberBW);
             TMP = (double.Parse(systemData.GetOpticaFiberListOf("BANDWIDTH DIST. PROD.")[ChoseOpticalFiber()]) / double.Parse(systemData.GetValue(values_name.TRANSMISSION_DISTANCE).getValue())).ToString();
             systemData.SetValue(values_name.FIBER_BANDWIDTH, TMP);
             return TMP;
@@ -458,7 +424,6 @@ namespace Fiber_Optic_System_Designer.ValuesAndCalculations
         {
             String TMP;
             if ((TMP = systemData.GetValue(values_name.FIBER_RISE_TIME).getValue()) != null) return TMP;
-            StringCalculationFunctions.Add(GetFiberRiseTime);
             TMP = (.35 / double.Parse(GetFiberBW())).ToString();
             systemData.SetValue(values_name.FIBER_RISE_TIME, TMP);
             return TMP;
@@ -468,7 +433,6 @@ namespace Fiber_Optic_System_Designer.ValuesAndCalculations
         {
             String TMP;
             if ((TMP = systemData.GetValue(values_name.SOURCE_RISE_TIME).getValue()) != null) return TMP;
-            StringCalculationFunctions.Add(GetSourceRiseTime);
             TMP = systemData.GetSourceListOf("RISE TIME")[ChoseSource()].ToString();
             systemData.SetValue(values_name.SOURCE_RISE_TIME, TMP);
             return TMP;
@@ -477,7 +441,6 @@ namespace Fiber_Optic_System_Designer.ValuesAndCalculations
         {
             String TMP;
             if ((TMP = systemData.GetValue(values_name.DETECTOR_RISE_TIME).getValue()) != null) return TMP;
-            StringCalculationFunctions.Add(GetDetectorRiseTime);
             TMP = systemData.GetDetectorListOf("RISE TIME")[ChoseDetector()].ToString();
             systemData.SetValue(values_name.DETECTOR_RISE_TIME, TMP);
             return TMP;
@@ -487,8 +450,6 @@ namespace Fiber_Optic_System_Designer.ValuesAndCalculations
         {
             String TMP;
             if ((TMP = systemData.GetValue(values_name.ACTUAL_SYSTEM_RISE_TIME).getValue()) != null) return TMP;
-            StringCalculationFunctions.Add(GetActualSystemRiseTime);
-
             double res = 1.1 * Math.Sqrt(Math.Pow(double.Parse(GetFiberRiseTime()), 2) + Math.Pow(double.Parse(GetSourceRiseTime()), 2) + Math.Pow(double.Parse(GetDetectorRiseTime()), 2));
             TMP = res.ToString();
             systemData.SetValue(values_name.ACTUAL_SYSTEM_RISE_TIME, TMP);
@@ -498,7 +459,6 @@ namespace Fiber_Optic_System_Designer.ValuesAndCalculations
         {
             String TMP;
             if ((TMP = systemData.GetValue(values_name.ACTUAL_BITRATE).getValue()) != null) return TMP;
-            StringCalculationFunctions.Add(GetActualBitRate);
 
             double res = double.Parse(GetRequiredSystemRiseTime()) / double.Parse(GetActualSystemRiseTime()) * 1000;
             TMP = res.ToString();
@@ -510,7 +470,7 @@ namespace Fiber_Optic_System_Designer.ValuesAndCalculations
         {
             String TMP;
             if ((TMP = systemData.GetValue(values_name.ACTUAL_SNR).getValue()) != null) return TMP;
-            StringCalculationFunctions.Add(GetActualSNR);
+
             double p = Math.Pow(10, double.Parse(GetActualPowerAtReceiver()) / 10.0) * 10000;
             double snr = 10 * Math.Log10(p * double.Parse(GetRespositivityOfPhotodetector()) / (2 * ELECTRON_CHARGE * double.Parse(GetNoiseFactorOfPhotodetector()) * double.Parse(GetActualBitRate())));
             TMP = snr.ToString();

@@ -1,4 +1,5 @@
-﻿using Fiber_Optic_System_Designer.Themes;
+﻿using Fiber_Optic_System_Designer.MyDialogBoxes;
+using Fiber_Optic_System_Designer.Themes;
 using Fiber_Optic_System_Designer.ValuesAndCalculations;
 using Fiber_Optic_System_Designer.ValuesAndCalculations.Values;
 
@@ -28,11 +29,21 @@ namespace Fiber_Optic_System_Designer
             MyButton designButton = new MyButton(designButtonPanel, DesignButtonLabel,
                 delegate ()
                 {
-                    DesignSystem ds;
+                    DesignSystem designSystem;
                     SystemRequirements = new List<Tuple<values_name, String>>();
                     if (isDataValid())
                     {
-                        ds = new DesignSystem(SystemRequirements);
+                        designSystem = new DesignSystem(SystemRequirements);
+                        SystemData systemData = designSystem.getSystemData();
+                        Calculations calc = new Calculations(designSystem.getSystemData());
+                        string result = systemData.GetValue(values_name.ENVIRONMENT).getValue() + "\n";
+                        calc.GetEnvironment();
+                        result += systemData.GetValue(values_name.ENVIRONMENT).getValue() + "\n";
+                        foreach (values_name v in systemData.GetAllValues())
+                        {
+                            result += systemData.GetValue(v) + "\n\n\n  ||  ";
+                        }
+                        ShowResults.ShowResultsDialog("test", result);
                     }
                 }
             );
@@ -77,3 +88,23 @@ namespace Fiber_Optic_System_Designer
 
     }
 }
+
+
+/*
+ 
+ 
+System.ArgumentException: Invalid value name
+   at Fiber_Optic_System_Designer.ValuesAndCalculations.Values.SystemData.SetValue(values_name name, String data) in O:\FIber_Optic_System_Designer\Fiber_Optic_System_Designer\ValuesAndCalculations\Values\SystemData.cs:line 182
+   at Fiber_Optic_System_Designer.ValuesAndCalculations.DesignSystem.initializeSystemRequirements(List`1 SystemRequirements) in O:\FIber_Optic_System_Designer\Fiber_Optic_System_Designer\ValuesAndCalculations\DesignSystem.cs:line 19
+   at Fiber_Optic_System_Designer.ValuesAndCalculations.DesignSystem..ctor(List`1 SystemRequirements) in O:\FIber_Optic_System_Designer\Fiber_Optic_System_Designer\ValuesAndCalculations\DesignSystem.cs:line 11
+   at Fiber_Optic_System_Designer.SystemDesigner.<.ctor>b__2_0() in O:\FIber_Optic_System_Designer\Fiber_Optic_System_Designer\SystemDesigner.cs:line 36
+   at Fiber_Optic_System_Designer.Themes.MyButton.<>c__DisplayClass3_0.<.ctor>b__0(Object sender, MouseEventArgs e) in O:\FIber_Optic_System_Designer\Fiber_Optic_System_Designer\Themes\MyButton.cs:line 15
+   at System.Windows.Forms.Control.OnMouseClick(MouseEventArgs e)
+   at System.Windows.Forms.Control.WmMouseUp(Message& m, MouseButtons button, Int32 clicks)
+   at System.Windows.Forms.Control.WndProc(Message& m)
+   at System.Windows.Forms.Label.WndProc(Message& m)
+   at System.Windows.Forms.Control.ControlNativeWindow.WndProc(Message& m)
+   at System.Windows.Forms.NativeWindow.Callback(IntPtr hWnd, WM msg, IntPtr wparam, IntPtr lparam)
+
+ 
+ */

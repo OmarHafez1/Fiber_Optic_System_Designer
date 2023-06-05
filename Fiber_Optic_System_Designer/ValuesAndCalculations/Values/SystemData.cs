@@ -16,10 +16,11 @@ namespace Fiber_Optic_System_Designer.ValuesAndCalculations.Values
         private List<List<Tuple<String, String>>> OpticalFiberChart;
         private List<List<Tuple<String, String>>> ConnectorChart;
 
-        private Dictionary<String, List<String>> DetectorDictionary;
-        private Dictionary<String, List<String>> SourceDictionary;
-        private Dictionary<String, List<String>> OpticalFiberDictionary;
-        private Dictionary<String, List<String>> ConnectorDictionary;
+        private Dictionary<string, List<string>> DetectorDictionary = new Dictionary<string, List<string>>();
+        private Dictionary<string, List<string>> SourceDictionary = new Dictionary<string, List<string>>();
+        private Dictionary<string, List<string>> OpticalFiberDictionary = new Dictionary<string, List<string>>();
+        private Dictionary<string, List<string>> ConnectorDictionary = new Dictionary<string, List<string>>();
+
 
         private int UsedDetectorIndex = -1, UsedSourceIndex = -1, UsedOpticalFiberIndex = -1, UsedConnectorIndex = -1;
 
@@ -48,6 +49,7 @@ namespace Fiber_Optic_System_Designer.ValuesAndCalculations.Values
                 {values_name.REQUIRED_BIT_RATE, new Data("Required Bit Rate", null)},
                 {values_name.REQUIRED_BER, new Data("Required BER", null)},
                 {values_name.REQUIRED_SNR, new Data("Required SNR", null)},
+                {values_name.TRANSMISSION_DISTANCE, new Data("Transmissionn Distance", null)},
                 {values_name.NUMBER_OF_CONNECTORS, new Data("Number of connectors", null)},
                 {values_name.PHOTODETECTOR_TYPE, new Data("Photodetector type", null)},
                 //
@@ -148,6 +150,11 @@ namespace Fiber_Optic_System_Designer.ValuesAndCalculations.Values
             {
                 foreach (var kvp2 in kvp)
                 {
+                    if (!dictionary.ContainsKey(kvp2.Item1))
+                    {
+                        dictionary[kvp2.Item1] = new List<string>();
+                    }
+
                     dictionary[kvp2.Item1].Add(kvp2.Item2);
                 }
             }
