@@ -91,7 +91,7 @@ namespace Fiber_Optic_System_Designer.ValuesAndCalculations
             if (availableDetectors.Count - 1 > 1)
             {
                 String title = "Chose a detector";
-                String message = "We have found different available detectors sutable for your system, Please select one:";
+                String message = "We have found various detectors available that are suitable for your system. Please select one:";
                 int chosed_index = ChoseTableDialoge.InputDialog(title, message, availableDetectors);
                 systemData.setUsedDetectorIndex(real_index[chosed_index]);
                 return real_index[chosed_index];
@@ -105,7 +105,7 @@ namespace Fiber_Optic_System_Designer.ValuesAndCalculations
         {
             String TMP;
             if ((TMP = systemData.GetValue(values_name.FIBER_TYPE).getValue()) != null) return TMP;
-            TMP = double.Parse(systemData.GetValue(values_name.REQUIRED_BIT_RATE).getValue()) >= 1000 ? "Single Mode" : "Multi Mode";
+            TMP = double.Parse(systemData.GetValue(values_name.REQUIRED_BIT_RATE).getValue()) >= 1000 ? "Single mode" : "Multi mode";
             systemData.SetValue(values_name.FIBER_TYPE, TMP);
             return TMP;
         }
@@ -121,6 +121,9 @@ namespace Fiber_Optic_System_Designer.ValuesAndCalculations
 
             double bandWidthDistProduct = double.Parse(systemData.GetValue(values_name.REQUIRED_BIT_RATE).getValue()) * double.Parse(systemData.GetValue(values_name.TRANSMISSION_DISTANCE).getValue());
 
+            String detector_operating_wave_length = systemData.GetDetectorListOf("WAVELENGTH OF PEAK SENSITIVITY")[ChoseDetector()].Trim().ToLower();
+            List<string> optical_fiber_oprating_wave_length = systemData.GetOpticaFiberListOf("OPERATING WAVELENGTH OF MODEL");
+
             Dictionary<int, int> real_index = new Dictionary<int, int>();
 
             int tmp_indx = 0;
@@ -131,6 +134,16 @@ namespace Fiber_Optic_System_Designer.ValuesAndCalculations
                 //       IS THE SAME AS THE WAVELENGTH OF PEAK SENSITIVITY OF THE DETECTOR WE CHOSED !!
                 if (double.Parse(BW_Distacne_Product_Column[i]) >= bandWidthDistProduct)
                 {
+                    bool ok = false;
+                    foreach (var x in optical_fiber_oprating_wave_length[i].Split(":"))
+                    {
+                        if (x.ToLower().Trim() == detector_operating_wave_length)
+                        {
+                            ok = true;
+                            break;
+                        }
+                    }
+                    if (!ok) continue;
                     real_index[tmp_indx++] = i;
                     availableOpticalFibers.Add(systemData.GetRowValuesOf(systemData.GetOpticalFiberChart(), i));
                 }
@@ -144,7 +157,7 @@ namespace Fiber_Optic_System_Designer.ValuesAndCalculations
             if (availableOpticalFibers.Count - 1 > 1)
             {
                 String title = "Chose an optical fiber";
-                String message = "We have found different available optical fibers sutable for your system, Please select one:";
+                String message = "We have found various optical fibers available that are suitable for your system. Please select one:";
                 int chosed_index = ChoseTableDialoge.InputDialog(title, message, availableOpticalFibers);
                 systemData.setUsedOpticalFiberIndex(real_index[chosed_index]);
                 return real_index[chosed_index];
@@ -189,57 +202,44 @@ namespace Fiber_Optic_System_Designer.ValuesAndCalculations
         public int ChoseSource()
         {
             if (systemData.GetUsedSourceIndex() != -1) return systemData.GetUsedSourceIndex();
-            List<string> SourceType = systemData.GetSourceListOf("SOURCE TYPE");
-            List<string> OperatingWaveLength = systemData.GetSourceListOf("OPERATING WAVELENGTH");
+
+            List<string> SourceTypes = systemData.GetSourceListOf("SOURCE TYPE");
+            List<string> SourceOperatingWaveLengths = systemData.GetSourceListOf("OPERATING WAVELENGTH");
+
             List<List<String>> availableSources = new List<List<string>>();
             availableSources.Add(systemData.GetColumnsNamesOf(systemData.GetSourceChart()));
 
-            List<int> OpticalFiberOpratingWavelength = new List<int>();
-            String operatingWaveLengthOfOpticalFiber = systemData.GetOpticaFiberListOf("OPERATING WAVELENGTH OF MODEL")[ChoseOpticalFiber()];
-
-            foreach (String str in operatingWaveLengthOfOpticalFiber.Split(":"))
-            {
-                OpticalFiberOpratingWavelength.Add(int.Parse(str));
-            }
+            String DetectorOperatingWavelength = systemData.GetDetectorListOf("WAVELENGTH OF PEAK SENSITIVITY")[ChoseDetector()];
 
             Dictionary<int, int> real_index = new Dictionary<int, int>();
             int tmp_index = 0;
 
-            for (int i = 0; i < SourceType.Count; i++)
+            for (int i = 0; i < SourceTypes.Count; i++)
             {
-                bool ok = false;
-                if (GetSourceType().Contains("/") || GetSourceType() == SourceType[i])
+                if (GetSourceType().Contains("/") || GetSourceType().ToLower() == SourceTypes[i].ToLower())
                 {
-                    foreach (int x in OpticalFiberOpratingWavelength)
+                    if (DetectorOperatingWavelength.Trim().ToLower() == SourceOperatingWaveLengths[i].Trim().ToLower())
                     {
-                        foreach (String y in OperatingWaveLength[i].Split(":"))
-                        {
-                            if (x == int.Parse(y)) { ok = true; break; }
-                        }
-                        if (ok) break;
+                        real_index[tmp_index++] = i;
+                        availableSources.Add(systemData.GetRowValuesOf(systemData.GetSourceChart(), i));
                     }
-                }
-                if (ok)
-                {
-                    real_index[tmp_index++] = i;
-                    availableSources.Add(systemData.GetRowValuesOf(systemData.GetSourceChart(), i));
                 }
             }
 
             if (availableSources.Count - 1 == 0)
             {
-                throw new Exception($"Didn't find suitable source for your system. You need {GetSourceType()} source with operating wavelength == {operatingWaveLengthOfOpticalFiber}.");
+                throw new Exception($"Didn't find suitable source for your system. You need {GetSourceType()} source with operating wavelength == {DetectorOperatingWavelength}.");
             }
 
             if (availableSources.Count - 1 > 1)
             {
                 String title = "Chose an optical fiber";
-                String message = "We have found different available Sources sutable for your system, Please select one:";
+                String message = "We have found various sources available that are suitable for your system. Please select one:";
                 int chosed_index = ChoseTableDialoge.InputDialog(title, message, availableSources);
                 systemData.setUsedSourceIndex(real_index[chosed_index]);
                 return real_index[chosed_index];
             }
-
+            int ttt = real_index[0];
             systemData.setUsedSourceIndex(real_index[0]);
             return real_index[0];
         }
@@ -269,7 +269,7 @@ namespace Fiber_Optic_System_Designer.ValuesAndCalculations
             if ((TMP = systemData.GetValue(values_name.NUMBER_OF_SPLICES).getValue()) != null) return TMP;
             double transmission_distance = double.Parse(systemData.GetValue(values_name.TRANSMISSION_DISTANCE).getValue());
             double spool_length = double.Parse(systemData.GetOpticaFiberListOf("SPOOL LENGTH")[ChoseOpticalFiber()]);
-            TMP = ((int)Math.Ceiling(transmission_distance / spool_length)).ToString();
+            TMP = ((int)Math.Ceiling(transmission_distance * 1000 / spool_length) - 1).ToString();
             systemData.SetValue(values_name.NUMBER_OF_SPLICES, TMP);
             return TMP;
         }
@@ -300,7 +300,7 @@ namespace Fiber_Optic_System_Designer.ValuesAndCalculations
             List<List<String>> availableConnnectors = new List<List<string>>();
             availableConnnectors.Add(systemData.GetColumnsNamesOf(systemData.GetConnectorChart()));
 
-            String fiberSize = systemData.GetOpticaFiberListOf("FIBER SIZE")[ChoseOpticalFiber()].Trim();
+            String OpticalFiberSize = systemData.GetOpticaFiberListOf("FIBER SIZE")[ChoseOpticalFiber()].Trim();
 
             Dictionary<int, int> real_index = new Dictionary<int, int>();
             int tmp_index = 0;
@@ -309,7 +309,7 @@ namespace Fiber_Optic_System_Designer.ValuesAndCalculations
             {
                 if (ConnectorsFiberType[i][0] == GetFiberType()[0])
                 {
-                    if (fiberSize == ConnectorsFiberSize[i].Trim())
+                    if (OpticalFiberSize == ConnectorsFiberSize[i].Trim())
                     {
                         real_index[tmp_index++] = i;
                         availableConnnectors.Add(systemData.GetRowValuesOf(systemData.GetConnectorChart(), i));
@@ -319,19 +319,19 @@ namespace Fiber_Optic_System_Designer.ValuesAndCalculations
 
             if (availableConnnectors.Count - 1 == 0)
             {
-                throw new Exception($"Didn't find suitable source for your system. You need {GetFiberType} fiber with size == {fiberSize}.");
+                throw new Exception($"Didn't find suitable source for your system. You need {GetFiberType()} fiber with size == {OpticalFiberSize}.");
             }
 
             if (availableConnnectors.Count - 1 > 1)
             {
                 String title = "Chose an connector";
-                String message = "We have found different available connectors sutable for your system, Please select one:";
+                String message = "We have found various connectors available that are suitable for your system. Please select one:";
                 int chosed_index = ChoseTableDialoge.InputDialog(title, message, availableConnnectors);
-                systemData.setUsedSourceIndex(real_index[chosed_index]);
+                systemData.setUsedConnectorIndex(real_index[chosed_index]);
                 return real_index[chosed_index];
             }
 
-            systemData.setUsedSourceIndex(real_index[0]);
+            systemData.setUsedConnectorIndex(real_index[0]);
             return real_index[0];
         }
         public String GetConnectorsInsertionLoss()
@@ -372,6 +372,7 @@ namespace Fiber_Optic_System_Designer.ValuesAndCalculations
             if ((TMP = systemData.GetValue(values_name.TOTAL_ATTENUATION).getValue()) != null) return TMP;
             double res = double.Parse(GetTotalFiberLoss()) + double.Parse(GetTotalSpliceLoss()) + double.Parse(GetTotalConnectorLoss());
             res += double.Parse(GetTimeDegradationFactor()) + double.Parse(GetEnvDegradationFactor());
+            res *= -1;
             TMP = res.ToString();
             systemData.SetValue(values_name.TOTAL_ATTENUATION, TMP);
             return TMP;
@@ -407,7 +408,10 @@ namespace Fiber_Optic_System_Designer.ValuesAndCalculations
             String TMP;
             if ((TMP = systemData.GetValue(values_name.REQUIRED_SYSTEM_RISE_TIME).getValue()) != null) return TMP;
             String tmp = GetModulationCode().Trim().ToLower();
-            TMP = (tmp == "nrz" || tmp == "nrzi" || tmp == "miller") ? ".7" : ".35";
+            double x = (tmp == "nrz" || tmp == "nrzi" || tmp == "miller") ? .7 : .35;
+            x /= double.Parse(systemData.GetValue(values_name.REQUIRED_BIT_RATE).getValue());
+            x *= 1000;
+            TMP = x.ToString();
             systemData.SetValue(values_name.REQUIRED_SYSTEM_RISE_TIME, TMP);
             return TMP;
         }
@@ -424,7 +428,7 @@ namespace Fiber_Optic_System_Designer.ValuesAndCalculations
         {
             String TMP;
             if ((TMP = systemData.GetValue(values_name.FIBER_RISE_TIME).getValue()) != null) return TMP;
-            TMP = (.35 / double.Parse(GetFiberBW())).ToString();
+            TMP = (.35 * 1000 / double.Parse(GetFiberBW())).ToString();
             systemData.SetValue(values_name.FIBER_RISE_TIME, TMP);
             return TMP;
         }
@@ -460,7 +464,10 @@ namespace Fiber_Optic_System_Designer.ValuesAndCalculations
             String TMP;
             if ((TMP = systemData.GetValue(values_name.ACTUAL_BITRATE).getValue()) != null) return TMP;
 
-            double res = double.Parse(GetRequiredSystemRiseTime()) / double.Parse(GetActualSystemRiseTime()) * 1000;
+            String tmp = GetModulationCode().Trim().ToLower();
+            double x = (tmp == "nrz" || tmp == "nrzi" || tmp == "miller") ? .7 : .35;
+
+            double res = x / double.Parse(GetActualSystemRiseTime()) * 1000;
             TMP = res.ToString();
             systemData.SetValue(values_name.ACTUAL_BITRATE, TMP);
             return TMP;
@@ -471,8 +478,8 @@ namespace Fiber_Optic_System_Designer.ValuesAndCalculations
             String TMP;
             if ((TMP = systemData.GetValue(values_name.ACTUAL_SNR).getValue()) != null) return TMP;
 
-            double p = Math.Pow(10, double.Parse(GetActualPowerAtReceiver()) / 10.0) * 10000;
-            double snr = 10 * Math.Log10(p * double.Parse(GetRespositivityOfPhotodetector()) / (2 * ELECTRON_CHARGE * double.Parse(GetNoiseFactorOfPhotodetector()) * double.Parse(GetActualBitRate())));
+            double p = Math.Pow(10, double.Parse(GetActualPowerAtReceiver()) / 10.0) * 1e-3;
+            double snr = 10 * Math.Log10(p * double.Parse(GetRespositivityOfPhotodetector()) / (2 * ELECTRON_CHARGE * double.Parse(GetNoiseFactorOfPhotodetector()) * double.Parse(GetActualBitRate()) * 1e6));
             TMP = snr.ToString();
             systemData.SetValue(values_name.ACTUAL_SNR, TMP);
             return TMP;
