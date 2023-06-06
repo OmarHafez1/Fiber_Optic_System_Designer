@@ -19,8 +19,8 @@ namespace Fiber_Optic_System_Designer.MyDialogBoxes
             Label label = new Label();
             label.Location = new Point(10, 10);
             label.Text = message;
-            label.Size = new Size(size.Width - 10, 15);
-            label.Font = new Font(Control.DefaultFont, FontStyle.Bold);
+            label.Size = new Size(size.Width - 10, 25);
+            label.Font = new Font(Control.DefaultFont.Name, 11, FontStyle.Bold);
             inputBox.Controls.Add(label);
 
             //
@@ -41,9 +41,27 @@ namespace Fiber_Optic_System_Designer.MyDialogBoxes
                 table.Rows.Add(values[i].ToArray());
             }
 
+            dataGridView.AllowUserToAddRows = false;
+            dataGridView.AllowUserToResizeRows = false;
+            dataGridView.AllowUserToResizeColumns = false;
+            dataGridView.SelectionMode = DataGridViewSelectionMode.FullRowSelect;
+            dataGridView.RowHeadersWidthSizeMode = DataGridViewRowHeadersWidthSizeMode.DisableResizing;
+            dataGridView.ColumnHeadersHeightSizeMode = DataGridViewColumnHeadersHeightSizeMode.DisableResizing;
+            dataGridView.ColumnHeadersDefaultCellStyle.BackColor = Color.LightGray;
+            dataGridView.ColumnHeadersDefaultCellStyle.SelectionBackColor = dataGridView.ColumnHeadersDefaultCellStyle.BackColor;
+            dataGridView.ColumnHeadersDefaultCellStyle.ForeColor = Color.Black;
+            dataGridView.ColumnHeadersDefaultCellStyle.Alignment = DataGridViewContentAlignment.TopLeft;
+            dataGridView.EnableHeadersVisualStyles = false;
+            dataGridView.AllowDrop = false;
+            dataGridView.DefaultCellStyle.Font = new Font(Control.DefaultFont.Name, 12);
+            dataGridView.ColumnHeadersDefaultCellStyle.Font = new Font(Control.DefaultFont.Name, 8);
+            dataGridView.AutoSizeColumnsMode = DataGridViewAutoSizeColumnsMode.Fill;
+            dataGridView.RowTemplate.Height = 32;
+            dataGridView.ColumnHeadersHeight = dataGridView.RowTemplate.Height;
             dataGridView.MultiSelect = false;
             dataGridView.ReadOnly = true;
             dataGridView.DataSource = table;
+
             inputBox.Controls.Add(dataGridView);
 
             //

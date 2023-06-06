@@ -1,6 +1,4 @@
-﻿using System.ComponentModel;
-
-namespace Fiber_Optic_System_Designer.Themes
+﻿namespace Fiber_Optic_System_Designer.Themes
 {
     class MyLeftButton
     {
@@ -26,7 +24,6 @@ namespace Fiber_Optic_System_Designer.Themes
             updateColor();
             updateWidth(button.Parent.Width);
             button.Height = 65;
-            PropertyChangedEventHandler pp;
             label.MouseEnter += delegate (object? sender, EventArgs e)
             {
                 label.BackColor = KColors.LightenBy(label.BackColor, 10);

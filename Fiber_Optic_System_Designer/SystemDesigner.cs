@@ -35,12 +35,7 @@ namespace Fiber_Optic_System_Designer
                     {
                         systemData = new SystemData();
                         designSystem = new DesignSystem(SystemRequirements, systemData);
-                        string str = "";
-                        foreach (var x in systemData.GetAllValues())
-                        {
-                            str += systemData.GetData(x) + "     \n";
-                        }
-                        ShowResults.ShowResultsDialog("Results", str);
+                        ShowResults.ShowResultsDialog("Results", systemData.GetAllData());
                     }
                 }
             );

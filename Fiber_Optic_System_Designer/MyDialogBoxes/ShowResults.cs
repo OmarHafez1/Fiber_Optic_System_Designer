@@ -1,21 +1,45 @@
-﻿namespace Fiber_Optic_System_Designer.MyDialogBoxes
+﻿using Fiber_Optic_System_Designer.ValuesAndCalculations;
+using System.Data;
+
+namespace Fiber_Optic_System_Designer.MyDialogBoxes
 {
     internal class ShowResults
     {
-        public static void ShowResultsDialog(string title, string message)
+        public static void ShowResultsDialog(string title, List<Data> results)
         {
-            Size size = new Size(1200, 600);
+            Size size = new Size(1200, 700);
             Form inputBox = new Form();
             inputBox.FormBorderStyle = FormBorderStyle.FixedDialog;
             inputBox.StartPosition = FormStartPosition.CenterScreen;
             inputBox.ClientSize = size;
             inputBox.Text = title;
 
-            TextBox textBox = new TextBox();
-            textBox.Size = new Size(size.Width - 10, size.Height - 25);
-            textBox.Text = message;
-            textBox.Multiline = true;
-            inputBox.Controls.Add(textBox);
+            DataGridView dataGridView = new DataGridView();
+            dataGridView.Size = new Size((size.Width / 2) - 10, size.Height - 25);
+            dataGridView.Location = new Point(10, 10);
+            DataTable table = new DataTable();
+            table.Columns.Add("tmp1");
+            table.Columns.Add("tmp2");
+
+            foreach (var x in results)
+            {
+                table.Rows.Add(x.getName(), x.getValue() == null ? "--" : x.getValue());
+            }
+
+            dataGridView.AllowUserToAddRows = false;
+            dataGridView.AllowUserToResizeRows = false;
+            dataGridView.AllowUserToResizeColumns = false;
+            dataGridView.ColumnHeadersVisible = false;
+            dataGridView.RowHeadersWidthSizeMode = DataGridViewRowHeadersWidthSizeMode.DisableResizing;
+            dataGridView.RowHeadersWidthSizeMode = DataGridViewRowHeadersWidthSizeMode.DisableResizing;
+            dataGridView.AllowDrop = false;
+            dataGridView.DefaultCellStyle.Font = new Font(Control.DefaultFont.Name, 12);
+            dataGridView.AutoSizeColumnsMode = DataGridViewAutoSizeColumnsMode.Fill;
+            dataGridView.RowTemplate.Height = 32;
+            dataGridView.MultiSelect = false;
+            dataGridView.ReadOnly = true;
+            dataGridView.DataSource = table;
+            inputBox.Controls.Add(dataGridView);
 
             //
 

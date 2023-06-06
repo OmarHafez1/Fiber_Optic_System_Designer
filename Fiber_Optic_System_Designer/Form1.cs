@@ -21,7 +21,7 @@ namespace Fiber_Optic_System_Designer
 
         private void splitContainer1_Panel1_Paint_1(object sender, PaintEventArgs e)
         {
-            splitContainer1.Panel1.BackColor = KColors.KLeftPanelColor;
+            splitContainer1.Panel1.BackColor = KColors.K2BaseColor;
             splitContainer1.SplitterMoved += splitContainer1_SplitterMoved;
 
         }

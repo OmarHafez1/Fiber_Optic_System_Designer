@@ -4,12 +4,16 @@ namespace Fiber_Optic_System_Designer.ValuesAndCalculations.Values
 {
     public class SystemData
     {
+
+        private int DataPrecision = 4;
+
         private Dictionary<values_name, Data> ValuesDictionary;
         private List<values_name> SystemRequirementsAnalysisValues;
         private List<values_name> OpticalPowerBudgetAnalysisValues;
         private List<values_name> SystemRiseTimeAnalysisValues;
         private List<values_name> ActualSystemSpecificationValues;
-        private List<values_name> AllValues;
+        private List<values_name> AllValuesNames;
+        private List<Data> AllData;
 
         private List<List<Tuple<string, string>>> DetectorChart;
         private List<List<Tuple<string, string>>> SourceChart;
@@ -36,7 +40,7 @@ namespace Fiber_Optic_System_Designer.ValuesAndCalculations.Values
             BuildChartDictionarys(ConnectorChart, ConnectorDictionary);
 
             ValuesDictionary = new Dictionary<values_name, Data>() {
-                {values_name.SYSTEM_TYPE, new Data("System type")},
+                {values_name.SYSTEM_TYPE, new Data("System type", "Digital")},
                 {values_name.REQUIRED_BW, new Data("Required BW")},
                 {values_name.REQUIRED_BIT_RATE, new Data("Required Bit Rate")},
                 {values_name.REQUIRED_BER, new Data("Required BER")},
@@ -125,11 +129,11 @@ namespace Fiber_Optic_System_Designer.ValuesAndCalculations.Values
                 values_name.ACTUAL_SNR,
             };
 
-            AllValues = new List<values_name>();
-            AllValues.AddRange(SystemRequirementsAnalysisValues);
-            AllValues.AddRange(OpticalPowerBudgetAnalysisValues);
-            AllValues.AddRange(SystemRiseTimeAnalysisValues);
-            AllValues.AddRange(ActualSystemSpecificationValues);
+            AllValuesNames = new List<values_name>();
+            AllValuesNames.AddRange(SystemRequirementsAnalysisValues);
+            AllValuesNames.AddRange(OpticalPowerBudgetAnalysisValues);
+            AllValuesNames.AddRange(SystemRiseTimeAnalysisValues);
+            AllValuesNames.AddRange(ActualSystemSpecificationValues);
         }
 
         private void BuildChartDictionarys(List<List<Tuple<string, string>>> chart, Dictionary<string, List<string>> dictionary)
@@ -148,6 +152,11 @@ namespace Fiber_Optic_System_Designer.ValuesAndCalculations.Values
             }
         }
 
+        public void SetDataPrecision(int DataPrecision)
+        {
+            this.DataPrecision = Math.Max(Math.Min(DataPrecision, 9), 0);
+        }
+
         public Data GetData(values_name name)
         {
             if (ValuesDictionary.TryGetValue(name, out var data))
@@ -164,6 +173,11 @@ namespace Fiber_Optic_System_Designer.ValuesAndCalculations.Values
         {
             if (ValuesDictionary.TryGetValue(name, out var data))
             {
+                if (data.getValue() != null)
+                    if (double.TryParse(data.getValue().ToString(), out double val))
+                    {
+                        return Math.Round(val, DataPrecision);
+                    }
                 return data.getValue();
             }
             else
@@ -177,7 +191,14 @@ namespace Fiber_Optic_System_Designer.ValuesAndCalculations.Values
         {
             if (ValuesDictionary.ContainsKey(name))
             {
-                ValuesDictionary[name].setValue(data);
+                if (double.TryParse(data.ToString(), out double val))
+                {
+                    ValuesDictionary[name].setValue(Math.Round(val, DataPrecision));
+                }
+                else
+                {
+                    ValuesDictionary[name].setValue(data);
+                }
             }
             else
             {
@@ -202,9 +223,20 @@ namespace Fiber_Optic_System_Designer.ValuesAndCalculations.Values
             return OpticalFiberDictionary[name];
         }
 
-        public List<values_name> GetAllValues()
+
+        public List<values_name> GetAllValuesNames()
         {
-            return AllValues;
+            return AllValuesNames;
+        }
+
+        public List<Data> GetAllData()
+        {
+            AllData = new List<Data> { };
+            foreach (var x in GetAllValuesNames())
+            {
+                AllData.Add(GetData(x));
+            }
+            return AllData;
         }
 
         public List<List<Tuple<string, string>>> GetDetectorChart()
