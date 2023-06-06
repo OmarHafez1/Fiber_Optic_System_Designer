@@ -11,25 +11,17 @@ namespace Fiber_Optic_System_Designer.ValuesAndCalculations.Values
         private List<values_name> ActualSystemSpecificationValues;
         private List<values_name> AllValues;
 
-        private List<List<Tuple<String, String>>> DetectorChart;
-        private List<List<Tuple<String, String>>> SourceChart;
-        private List<List<Tuple<String, String>>> OpticalFiberChart;
-        private List<List<Tuple<String, String>>> ConnectorChart;
+        private List<List<Tuple<string, string>>> DetectorChart;
+        private List<List<Tuple<string, string>>> SourceChart;
+        private List<List<Tuple<string, string>>> OpticalFiberChart;
+        private List<List<Tuple<string, string>>> ConnectorChart;
 
         private Dictionary<string, List<string>> DetectorDictionary = new Dictionary<string, List<string>>();
         private Dictionary<string, List<string>> SourceDictionary = new Dictionary<string, List<string>>();
         private Dictionary<string, List<string>> OpticalFiberDictionary = new Dictionary<string, List<string>>();
         private Dictionary<string, List<string>> ConnectorDictionary = new Dictionary<string, List<string>>();
 
-
         private int UsedDetectorIndex = -1, UsedSourceIndex = -1, UsedOpticalFiberIndex = -1, UsedConnectorIndex = -1;
-
-        /*
-                private List<int> AvailableDetectors;
-                private List<int> AvailableSources;
-                private List<int> AvailableOpticalFibers;
-                private List<int> AvailableConnectors;
-        */
 
         public SystemData()
         {
@@ -44,46 +36,46 @@ namespace Fiber_Optic_System_Designer.ValuesAndCalculations.Values
             BuildChartDictionarys(ConnectorChart, ConnectorDictionary);
 
             ValuesDictionary = new Dictionary<values_name, Data>() {
-                {values_name.SYSTEM_TYPE, new Data("System type", null)},
-                {values_name.REQUIRED_BW, new Data("Required BW", null)},
-                {values_name.REQUIRED_BIT_RATE, new Data("Required Bit Rate", null)},
-                {values_name.REQUIRED_BER, new Data("Required BER", null)},
-                {values_name.REQUIRED_SNR, new Data("Required SNR", null)},
-                {values_name.TRANSMISSION_DISTANCE, new Data("Transmissionn Distance", null)},
-                {values_name.NUMBER_OF_CONNECTORS, new Data("Number of connectors", null)},
-                {values_name.PHOTODETECTOR_TYPE, new Data("Photodetector type", null)},
+                {values_name.SYSTEM_TYPE, new Data("System type")},
+                {values_name.REQUIRED_BW, new Data("Required BW")},
+                {values_name.REQUIRED_BIT_RATE, new Data("Required Bit Rate")},
+                {values_name.REQUIRED_BER, new Data("Required BER")},
+                {values_name.REQUIRED_SNR, new Data("Required SNR")},
+                {values_name.TRANSMISSION_DISTANCE, new Data("Transmissionn Distance")},
+                {values_name.NUMBER_OF_CONNECTORS, new Data("Number of connectors")},
+                {values_name.PHOTODETECTOR_TYPE, new Data("Photodetector type")},
                 //
-                {values_name.MODULATION_CODE, new Data("Modulation code", null)},
-                {values_name.ENVIRONMENT, new Data("Environment", null)},
-                {values_name.RECEIVER_SENSITIVITY, new Data("Receiver sensitivity", null)},
-                {values_name.FIBER_TYPE, new Data("Fiber type", null)},
-                {values_name.FIBER_ATTENUATION, new Data("Fiber attenuation", null)},
-                {values_name.TOTAL_FIBER_LOSS, new Data("Total fiber loss", null)},
-                {values_name.SOURCE_TYPE, new Data("Source type", null)},
-                {values_name.AVERAGE_SOURCE_OUTPUT, new Data("Average source output", null)},
-                {values_name.SPLICE, new Data("Splice", null)},
-                {values_name.NUMBER_OF_SPLICES, new Data("Number of splices", null)},
-                {values_name.SPLICE_INSERTION_LOSS, new Data("Splice insertion loss", null)},
-                {values_name.TOTAL_SPLICE_LOSS, new Data("Total splice loss", null)},
-                {values_name.CONNECTOR_INSERTION_LOSS, new Data("Connector insertion loss", null)},
-                {values_name.TOTAL_CONNECTOR_LOSS, new Data("Total connector loss", null)},
-                {values_name.TIME_DEGRADATION_FACTOR, new Data("Time degradation factor", null)},
-                {values_name.ENV_DEGRADATION_FACTOR, new Data("Env. Degradation factor", null)},
-                {values_name.TOTAL_ATTENUATION, new Data("Total attenuation", null)},
-                {values_name.TOTAL_LOSS_MARGIN, new Data("Total loss margin", null)},
-                {values_name.EXCESS_POWER, new Data("Excess power", null)},
-                {values_name.ACTUAL_POWER_AT_THE_RECEIVER, new Data("Actual power at the receiver", null)},
+                {values_name.MODULATION_CODE, new Data("Modulation code")},
+                {values_name.ENVIRONMENT, new Data("Environment")},
+                {values_name.RECEIVER_SENSITIVITY, new Data("Receiver sensitivity")},
+                {values_name.FIBER_TYPE, new Data("Fiber type")},
+                {values_name.FIBER_ATTENUATION, new Data("Fiber attenuation")},
+                {values_name.TOTAL_FIBER_LOSS, new Data("Total fiber loss")},
+                {values_name.SOURCE_TYPE, new Data("Source type")},
+                {values_name.AVERAGE_SOURCE_OUTPUT, new Data("Average source output")},
+                {values_name.SPLICE, new Data("Splice")},
+                {values_name.NUMBER_OF_SPLICES, new Data("Number of splices")},
+                {values_name.SPLICE_INSERTION_LOSS, new Data("Splice insertion loss")},
+                {values_name.TOTAL_SPLICE_LOSS, new Data("Total splice loss")},
+                {values_name.CONNECTOR_INSERTION_LOSS, new Data("Connector insertion loss")},
+                {values_name.TOTAL_CONNECTOR_LOSS, new Data("Total connector loss")},
+                {values_name.TIME_DEGRADATION_FACTOR, new Data("Time degradation factor")},
+                {values_name.ENV_DEGRADATION_FACTOR, new Data("Env. Degradation factor")},
+                {values_name.TOTAL_ATTENUATION, new Data("Total attenuation")},
+                {values_name.TOTAL_LOSS_MARGIN, new Data("Total loss margin")},
+                {values_name.EXCESS_POWER, new Data("Excess power")},
+                {values_name.ACTUAL_POWER_AT_THE_RECEIVER, new Data("Actual power at the receiver")},
                 //
-                {values_name.REQUIRED_SYSTEM_RISE_TIME, new Data("Required system rise time", null)},
-                {values_name.FIBER_BANDWIDTH, new Data("Fiber bandwidth", null)},
-                {values_name.FIBER_RISE_TIME, new Data("Fiber rise time", null)},
-                {values_name.SOURCE_RISE_TIME, new Data("Source rise time", null)},
-                {values_name.DETECTOR_RISE_TIME, new Data("Detector rise time", null)},
+                {values_name.REQUIRED_SYSTEM_RISE_TIME, new Data("Required system rise time")},
+                {values_name.FIBER_BANDWIDTH, new Data("Fiber bandwidth")},
+                {values_name.FIBER_RISE_TIME, new Data("Fiber rise time")},
+                {values_name.SOURCE_RISE_TIME, new Data("Source rise time")},
+                {values_name.DETECTOR_RISE_TIME, new Data("Detector rise time")},
                 //
-                {values_name.ACTUAL_SYSTEM_RISE_TIME, new Data("Actual system rise time", null)},
-                {values_name.ACTUAL_BANDWIDTH, new Data("Actual bandwidth", null)},
-                {values_name.ACTUAL_BITRATE, new Data("Actual bit rate", null)},
-                {values_name.ACTUAL_SNR, new Data("Actual SNR", null)},
+                {values_name.ACTUAL_SYSTEM_RISE_TIME, new Data("Actual system rise time")},
+                {values_name.ACTUAL_BANDWIDTH, new Data("Actual bandwidth")},
+                {values_name.ACTUAL_BITRATE, new Data("Actual bit rate")},
+                {values_name.ACTUAL_SNR, new Data("Actual SNR")},
             };
 
             SystemRequirementsAnalysisValues = new List<values_name>() {
@@ -140,7 +132,7 @@ namespace Fiber_Optic_System_Designer.ValuesAndCalculations.Values
             AllValues.AddRange(ActualSystemSpecificationValues);
         }
 
-        private void BuildChartDictionarys(List<List<Tuple<String, String>>> chart, Dictionary<String, List<String>> dictionary)
+        private void BuildChartDictionarys(List<List<Tuple<string, string>>> chart, Dictionary<string, List<string>> dictionary)
         {
             foreach (var kvp in chart)
             {
@@ -156,7 +148,7 @@ namespace Fiber_Optic_System_Designer.ValuesAndCalculations.Values
             }
         }
 
-        public Data GetValue(values_name name)
+        public Data GetData(values_name name)
         {
             if (ValuesDictionary.TryGetValue(name, out var data))
             {
@@ -168,7 +160,20 @@ namespace Fiber_Optic_System_Designer.ValuesAndCalculations.Values
             }
         }
 
-        public void SetValue(values_name name, String data)
+        public dynamic GetValue(values_name name)
+        {
+            if (ValuesDictionary.TryGetValue(name, out var data))
+            {
+                return data.getValue();
+            }
+            else
+            {
+                throw new ArgumentException("Invalid value name");
+            }
+
+        }
+
+        public void SetValue(values_name name, dynamic data)
         {
             if (ValuesDictionary.ContainsKey(name))
             {
@@ -180,19 +185,19 @@ namespace Fiber_Optic_System_Designer.ValuesAndCalculations.Values
             }
         }
 
-        public List<String> GetDetectorListOf(String name)
+        public List<string> GetDetectorListOf(string name)
         {
             return DetectorDictionary[name];
         }
-        public List<String> GetSourceListOf(String name)
+        public List<string> GetSourceListOf(string name)
         {
             return SourceDictionary[name];
         }
-        public List<String> GetConnectorListOf(String name)
+        public List<string> GetConnectorListOf(string name)
         {
             return ConnectorDictionary[name];
         }
-        public List<String> GetOpticaFiberListOf(String name)
+        public List<string> GetOpticaFiberListOf(string name)
         {
             return OpticalFiberDictionary[name];
         }
@@ -202,7 +207,7 @@ namespace Fiber_Optic_System_Designer.ValuesAndCalculations.Values
             return AllValues;
         }
 
-        public List<List<Tuple<String, String>>> GetDetectorChart()
+        public List<List<Tuple<string, string>>> GetDetectorChart()
         {
             return DetectorChart;
         }
@@ -222,9 +227,9 @@ namespace Fiber_Optic_System_Designer.ValuesAndCalculations.Values
             return ConnectorChart;
         }
 
-        public List<String> GetColumnsNamesOf(List<List<Tuple<String, String>>> chartData)
+        public List<string> GetColumnsNamesOf(List<List<Tuple<string, string>>> chartData)
         {
-            List<String> columnsNames = new List<String>();
+            List<string> columnsNames = new List<string>();
             foreach (var val in chartData[0])
             {
                 columnsNames.Add(val.Item1);
@@ -232,9 +237,9 @@ namespace Fiber_Optic_System_Designer.ValuesAndCalculations.Values
             return columnsNames;
         }
 
-        public List<String> GetRowValuesOf(List<List<Tuple<String, String>>> chartData, int index)
+        public List<string> GetRowValuesOf(List<List<Tuple<string, string>>> chartData, int index)
         {
-            List<String> rowValues = new List<String>();
+            List<string> rowValues = new List<string>();
             foreach (var val in chartData[index])
             {
                 rowValues.Add(val.Item2);
@@ -262,62 +267,6 @@ namespace Fiber_Optic_System_Designer.ValuesAndCalculations.Values
         public void setUsedConnectorIndex(int indx) => UsedConnectorIndex = indx;
         public void setUsedOpticalFiberIndex(int indx) => UsedOpticalFiberIndex = indx;
         public void setUsedSourceIndex(int indx) => UsedSourceIndex = indx;
-
-        /*
-                public List<int> GetUsedDetectors()
-                {
-                    return AvailableDetectors;
-                }
-                public List<int> GetUsedSources()
-                {
-                    return AvailableSources;
-                }
-                public List<int> GetUsedConnectors()
-                {
-                    return AvailableConnectors;
-                }
-                public List<int> GetUsedOpticalFibers()
-                {
-                    return AvailableOpticalFibers;
-                }
-
-                public void SetUsedDetectors(List<int> usedDetectors)
-                {
-                    this.AvailableDetectors = usedDetectors;
-                }
-                public void SetUsedConnectors(List<int> usedConnectors)
-                {
-                    this.AvailableConnectors = usedConnectors;
-                }
-                public void SetUsedSources(List<int> usedSources)
-                {
-                    this.AvailableSources = usedSources;
-                }
-                public void SetUsedOpticalFibers(List<int> usedOpticalFibers)
-                {
-                    this.AvailableOpticalFibers = usedOpticalFibers;
-                }
-
-                public void removeUsedDetector(int indx)
-                {
-                    AvailableDetectors.Remove(indx);
-                }
-
-                public void removeUsedSource(int indx)
-                {
-                    AvailableSources.Remove(indx);
-                }
-
-                public void removeUsedConnector(int indx)
-                {
-                    AvailableConnectors.Remove(indx);
-                }
-
-                public void removeUsedOpticalFiber(int indx)
-                {
-                    AvailableOpticalFibers.Remove(indx);
-                }
-        */
 
     }
 

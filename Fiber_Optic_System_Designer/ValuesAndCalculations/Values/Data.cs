@@ -2,22 +2,24 @@
 {
     public class Data
     {
-        private String name, value;
-        public Data(String name, String value)
+        private string name;
+        private dynamic value;
+
+        public Data(string name, dynamic value = null)
         {
             this.name = name;
             this.value = value;
         }
 
-        public String getName() { return name; }
-        public String getValue() { return value; }
+        public string getName() { return name; }
+        public dynamic getValue() { return value; }
 
-        public void setName(String name) { this.name = name; }
-        public void setValue(String value) { this.value = value; }
+        public void setName(string name) => this.name = name;
+        public void setValue(dynamic value) => this.value = value;
 
-        public override String ToString()
+        public override string ToString()
         {
-            return name + ": " + value;
+            return name + ": " + (value != null ? value.ToString() : "");
         }
     }
 }

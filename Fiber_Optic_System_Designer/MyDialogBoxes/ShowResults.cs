@@ -2,7 +2,7 @@
 {
     internal class ShowResults
     {
-        public static void ShowResultsDialog(string title, String message)
+        public static void ShowResultsDialog(string title, string message)
         {
             Size size = new Size(1200, 600);
             Form inputBox = new Form();

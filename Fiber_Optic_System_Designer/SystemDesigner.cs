@@ -10,7 +10,7 @@ namespace Fiber_Optic_System_Designer
     {
         List<Tuple<values_name, TextBox, Label>> FormDataInputsCompination;
 
-        List<Tuple<values_name, String>> SystemRequirements;
+        List<Tuple<values_name, dynamic>> SystemRequirements;
         DesignSystem designSystem;
         SystemData systemData;
         public SystemDesigner()
@@ -30,16 +30,15 @@ namespace Fiber_Optic_System_Designer
             MyButton designButton = new MyButton(designButtonPanel, DesignButtonLabel,
                 delegate ()
                 {
-                    SystemRequirements = new List<Tuple<values_name, String>>();
+                    SystemRequirements = new List<Tuple<values_name, dynamic>>();
                     if (isDataValid())
                     {
                         systemData = new SystemData();
                         designSystem = new DesignSystem(SystemRequirements, systemData);
-                        textBox2.Text = systemData.GetDetectorListOf("WAVELENGTH OF PEAK SENSITIVITY")[systemData.GetUsedDetectorIndex()].ToString();
-                        String str = "";
+                        string str = "";
                         foreach (var x in systemData.GetAllValues())
                         {
-                            str += systemData.GetValue(x) + "     \n";
+                            str += systemData.GetData(x) + "     \n";
                         }
                         ShowResults.ShowResultsDialog("Results", str);
                     }
@@ -51,13 +50,13 @@ namespace Fiber_Optic_System_Designer
         bool isDataValid()
         {
             bool isOk = true;
-            float val;
+            double val;
             foreach (Tuple<values_name, TextBox, Label> input in FormDataInputsCompination)
             {
                 input.Item3.Visible = false;
-                if (float.TryParse(input.Item2.Text, out val))
+                if (double.TryParse(input.Item2.Text, out val))
                 {
-                    SystemRequirements.Add(new Tuple<values_name, String>(input.Item1, input.Item2.Text));
+                    SystemRequirements.Add(new Tuple<values_name, dynamic>(input.Item1, val));
                 }
                 else
                 {
@@ -71,9 +70,7 @@ namespace Fiber_Optic_System_Designer
         public void SetSystemRequirements(SystemData values)
         {
             string userInput = textBox2.Text;
-
-            float floatValue;
-            if (float.TryParse(userInput, out floatValue))
+            if (double.TryParse(userInput, out _))
             {
                 textBox3.Text = userInput;
             }
