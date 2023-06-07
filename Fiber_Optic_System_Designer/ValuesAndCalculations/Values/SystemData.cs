@@ -300,6 +300,26 @@ namespace Fiber_Optic_System_Designer.ValuesAndCalculations.Values
         public void setUsedOpticalFiberIndex(int indx) => UsedOpticalFiberIndex = indx;
         public void setUsedSourceIndex(int indx) => UsedSourceIndex = indx;
 
+        public Dictionary<string, List<string>> GetDetectorDictionary()
+        {
+            return DetectorDictionary;
+        }
+
+        public Dictionary<string, List<string>> GetSourceDictionary()
+        {
+            return SourceDictionary;
+        }
+
+        public Dictionary<string, List<string>> GetOpticalFiberDictionary()
+        {
+            return OpticalFiberDictionary;
+        }
+
+        public Dictionary<string, List<string>> GetConnectorDictionary()
+        {
+            return ConnectorDictionary;
+        }
+
     }
 
 }

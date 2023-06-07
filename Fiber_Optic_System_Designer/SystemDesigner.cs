@@ -35,7 +35,36 @@ namespace Fiber_Optic_System_Designer
                     {
                         systemData = new SystemData();
                         designSystem = new DesignSystem(SystemRequirements, systemData);
-                        ShowResults.ShowResultsDialog("Results", systemData.GetAllData());
+
+                        List<List<Tuple<string, string>>> values = new List<List<Tuple<string, string>>>();
+                        values.Add(new List<Tuple<string, string>>());
+                        values.Add(new List<Tuple<string, string>>());
+                        values.Add(new List<Tuple<string, string>>());
+                        values.Add(new List<Tuple<string, string>>());
+                        foreach (var entry in systemData.GetDetectorDictionary())
+                        {
+                            values[0].Add(new Tuple<string, string>(entry.Key, entry.Value[systemData.GetUsedDetectorIndex()]));
+                        }
+
+                        foreach (var entry in systemData.GetConnectorDictionary())
+                        {
+                            values[1].Add(new Tuple<string, string>(entry.Key, entry.Value[systemData.GetUsedConnectorIndex()]));
+                        }
+
+                        foreach (var entry in systemData.GetOpticalFiberDictionary())
+                        {
+                            values[2].Add(new Tuple<string, string>(entry.Key, entry.Value[systemData.GetUsedOpticalFiberIndex()]));
+                        }
+
+                        foreach (var entry in systemData.GetSourceDictionary())
+                        {
+                            values[3].Add(new Tuple<string, string>(entry.Key, entry.Value[systemData.GetUsedSourceIndex()]));
+                        }
+
+                        List<String> tablesNames = new() { "detector", "connector", "optical fiber", "source" };
+
+                        ShowResults.ShowResultsDialog("Results", systemData.GetAllData(), values, tablesNames);
+
                     }
                 }
             );
