@@ -8,9 +8,16 @@ namespace Fiber_Optic_System_Designer
         public Form1()
         {
             InitializeComponent();
-            leftPanelChilds.Add(new MyLeftButton(home_button, home_button_label, deSelectAll));
-            leftPanelChilds.Add(new MyLeftButton(settings_button, settings_button_label, deSelectAll));
-            leftPanelChilds.Add(new MyLeftButton(aboutus_button, aboutus_button_label, deSelectAll));
+
+            SystemDesignPanel systemDesignPanel = new SystemDesignPanel();
+            SettingsPanel settingsPanel = new SettingsPanel();
+            AboutUsPanel aboutUsPanel = new AboutUsPanel();
+
+            leftPanelChilds.Add(new MyLeftButton(home_button, home_button_label, deSelectAll, UpdateUserController, systemDesignPanel));
+            leftPanelChilds.Add(new MyLeftButton(settings_button, settings_button_label, deSelectAll, UpdateUserController, settingsPanel));
+            leftPanelChilds.Add(new MyLeftButton(aboutus_button, aboutus_button_label, deSelectAll, UpdateUserController, aboutUsPanel));
+
+            UpdateUserController(systemDesignPanel);
             leftPanelChilds[0].select();
         }
 
@@ -40,6 +47,14 @@ namespace Fiber_Optic_System_Designer
             {
                 leftButton.deSelect();
             }
+        }
+
+        public void UpdateUserController(UserControl userControl)
+        {
+            splitContainer1.Panel2.Controls.Clear();
+            userControl.Dock = DockStyle.Fill;
+            splitContainer1.Panel2.Controls.Add(userControl);
+            userControl.BringToFront();
         }
 
         private void systemDesign1_Load(object sender, EventArgs e)

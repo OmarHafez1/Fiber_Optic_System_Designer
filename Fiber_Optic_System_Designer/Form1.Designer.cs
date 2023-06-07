@@ -37,10 +37,8 @@
             settings_button_label = new Label();
             home_button = new Panel();
             home_button_label = new Label();
-            systemDesigner1 = new SystemDesigner();
             ((System.ComponentModel.ISupportInitialize)splitContainer1).BeginInit();
             splitContainer1.Panel1.SuspendLayout();
-            splitContainer1.Panel2.SuspendLayout();
             splitContainer1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)pictureBox2).BeginInit();
             aboutus_button.SuspendLayout();
@@ -67,10 +65,6 @@
             splitContainer1.Panel1.Controls.Add(home_button);
             splitContainer1.Panel1.Paint += splitContainer1_Panel1_Paint_1;
             splitContainer1.Panel1MinSize = 110;
-            // 
-            // splitContainer1.Panel2
-            // 
-            splitContainer1.Panel2.Controls.Add(systemDesigner1);
             splitContainer1.Panel2MinSize = 650;
             splitContainer1.Size = new Size(908, 691);
             splitContainer1.SplitterDistance = 144;
@@ -158,16 +152,6 @@
             home_button_label.TabIndex = 0;
             home_button_label.Text = "System Designer";
             // 
-            // systemDesigner1
-            // 
-            systemDesigner1.AutoScroll = true;
-            systemDesigner1.Dock = DockStyle.Fill;
-            systemDesigner1.Location = new Point(0, 0);
-            systemDesigner1.Margin = new Padding(0);
-            systemDesigner1.Name = "systemDesigner1";
-            systemDesigner1.Size = new Size(761, 691);
-            systemDesigner1.TabIndex = 0;
-            // 
             // Form1
             // 
             AutoScaleDimensions = new SizeF(7F, 15F);
@@ -180,7 +164,6 @@
             Text = "Fiber Optic System Design";
             Load += Form1_Load;
             splitContainer1.Panel1.ResumeLayout(false);
-            splitContainer1.Panel2.ResumeLayout(false);
             ((System.ComponentModel.ISupportInitialize)splitContainer1).EndInit();
             splitContainer1.ResumeLayout(false);
             ((System.ComponentModel.ISupportInitialize)pictureBox2).EndInit();
@@ -205,6 +188,5 @@
         private PictureBox pictureBox2;
         private Panel aboutus_button;
         private Label aboutus_button_label;
-        private SystemDesigner systemDesigner1;
     }
 }

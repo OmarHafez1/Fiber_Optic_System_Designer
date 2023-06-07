@@ -1,7 +1,6 @@
 O:\Fiber_Optic_System_Designer\Fiber_Optic_System_Designer\obj\Debug\net6.0-windows\Fiber_Optic_System_Designer.csproj.AssemblyReference.cache
 O:\Fiber_Optic_System_Designer\Fiber_Optic_System_Designer\obj\Debug\net6.0-windows\Fiber_Optic_System_Designer.Form1.resources
 O:\Fiber_Optic_System_Designer\Fiber_Optic_System_Designer\obj\Debug\net6.0-windows\Fiber_Optic_System_Designer.Properties.Resources.resources
-O:\Fiber_Optic_System_Designer\Fiber_Optic_System_Designer\obj\Debug\net6.0-windows\Fiber_Optic_System_Designer.SystemDesigner.resources
 O:\Fiber_Optic_System_Designer\Fiber_Optic_System_Designer\obj\Debug\net6.0-windows\Fiber_Optic_System_Designer.csproj.GenerateResource.cache
 O:\Fiber_Optic_System_Designer\Fiber_Optic_System_Designer\obj\Debug\net6.0-windows\Fiber_Optic_System_Designer.GeneratedMSBuildEditorConfig.editorconfig
 O:\Fiber_Optic_System_Designer\Fiber_Optic_System_Designer\obj\Debug\net6.0-windows\Fiber_Optic_System_Designer.AssemblyInfoInputs.cache
@@ -19,3 +18,6 @@ O:\FIber_Optic_System_Designer\Fiber_Optic_System_Designer\obj\Debug\net6.0-wind
 O:\FIber_Optic_System_Designer\Fiber_Optic_System_Designer\obj\Debug\net6.0-windows\Fiber_Optic_System_Designer.pdb
 O:\FIber_Optic_System_Designer\Fiber_Optic_System_Designer\obj\Debug\net6.0-windows\Fiber_Optic_System_Designer.genruntimeconfig.cache
 O:\FIber_Optic_System_Designer\Fiber_Optic_System_Designer\obj\Debug\net6.0-windows\ref\Fiber_Optic_System_Designer.dll
+O:\FIber_Optic_System_Designer\Fiber_Optic_System_Designer\obj\Debug\net6.0-windows\Fiber_Optic_System_Designer.SystemDesignPanel.resources
+O:\FIber_Optic_System_Designer\Fiber_Optic_System_Designer\obj\Debug\net6.0-windows\Fiber_Optic_System_Designer.AboutUsPanel.resources
+O:\FIber_Optic_System_Designer\Fiber_Optic_System_Designer\obj\Debug\net6.0-windows\Fiber_Optic_System_Designer.SettingsPanel.resources

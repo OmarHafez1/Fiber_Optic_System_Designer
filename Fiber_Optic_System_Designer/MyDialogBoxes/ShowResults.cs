@@ -6,7 +6,7 @@ namespace Fiber_Optic_System_Designer.MyDialogBoxes
     internal class ShowResults
     {
         static Size size;
-        public static void ShowResultsDialog(string title, List<Data> results, List<List<Tuple<string, string>>> values, List<string> tablesNames)
+        public static void ShowResultsDialog(string title, List<Data> results, List<List<Tuple<string, string>>> values, List<string> tablesNames, string finalAnalysis)
         {
             size = new Size(1200, 700);
             Form inputBox = new Form();
@@ -26,7 +26,19 @@ namespace Fiber_Optic_System_Designer.MyDialogBoxes
 
             foreach (var x in results)
             {
-                table.Rows.Add(x.getName(), x.getValue() == null ? "--" : x.getValue());
+                string tmp = "--";
+                if (x.getValue() != null)
+                {
+                    if (x.getValue() is double)
+                    {
+                        tmp = String.Format("{0:0.0000}", x.getValue());
+                    }
+                    else
+                    {
+                        tmp = x.getValue();
+                    }
+                }
+                table.Rows.Add(x.getName(), tmp);
             }
 
             dataGridView.AllowUserToAddRows = false;
@@ -66,6 +78,30 @@ namespace Fiber_Optic_System_Designer.MyDialogBoxes
 
                 inputBox.Controls.Add(dataGridView1);
             }
+
+            //
+
+            usedHeight += 15;
+            Label label1 = new Label();
+            label1.Location = new Point((size.Width / 2) - 35, usedHeight);
+            label1.Size = new Size((size.Width / 2) - 10, 40);
+            usedHeight += 40;
+            label1.Text = "Final Analysis";
+            label1.Font = new Font("Arial", 25, FontStyle.Bold);
+            label1.ForeColor = ColorTranslator.FromHtml("#0078D7");
+            label1.TextAlign = ContentAlignment.MiddleCenter;
+            inputBox.Controls.Add(label1);
+            usedHeight += 16;
+
+            Label label2 = new Label();
+            label2.Location = new Point((size.Width / 2) - 55, usedHeight);
+            label2.Size = new Size((size.Width / 2) + 50, 120);
+            label2.Text = finalAnalysis;
+            label2.Font = new Font("Arial", 13);
+            label2.AutoSize = false;
+            label2.AutoEllipsis = true;
+            label2.TextAlign = ContentAlignment.TopLeft;
+            inputBox.Controls.Add(label2);
 
             //
 

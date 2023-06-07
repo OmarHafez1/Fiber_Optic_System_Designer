@@ -5,7 +5,7 @@ namespace Fiber_Optic_System_Designer.ValuesAndCalculations.Values
     public class SystemData
     {
 
-        private int DataPrecision = 4;
+        private int DataPrecision = 15;
 
         private Dictionary<values_name, Data> ValuesDictionary;
         private List<values_name> SystemRequirementsAnalysisValues;
@@ -176,7 +176,7 @@ namespace Fiber_Optic_System_Designer.ValuesAndCalculations.Values
                 if (data.getValue() != null)
                     if (double.TryParse(data.getValue().ToString(), out double val))
                     {
-                        return Math.Round(val, DataPrecision);
+                        return val;
                     }
                 return data.getValue();
             }
@@ -186,14 +186,13 @@ namespace Fiber_Optic_System_Designer.ValuesAndCalculations.Values
             }
 
         }
-
         public void SetValue(values_name name, dynamic data)
         {
             if (ValuesDictionary.ContainsKey(name))
             {
                 if (double.TryParse(data.ToString(), out double val))
                 {
-                    ValuesDictionary[name].setValue(Math.Round(val, DataPrecision));
+                    ValuesDictionary[name].setValue(val);
                 }
                 else
                 {

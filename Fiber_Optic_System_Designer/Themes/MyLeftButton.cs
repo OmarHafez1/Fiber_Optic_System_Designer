@@ -7,15 +7,15 @@
         int width;
         bool isSelected = false;
         Action deSelectAll;
-        public MyLeftButton(Panel button, Label label, Action deSelectAll)
+        public MyLeftButton(Panel button, Label label, Action deSelectAll, Action<UserControl> updateUserControl, UserControl userControl)
         {
             this.button = button;
             this.label = label;
             this.deSelectAll = deSelectAll;
-            setLeftButtonThemes();
+            setLeftButtonThemes(updateUserControl, userControl);
         }
 
-        public void setLeftButtonThemes()
+        public void setLeftButtonThemes(Action<UserControl> updateUserControl, UserControl userControl)
         {
             label.ForeColor = KColors.KButtonTextColor;
             label.AutoSize = false;
@@ -34,10 +34,10 @@
             };
             label.MouseClick += delegate (object? sender, MouseEventArgs e)
             {
+                updateUserControl(userControl);
                 deSelectAll();
                 select();
             };
-
         }
         public void deSelect()
         {

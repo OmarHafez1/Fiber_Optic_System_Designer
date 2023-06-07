@@ -1,4 +1,5 @@
 ﻿using Fiber_Optic_System_Designer.MyDialogBoxes;
+using Fiber_Optic_System_Designer.MyExceptions;
 using Fiber_Optic_System_Designer.ValuesAndCalculations.Values;
 
 namespace Fiber_Optic_System_Designer.ValuesAndCalculations
@@ -84,13 +85,13 @@ namespace Fiber_Optic_System_Designer.ValuesAndCalculations
 
             if (availableDetectors.Count - 1 == 0)
             {
-                throw new Exception($"Didn't find suitable detector for your system. You need Detector with sensitivity <= {receiverSens}.");
+                throw new CantFindSuitableComponentsException($"We couldn't find a suitable detector for your system. You require a detector with sensitivity <= {receiverSens}.");
             }
 
             if (availableDetectors.Count - 1 > 1)
             {
-                string title = "Chose a detector";
-                string message = "We have found various detectors available that are suitable for your system. Please select one:";
+                string title = "Please choose a detector:";
+                string message = "We have identified several detectors that are compatible with your system. Please select one from the following options:";
                 int chosed_index = ChoseTableDialoge.InputDialog(title, message, availableDetectors);
                 systemData.setUsedDetectorIndex(real_index[chosed_index]);
                 return real_index[chosed_index];
@@ -152,13 +153,13 @@ namespace Fiber_Optic_System_Designer.ValuesAndCalculations
 
             if (availableOpticalFibers.Count - 1 == 0)
             {
-                throw new Exception($"Didn't find suitable optical fiber for your system. You need optical fiber with BW Distance product >= {bandWidthDistProduct}.");
+                throw new CantFindSuitableComponentsException($"We couldn't find a suitable optical fiber for your system. You require an optical fiber with a BW Distance product >= {bandWidthDistProduct}.");
             }
 
             if (availableOpticalFibers.Count - 1 > 1)
             {
-                string title = "Chose an optical fiber";
-                string message = "We have found various optical fibers available that are suitable for your system. Please select one:";
+                string title = "Please choose an optical fiber:";
+                string message = "We have identified several optical fibers that are compatible with your system. Please select one from the following options:";
                 int chosed_index = ChoseTableDialoge.InputDialog(title, message, availableOpticalFibers);
                 systemData.setUsedOpticalFiberIndex(real_index[chosed_index]);
                 return real_index[chosed_index];
@@ -229,13 +230,13 @@ namespace Fiber_Optic_System_Designer.ValuesAndCalculations
 
             if (availableSources.Count - 1 == 0)
             {
-                throw new Exception($"Didn't find suitable source for your system. You need {GetSourceType()} source with operating wavelength == {DetectorOperatingWavelength}.");
+                throw new CantFindSuitableComponentsException($"We couldn't find a suitable source for your system. You require {GetSourceType()} source with operating wavelength == {DetectorOperatingWavelength}.");
             }
 
             if (availableSources.Count - 1 > 1)
             {
-                string title = "Chose an optical fiber";
-                string message = "We have found various sources available that are suitable for your system. Please select one:";
+                string title = "Please select a source:";
+                string message = "We have identified several sources that are suitable for your system. Please choose one from the available sources:";
                 int chosed_index = ChoseTableDialoge.InputDialog(title, message, availableSources);
                 systemData.setUsedSourceIndex(real_index[chosed_index]);
                 return real_index[chosed_index];
@@ -321,13 +322,13 @@ namespace Fiber_Optic_System_Designer.ValuesAndCalculations
 
             if (availableConnnectors.Count - 1 == 0)
             {
-                throw new Exception($"Didn't find suitable source for your system. You need {GetFiberType()} fiber with size == {OpticalFiberSize}.");
+                throw new CantFindSuitableComponentsException($"We couldn't find a suitable connector for your system. You require {GetFiberType()} fiber with size == {OpticalFiberSize}.");
             }
 
             if (availableConnnectors.Count - 1 > 1)
             {
-                string title = "Chose an connector";
-                string message = "We have found various connectors available that are suitable for your system. Please select one:";
+                string title = "Please select a connector:";
+                string message = "We have identified several connectors that are compatible with your system. Please select one from the available options:";
                 int chosed_index = ChoseTableDialoge.InputDialog(title, message, availableConnnectors);
                 systemData.setUsedConnectorIndex(real_index[chosed_index]);
                 return real_index[chosed_index];
@@ -479,6 +480,5 @@ namespace Fiber_Optic_System_Designer.ValuesAndCalculations
             systemData.SetValue(values_name.ACTUAL_SNR, VAL);
             return VAL;
         }
-
     }
 }

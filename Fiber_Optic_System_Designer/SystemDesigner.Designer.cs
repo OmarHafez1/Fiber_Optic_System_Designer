@@ -1,6 +1,6 @@
 ﻿namespace Fiber_Optic_System_Designer
 {
-    partial class SystemDesigner
+    partial class SystemDesignPanel
     {
         /// <summary> 
         /// Required designer variable.
@@ -28,7 +28,6 @@
         /// </summary>
         private void InitializeComponent()
         {
-            components = new System.ComponentModel.Container();
             tableLayoutPanel1 = new TableLayoutPanel();
             textBox5 = new TextBox();
             textBox4 = new TextBox();
@@ -53,7 +52,6 @@
             DesignButtonLabel = new Label();
             label7 = new Label();
             comboBox1 = new ComboBox();
-            contextMenuStrip1 = new ContextMenuStrip(components);
             tableLayoutPanel1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)splitContainer1).BeginInit();
             splitContainer1.Panel1.SuspendLayout();
@@ -109,7 +107,6 @@
             // textBox5
             // 
             textBox5.Dock = DockStyle.Fill;
-            textBox5.Enabled = false;
             textBox5.Font = new Font("Segoe UI", 15.75F, FontStyle.Regular, GraphicsUnit.Point);
             textBox5.Location = new Point(451, 370);
             textBox5.Margin = new Padding(0);
@@ -121,14 +118,13 @@
             // textBox4
             // 
             textBox4.Dock = DockStyle.Fill;
-            textBox4.Enabled = false;
             textBox4.Font = new Font("Segoe UI", 15.75F, FontStyle.Regular, GraphicsUnit.Point);
             textBox4.Location = new Point(451, 295);
             textBox4.Margin = new Padding(0);
             textBox4.Name = "textBox4";
             textBox4.Size = new Size(293, 35);
             textBox4.TabIndex = 4;
-            textBox4.Text = "10e-9";
+            textBox4.Text = "1e-9";
             // 
             // textBox3
             // 
@@ -380,18 +376,13 @@
             comboBox1.Size = new Size(293, 28);
             comboBox1.TabIndex = 7;
             // 
-            // contextMenuStrip1
-            // 
-            contextMenuStrip1.Name = "contextMenuStrip1";
-            contextMenuStrip1.Size = new Size(61, 4);
-            // 
-            // SystemDesigner
+            // SystemDesignPanel
             // 
             AutoScaleDimensions = new SizeF(7F, 15F);
             AutoScaleMode = AutoScaleMode.Font;
             AutoScroll = true;
             Controls.Add(tableLayoutPanel1);
-            Name = "SystemDesigner";
+            Name = "SystemDesignPanel";
             Size = new Size(799, 623);
             tableLayoutPanel1.ResumeLayout(false);
             tableLayoutPanel1.PerformLayout();
@@ -430,6 +421,5 @@
         private Label notValid6;
         private Label label7;
         private ComboBox comboBox1;
-        private ContextMenuStrip contextMenuStrip1;
     }
 }
