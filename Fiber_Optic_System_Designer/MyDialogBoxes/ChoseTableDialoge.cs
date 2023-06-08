@@ -4,6 +4,7 @@ namespace Fiber_Optic_System_Designer.MyDialogBoxes
 {
     internal class ChoseTableDialoge
     {
+        static DataGridView dataGridView;
         public static int InputDialog(string title, string message, List<List<string>> values)
         {
             Size size = new Size(1070, 450);
@@ -25,7 +26,7 @@ namespace Fiber_Optic_System_Designer.MyDialogBoxes
 
             //
 
-            DataGridView dataGridView = new DataGridView();
+            dataGridView = new DataGridView();
             dataGridView.Size = new Size(size.Width - 20, size.Height - 90);
             dataGridView.Location = new Point(10, label.Height + 25);
 
@@ -33,7 +34,7 @@ namespace Fiber_Optic_System_Designer.MyDialogBoxes
 
             foreach (string value in values[0])
             {
-                table.Columns.Add(value);
+                table.Columns.Add(value.ToString());
             }
 
             for (int i = 1; i < values.Count; i++)
@@ -61,6 +62,14 @@ namespace Fiber_Optic_System_Designer.MyDialogBoxes
             dataGridView.MultiSelect = false;
             dataGridView.ReadOnly = true;
             dataGridView.DataSource = table;
+            dataGridView.ColumnAdded += delegate (object? sender, DataGridViewColumnEventArgs e)
+            {
+                dataGridView.Columns[e.Column.Index].SortMode = DataGridViewColumnSortMode.NotSortable;
+            };
+            foreach (DataGridViewColumn column in dataGridView.Columns)
+            {
+                column.SortMode = DataGridViewColumnSortMode.NotSortable;
+            }
 
             inputBox.Controls.Add(dataGridView);
 

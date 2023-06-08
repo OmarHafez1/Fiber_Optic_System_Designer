@@ -31,7 +31,7 @@ namespace Fiber_Optic_System_Designer.MyDialogBoxes
                 {
                     if (x.getValue() is double)
                     {
-                        tmp = String.Format("{0:0.0000}", x.getValue());
+                        tmp = String.Format("{0:0.0000}", x.getValue()) + "  " + x.getUnit();
                     }
                     else
                     {
@@ -54,6 +54,12 @@ namespace Fiber_Optic_System_Designer.MyDialogBoxes
             dataGridView.MultiSelect = false;
             dataGridView.ReadOnly = true;
             dataGridView.DataSource = table;
+
+            dataGridView.ColumnAdded += delegate (object? sender, DataGridViewColumnEventArgs e)
+            {
+                dataGridView.Columns[e.Column.Index].SortMode = DataGridViewColumnSortMode.NotSortable;
+            };
+
             inputBox.Controls.Add(dataGridView);
 
             //
@@ -141,7 +147,10 @@ namespace Fiber_Optic_System_Designer.MyDialogBoxes
             dataGridView.DefaultCellStyle.Font = new Font(Control.DefaultFont.Name, 12);
             dataGridView.AutoSizeColumnsMode = DataGridViewAutoSizeColumnsMode.Fill;
             dataGridView.ReadOnly = true;
-
+            dataGridView.ColumnAdded += delegate (object? sender, DataGridViewColumnEventArgs e)
+            {
+                dataGridView.Columns[e.Column.Index].SortMode = DataGridViewColumnSortMode.NotSortable;
+            };
             DataTable table = new DataTable();
 
             List<string> TMP = new();

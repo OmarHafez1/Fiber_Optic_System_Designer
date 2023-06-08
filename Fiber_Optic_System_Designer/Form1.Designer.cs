@@ -28,6 +28,7 @@
         /// </summary>
         private void InitializeComponent()
         {
+            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(Form1));
             splitContainer1 = new SplitContainer();
             pictureBox2 = new PictureBox();
             aboutus_button = new Panel();
@@ -158,6 +159,7 @@
             AutoScaleMode = AutoScaleMode.Font;
             ClientSize = new Size(908, 691);
             Controls.Add(splitContainer1);
+            Icon = (Icon)resources.GetObject("$this.Icon");
             MinimumSize = new Size(900, 700);
             Name = "Form1";
             StartPosition = FormStartPosition.CenterScreen;
