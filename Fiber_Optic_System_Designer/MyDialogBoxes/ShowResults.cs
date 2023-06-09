@@ -6,10 +6,13 @@ namespace Fiber_Optic_System_Designer.MyDialogBoxes
     internal class ShowResults
     {
         static Size size;
-        public static void ShowResultsDialog(string title, List<Data> results, List<List<Tuple<string, string>>> values, List<string> tablesNames, string finalAnalysis)
+        public static void ShowResultsDialog(string title, List<Data> results, List<List<Tuple<string, string>>> values, List<string> tablesNames, string finalAnalysis, bool accepted)
         {
-            size = new Size(1200, 700);
+            size = new Size(1250, 700);
             Form inputBox = new Form();
+
+            inputBox.MaximizeBox = false;
+
             inputBox.FormBorderStyle = FormBorderStyle.FixedDialog;
             inputBox.StartPosition = FormStartPosition.CenterScreen;
             inputBox.ClientSize = size;
@@ -97,7 +100,7 @@ namespace Fiber_Optic_System_Designer.MyDialogBoxes
             label1.ForeColor = ColorTranslator.FromHtml("#0078D7");
             label1.TextAlign = ContentAlignment.MiddleCenter;
             inputBox.Controls.Add(label1);
-            usedHeight += 16;
+            usedHeight += 20;
 
             Label label2 = new Label();
             label2.Location = new Point((size.Width / 2) - 55, usedHeight);
@@ -106,6 +109,10 @@ namespace Fiber_Optic_System_Designer.MyDialogBoxes
             label2.Font = new Font("Arial", 13);
             label2.AutoSize = false;
             label2.AutoEllipsis = true;
+            if (!accepted)
+            {
+                label2.ForeColor = Color.Red;
+            }
             label2.TextAlign = ContentAlignment.TopLeft;
             inputBox.Controls.Add(label2);
 

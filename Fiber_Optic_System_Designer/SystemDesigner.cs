@@ -32,67 +32,82 @@ namespace Fiber_Optic_System_Designer
                 delegate ()
                 {
                     SystemRequirements = new List<Tuple<values_name, dynamic>>();
+                    systemData = new SystemData();
                     if (isDataValid())
                     {
-                        systemData = new SystemData();
+                        bool exceptionCaught = false;
                         try
                         {
                             designSystem = new DesignSystem(SystemRequirements, systemData);
-                            List<List<Tuple<string, string>>> values = new List<List<Tuple<string, string>>>();
-                            values.Add(new List<Tuple<string, string>>());
-                            values.Add(new List<Tuple<string, string>>());
-                            values.Add(new List<Tuple<string, string>>());
-                            values.Add(new List<Tuple<string, string>>());
-                            foreach (var entry in systemData.GetDetectorDictionary())
-                            {
-                                values[0].Add(new Tuple<string, string>(entry.Key, entry.Value[systemData.GetUsedDetectorIndex()]));
-                            }
-
-                            foreach (var entry in systemData.GetConnectorDictionary())
-                            {
-                                values[1].Add(new Tuple<string, string>(entry.Key, entry.Value[systemData.GetUsedConnectorIndex()]));
-                            }
-
-                            foreach (var entry in systemData.GetOpticalFiberDictionary())
-                            {
-                                values[2].Add(new Tuple<string, string>(entry.Key, entry.Value[systemData.GetUsedOpticalFiberIndex()]));
-                            }
-
-                            foreach (var entry in systemData.GetSourceDictionary())
-                            {
-                                values[3].Add(new Tuple<string, string>(entry.Key, entry.Value[systemData.GetUsedSourceIndex()]));
-                            }
-
-                            List<String> tablesNames = new() { "detector", "connector", "optical fiber", "source" };
-
-                            string finalAnalysis = "";
-                            finalAnalysis += $"Power at receiver = {systemData.GetValue(values_name.ACTUAL_POWER_AT_THE_RECEIVER):0.0000}{systemData.GetData(values_name.ACTUAL_POWER_AT_THE_RECEIVER).getUnit()} >= " +
-                                             $"receiver sensitivity {systemData.GetValue(values_name.RECEIVER_SENSITIVITY):0.0000}{systemData.GetData(values_name.RECEIVER_SENSITIVITY).getUnit()}  \u2714\n";
-                            finalAnalysis += $"Actual bit rate = {systemData.GetValue(values_name.ACTUAL_BITRATE):0.0000}{systemData.GetData(values_name.ACTUAL_BITRATE).getUnit()} >= " +
-                                             $"required bit rate {systemData.GetValue(values_name.REQUIRED_BIT_RATE):0.0000}{systemData.GetData(values_name.REQUIRED_BIT_RATE).getUnit()}  \u2714\n";
-                            finalAnalysis += $"Actual system rise time = {systemData.GetValue(values_name.ACTUAL_SYSTEM_RISE_TIME):0.0000}{systemData.GetData(values_name.ACTUAL_SYSTEM_RISE_TIME).getUnit()} <= " +
-                                             $"required system rise time {systemData.GetValue(values_name.REQUIRED_SYSTEM_RISE_TIME):0.0000}{systemData.GetData(values_name.REQUIRED_SYSTEM_RISE_TIME).getUnit()}  \u2714\n";
-                            finalAnalysis += $"Actual BER = {SNR_BER_Conversion.ConverSNRTOBER(systemData.GetValue(values_name.ACTUAL_SNR))}{systemData.GetData(values_name.ACTUAL_SNR).getUnit()} <= " +
-                                             $"required BER {systemData.GetValue(values_name.REQUIRED_BER)}{systemData.GetData(values_name.REQUIRED_BER).getUnit()}  \u2714";
-
-                            ShowResults.ShowResultsDialog("Results", systemData.GetAllData(), values, tablesNames, finalAnalysis);
                         }
                         catch (CantDesignTheSystemException ex)
                         {
-                            MessageBox.Show(ex.Message, "We were unable to design your system.", MessageBoxButtons.OK, MessageBoxIcon.Exclamation);
+                            exceptionCaught = true;
+                            //MessageBox.Show(ex.Message, "We were unable to design your system.", MessageBoxButtons.OK, MessageBoxIcon.Exclamation);
+                            DesignAndShow(false);
                         }
                         catch (CantFindSuitableComponentsException ex)
                         {
+                            exceptionCaught = true;
                             MessageBox.Show(ex.Message, "We were unable to design your system.", MessageBoxButtons.OK, MessageBoxIcon.Exclamation);
                         }
                         catch (Exception ex)
                         {
+                            exceptionCaught = true;
                             MessageBox.Show(ex.Message, "Error.", MessageBoxButtons.OK, MessageBoxIcon.Exclamation);
+                        }
+                        if (!exceptionCaught)
+                        {
+                            DesignAndShow(true);
                         }
                     }
                 }
             );
             new AddButtonTheme(designButton);
+        }
+
+        private void DesignAndShow(bool accepted)
+        {
+            List<List<Tuple<string, string>>> values = new List<List<Tuple<string, string>>>
+                            {
+                                new List<Tuple<string, string>>(),
+                                new List<Tuple<string, string>>(),
+                                new List<Tuple<string, string>>(),
+                                new List<Tuple<string, string>>()
+                            };
+            foreach (var entry in systemData.GetDetectorDictionary())
+            {
+                values[0].Add(new Tuple<string, string>(entry.Key, entry.Value[systemData.GetUsedDetectorIndex()]));
+            }
+
+            foreach (var entry in systemData.GetConnectorDictionary())
+            {
+                values[1].Add(new Tuple<string, string>(entry.Key, entry.Value[systemData.GetUsedConnectorIndex()]));
+            }
+
+            foreach (var entry in systemData.GetOpticalFiberDictionary())
+            {
+                values[2].Add(new Tuple<string, string>(entry.Key, entry.Value[systemData.GetUsedOpticalFiberIndex()]));
+            }
+
+            foreach (var entry in systemData.GetSourceDictionary())
+            {
+                values[3].Add(new Tuple<string, string>(entry.Key, entry.Value[systemData.GetUsedSourceIndex()]));
+            }
+
+            List<string> tablesNames = new() { "detector", "connector", "optical fiber", "source" };
+
+            string finalAnalysis = "";
+            finalAnalysis += $"Power at receiver = {systemData.GetValue(values_name.ACTUAL_POWER_AT_THE_RECEIVER):0.0000}{systemData.GetData(values_name.ACTUAL_POWER_AT_THE_RECEIVER).getUnit()}" + (accepted ? " >= " : " < ") +
+                             $"receiver sensitivity {systemData.GetValue(values_name.RECEIVER_SENSITIVITY):0.0000}{systemData.GetData(values_name.RECEIVER_SENSITIVITY).getUnit()}  " + (accepted ? "\u2714\n" : "\u2718\n");
+            finalAnalysis += $"Actual bit rate = {systemData.GetValue(values_name.ACTUAL_BITRATE):0.0000}{systemData.GetData(values_name.ACTUAL_BITRATE).getUnit()}" + (accepted ? " >= " : " < ") +
+                             $"required bit rate {systemData.GetValue(values_name.REQUIRED_BIT_RATE):0.0000}{systemData.GetData(values_name.REQUIRED_BIT_RATE).getUnit()}  " + (accepted ? "\u2714\n" : "\u2718\n");
+            finalAnalysis += $"Actual system rise time = {systemData.GetValue(values_name.ACTUAL_SYSTEM_RISE_TIME):0.0000}{systemData.GetData(values_name.ACTUAL_SYSTEM_RISE_TIME).getUnit()}" + (accepted ? " <= " : " > ") +
+                             $"required system rise time {systemData.GetValue(values_name.REQUIRED_SYSTEM_RISE_TIME):0.0000}{systemData.GetData(values_name.REQUIRED_SYSTEM_RISE_TIME).getUnit()}  " + (accepted ? "\u2714\n" : "\u2718\n");
+            finalAnalysis += $"Actual BER = {SNR_BER_Conversion.ConverSNRTOBER(systemData.GetValue(values_name.ACTUAL_SNR))}{systemData.GetData(values_name.ACTUAL_SNR).getUnit()}" + (accepted ? " <= " : " > ") +
+                             $"required BER {systemData.GetValue(values_name.REQUIRED_BER)}{systemData.GetData(values_name.REQUIRED_BER).getUnit()}  " + (accepted ? "\u2714\n" : "\u2718\n");
+
+            ShowResults.ShowResultsDialog("Results", systemData.GetAllData(), values, tablesNames, finalAnalysis, accepted);
         }
 
         bool isDataValid()

@@ -13,7 +13,14 @@ namespace Fiber_Optic_System_Designer.ValuesAndCalculations
             initializeSystemRequirements(SystemRequirements);
             calc = new Calculations(systemData);
             // will call all other funciton :)
+
             calc.GetActualSNR();
+            calc.GetReceiverSensitivity();
+            calc.GetActualPowerAtReceiver();
+            calc.GetActualBitRate();
+            calc.GetActualSystemRiseTime();
+            calc.GetRequiredSystemRiseTime();
+
             if (!IsValidSystem())
             {
                 throw new CantDesignTheSystemException("Due to some errors encountered, we were unable to configure your system. Please try again or contact our support team for assistance in resolving this issue.");
