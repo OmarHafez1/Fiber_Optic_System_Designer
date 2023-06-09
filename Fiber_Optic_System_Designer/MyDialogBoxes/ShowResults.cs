@@ -1,5 +1,11 @@
 ﻿using Fiber_Optic_System_Designer.ValuesAndCalculations;
-using System.Data;
+using Microsoft.Office.Interop.Excel;
+using Button = System.Windows.Forms.Button;
+using DataTable = System.Data.DataTable;
+using Excel = Microsoft.Office.Interop.Excel;
+using Font = System.Drawing.Font;
+using Label = System.Windows.Forms.Label;
+using Point = System.Drawing.Point;
 
 namespace Fiber_Optic_System_Designer.MyDialogBoxes
 {
@@ -22,7 +28,7 @@ namespace Fiber_Optic_System_Designer.MyDialogBoxes
 
             DataGridView dataGridView = new DataGridView();
             dataGridView.Size = new Size((size.Width / 2) - 80, size.Height - 25);
-            dataGridView.Location = new Point(10, 10);
+            dataGridView.Location = new System.Drawing.Point(10, 10);
             DataTable table = new DataTable();
             table.Columns.Add("tmp1");
             table.Columns.Add("tmp2");
@@ -118,6 +124,19 @@ namespace Fiber_Optic_System_Designer.MyDialogBoxes
 
             //
 
+            Button printButton = new Button();
+            printButton.Name = "printButton";
+            printButton.Size = new Size(75, 23);
+            printButton.Text = "&Save";
+            printButton.Location = new Point(size.Width - 180, size.Height - 37);
+            inputBox.Controls.Add(printButton);
+            printButton.MouseClick += delegate (object? sender, MouseEventArgs e)
+            {
+                saveToExcel(results, values, tablesNames, finalAnalysis);
+            };
+
+            //
+
             Button okButton = new Button();
             okButton.DialogResult = DialogResult.OK;
             okButton.Name = "okButton";
@@ -129,6 +148,100 @@ namespace Fiber_Optic_System_Designer.MyDialogBoxes
             inputBox.AcceptButton = okButton;
 
             DialogResult result = inputBox.ShowDialog();
+        }
+
+        private static void saveToExcel(List<Data> results, List<List<Tuple<string, string>>> values, List<string> tablesNames, string finalAnalysis)
+        {
+            Excel.Application oXL = new Excel.Application(); ;
+            _Workbook oWB = oXL.Workbooks.Add("");
+            Excel._Worksheet oSheet = (Excel._Worksheet)oWB.ActiveSheet;
+            Excel.Range oRng;
+            object misvalue = System.Reflection.Missing.Value;
+            oXL.Visible = false;
+
+            for (int i = 0; i < results.Count; i++)
+            {
+                string tmp = "--";
+                if (results[i].getValue() != null)
+                {
+                    if (results[i].getValue() is double)
+                    {
+                        tmp = String.Format("{0:0.0000}", results[i].getValue()) + "  " + results[i].getUnit();
+                    }
+                    else
+                    {
+                        tmp = results[i].getValue();
+                    }
+                }
+                oSheet.Cells[i + 1, 1] = results[i].getName();
+                oSheet.Cells[i + 1, 2] = tmp;
+            }
+
+            oSheet.get_Range("A1", "A1").ColumnWidth = 30;
+            oSheet.get_Range("B1", "B1").ColumnWidth = 25;
+
+            int x, y = 1;
+            for (int i = 0; i < values.Count; i++)
+            {
+                x = 4;
+                oSheet.Cells[y, x++] = $"{tablesNames[i]}:";
+                foreach (var val in values[i])
+                {
+                    oSheet.Cells[y, x] = val.Item1;
+                    oSheet.Cells[y + 1, x++] = val.Item2;
+                }
+                y += 3;
+            }
+            y = 1;
+            oSheet.Cells[y, 14] = "Final Analysis";
+            foreach (string w in finalAnalysis.Split('\n'))
+            {
+                oSheet.Cells[y++, 15] = w;
+            }
+            oSheet.get_Range("D1", "D1").ColumnWidth = 14;
+
+            oSheet.get_Range("E1", "E1").ColumnWidth = 17;
+            oSheet.get_Range("F1", "F1").ColumnWidth = 17;
+            oSheet.get_Range("G1", "G1").ColumnWidth = 17;
+            oSheet.get_Range("H1", "H1").ColumnWidth = 17;
+            oSheet.get_Range("I1", "I1").ColumnWidth = 17;
+            oSheet.get_Range("J1", "J1").ColumnWidth = 17;
+            oSheet.get_Range("K1", "K1").ColumnWidth = 17;
+            oSheet.get_Range("L1", "L1").ColumnWidth = 17;
+
+
+            oSheet.get_Range("N1", "N1").ColumnWidth = 13;
+            oSheet.get_Range("O1", "O1").ColumnWidth = 80;
+
+            oSheet.get_Range("A1", "A40").Font.Bold = true;
+            oSheet.get_Range("D1", "D40").Font.Bold = true;
+            oSheet.get_Range("D1", "N1").Font.Bold = true;
+            oSheet.get_Range("D4", "L4").Font.Bold = true;
+            oSheet.get_Range("D7", "L7").Font.Bold = true;
+            oSheet.get_Range("D10", "L10").Font.Bold = true;
+
+
+            for (int i = 1; i <= 40; i++)
+            {
+                oSheet.get_Range($"A{i}", $"Z{i}").HorizontalAlignment = XlHAlign.xlHAlignLeft;
+            }
+
+            SaveFileDialog saveFileDialog1 = new SaveFileDialog();
+            saveFileDialog1.Filter = "Excel Files (*.xlsx)|*.xlsx";
+            saveFileDialog1.FileName = "Optical_Fiber_Design_Results.xlsx";
+
+            if (saveFileDialog1.ShowDialog() == DialogResult.OK)
+            {
+                oWB.SaveAs(saveFileDialog1.FileName,
+                 XlFileFormat.xlWorkbookDefault, Type.Missing, Type.Missing,
+                                false, false, Excel.XlSaveAsAccessMode.xlNoChange,
+                                Type.Missing, Type.Missing, Type.Missing, Type.Missing, Type.Missing);
+            }
+
+            oWB.Close();
+            oXL.Quit();
+
+            MessageBox.Show("The Results has been successfully saved!\n" + saveFileDialog1.InitialDirectory, "File Saved", MessageBoxButtons.OK, MessageBoxIcon.Information);
         }
 
         private static DataGridView GenerateRightSizeGridTable(List<Tuple<string, string>> values)

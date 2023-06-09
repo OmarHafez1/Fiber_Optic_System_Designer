@@ -21,3 +21,6 @@ O:\FIber_Optic_System_Designer\Fiber_Optic_System_Designer\obj\Debug\net6.0-wind
 O:\FIber_Optic_System_Designer\Fiber_Optic_System_Designer\obj\Debug\net6.0-windows\Fiber_Optic_System_Designer.pdb
 O:\FIber_Optic_System_Designer\Fiber_Optic_System_Designer\obj\Debug\net6.0-windows\Fiber_Optic_System_Designer.genruntimeconfig.cache
 O:\FIber_Optic_System_Designer\Fiber_Optic_System_Designer\obj\Debug\net6.0-windows\ref\Fiber_Optic_System_Designer.dll
+O:\FIber_Optic_System_Designer\Fiber_Optic_System_Designer\bin\Debug\net6.0-windows\Microsoft.Office.Interop.Excel.dll
+O:\FIber_Optic_System_Designer\Fiber_Optic_System_Designer\bin\Debug\net6.0-windows\Microsoft.Vbe.Interop.dll
+O:\FIber_Optic_System_Designer\Fiber_Optic_System_Designer\bin\Debug\net6.0-windows\OFFICE.DLL
