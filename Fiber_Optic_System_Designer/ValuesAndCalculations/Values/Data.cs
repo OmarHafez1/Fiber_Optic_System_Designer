@@ -5,7 +5,7 @@
         private string name;
         private dynamic value;
         private string unit;
-        public Data(string name, string unit = null, dynamic value = null)
+        public Data(string name = null, string unit = null, dynamic value = null)
         {
             this.name = name;
             this.value = value;

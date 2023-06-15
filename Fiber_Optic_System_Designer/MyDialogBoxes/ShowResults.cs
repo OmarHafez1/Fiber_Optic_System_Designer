@@ -12,9 +12,9 @@ namespace Fiber_Optic_System_Designer.MyDialogBoxes
     internal class ShowResults
     {
         static Size size;
-        public static void ShowResultsDialog(string title, List<Data> results, List<List<Tuple<string, string>>> values, List<string> tablesNames, string finalAnalysis, bool accepted)
+        public static void ShowResultsDialog(string title, List<Data> results, List<List<Tuple<string, List<string>>>> values, List<string> tablesNames, string finalAnalysis, bool accepted)
         {
-            size = new Size(1250, 700);
+            size = new Size(1290, 700);
             Form inputBox = new Form();
 
             inputBox.MaximizeBox = false;
@@ -27,14 +27,15 @@ namespace Fiber_Optic_System_Designer.MyDialogBoxes
             //
 
             DataGridView dataGridView = new DataGridView();
-            dataGridView.Size = new Size((size.Width / 2) - 80, size.Height - 25);
-            dataGridView.Location = new System.Drawing.Point(10, 10);
+            dataGridView.Size = new Size((size.Width / 2) - 70, size.Height - 25);
+            dataGridView.Location = new Point(10, 10);
             DataTable table = new DataTable();
             table.Columns.Add("tmp1");
             table.Columns.Add("tmp2");
 
             foreach (var x in results)
             {
+                if (x.getName() == null) continue;
                 string tmp = "--";
                 if (x.getValue() != null)
                 {
@@ -60,6 +61,7 @@ namespace Fiber_Optic_System_Designer.MyDialogBoxes
             dataGridView.DefaultCellStyle.Font = new Font(Control.DefaultFont.Name, 12);
             dataGridView.AutoSizeColumnsMode = DataGridViewAutoSizeColumnsMode.Fill;
             dataGridView.RowTemplate.Height = 32;
+            dataGridView.ColumnHeadersHeight = dataGridView.RowTemplate.Height + 15;
             dataGridView.MultiSelect = false;
             dataGridView.ReadOnly = true;
             dataGridView.DataSource = table;
@@ -73,44 +75,54 @@ namespace Fiber_Optic_System_Designer.MyDialogBoxes
 
             //
 
-            int usedHeight = 10;
 
+            Panel panel = new Panel();
+            panel.Size = new Size((size.Width / 2) + 80, size.Height - 40);
+            panel.Location = new Point((size.Width / 2) - 45, 0);
+            panel.AutoScroll = true;
+            inputBox.Controls.Add(panel);
+
+            // 
+
+
+            int usedHeight = 10;
+            int usedWidth = (size.Width / 2) + 25;
             for (int i = 0; i < values.Count; i++)
             {
                 Label label = new Label();
-                label.Location = new Point((size.Width / 2) - 55, usedHeight);
-                label.Text = $"You will need to use this {tablesNames[i]}:";
-                label.Size = new Size(size.Width - 10, 20);
+                label.Location = new Point(0, usedHeight);
+                label.Text = $"You will need to use these {tablesNames[i]}s:";
+                label.Size = new Size(usedWidth, 20);
                 usedHeight += 20;
                 label.Font = new Font(Control.DefaultFont.Name, 11, FontStyle.Bold);
-                inputBox.Controls.Add(label);
+                panel.Controls.Add(label);
 
                 DataGridView dataGridView1 = GenerateRightSizeGridTable(values[i]);
-                dataGridView1.Location = new Point((size.Width / 2) - 55, usedHeight);
-                dataGridView1.Size = new Size((size.Width / 2) + 40, 62);
+                dataGridView1.Location = new Point(0, usedHeight);
+                dataGridView1.Size = new Size(usedWidth, (32 * (values[i][0].Item2.Count + 1)) + 2);
 
-                usedHeight += 62 + 25;
+                usedHeight += (32 * (values[i][0].Item2.Count + 1)) + 2 + 25;
 
-                inputBox.Controls.Add(dataGridView1);
+                panel.Controls.Add(dataGridView1);
             }
 
             //
 
             usedHeight += 15;
             Label label1 = new Label();
-            label1.Location = new Point((size.Width / 2) - 35, usedHeight);
-            label1.Size = new Size((size.Width / 2) - 10, 40);
+            label1.Location = new Point(20, usedHeight);
+            label1.Size = new Size(usedWidth, 40);
             usedHeight += 40;
             label1.Text = "Final Analysis";
             label1.Font = new Font("Arial", 25, FontStyle.Bold);
             label1.ForeColor = ColorTranslator.FromHtml("#0078D7");
             label1.TextAlign = ContentAlignment.MiddleCenter;
-            inputBox.Controls.Add(label1);
+            panel.Controls.Add(label1);
             usedHeight += 20;
 
             Label label2 = new Label();
-            label2.Location = new Point((size.Width / 2) - 55, usedHeight);
-            label2.Size = new Size((size.Width / 2) + 50, 120);
+            label2.Location = new Point(0, usedHeight);
+            label2.Size = new Size(usedWidth, 120);
             label2.Text = finalAnalysis;
             label2.Font = new Font("Arial", 13);
             label2.AutoSize = false;
@@ -120,12 +132,12 @@ namespace Fiber_Optic_System_Designer.MyDialogBoxes
                 label2.ForeColor = Color.Red;
             }
             label2.TextAlign = ContentAlignment.TopLeft;
-            inputBox.Controls.Add(label2);
+            panel.Controls.Add(label2);
 
             //
 
             Button printButton = new Button();
-            printButton.Name = "printButton";
+            printButton.Name = "saveButton";
             printButton.Size = new Size(75, 23);
             printButton.Text = "&Save";
             printButton.Location = new Point(size.Width - 180, size.Height - 37);
@@ -150,7 +162,7 @@ namespace Fiber_Optic_System_Designer.MyDialogBoxes
             DialogResult result = inputBox.ShowDialog();
         }
 
-        private static void saveToExcel(List<Data> results, List<List<Tuple<string, string>>> values, List<string> tablesNames, string finalAnalysis)
+        private static void saveToExcel(List<Data> results, List<List<Tuple<string, List<string>>>> values, List<string> tablesNames, string finalAnalysis)
         {
             Excel.Application oXL = new Excel.Application(); ;
             _Workbook oWB = oXL.Workbooks.Add("");
@@ -188,9 +200,16 @@ namespace Fiber_Optic_System_Designer.MyDialogBoxes
                 foreach (var val in values[i])
                 {
                     oSheet.Cells[y, x] = val.Item1;
-                    oSheet.Cells[y + 1, x++] = val.Item2;
+                    char ch = (char)('A' + x - 1);
+                    oSheet.get_Range(ch + y.ToString(), ch + y.ToString()).Font.Bold = true;
+                    for (int j = 0; j < val.Item2.Count; j++)
+                    {
+                        oSheet.Cells[y + j + 1, x] = val.Item2[j];
+                    }
+                    x++;
                 }
-                y += 3;
+                y += values[i][0].Item2.Count;
+                y++;
             }
             y = 1;
             oSheet.Cells[y, 14] = "Final Analysis";
@@ -198,28 +217,19 @@ namespace Fiber_Optic_System_Designer.MyDialogBoxes
             {
                 oSheet.Cells[y++, 15] = w;
             }
+
             oSheet.get_Range("D1", "D1").ColumnWidth = 14;
-
-            oSheet.get_Range("E1", "E1").ColumnWidth = 17;
-            oSheet.get_Range("F1", "F1").ColumnWidth = 17;
-            oSheet.get_Range("G1", "G1").ColumnWidth = 17;
-            oSheet.get_Range("H1", "H1").ColumnWidth = 17;
-            oSheet.get_Range("I1", "I1").ColumnWidth = 17;
-            oSheet.get_Range("J1", "J1").ColumnWidth = 17;
-            oSheet.get_Range("K1", "K1").ColumnWidth = 17;
-            oSheet.get_Range("L1", "L1").ColumnWidth = 17;
-
+            for (char ch = 'E'; ch <= 'L'; ch++)
+            {
+                oSheet.get_Range(ch + "1", ch + "1").ColumnWidth = 18;
+            }
 
             oSheet.get_Range("N1", "N1").ColumnWidth = 13;
             oSheet.get_Range("O1", "O1").ColumnWidth = 80;
 
             oSheet.get_Range("A1", "A40").Font.Bold = true;
             oSheet.get_Range("D1", "D40").Font.Bold = true;
-            oSheet.get_Range("D1", "N1").Font.Bold = true;
-            oSheet.get_Range("D4", "L4").Font.Bold = true;
-            oSheet.get_Range("D7", "L7").Font.Bold = true;
-            oSheet.get_Range("D10", "L10").Font.Bold = true;
-
+            oSheet.get_Range("N1", "N1").Font.Bold = true;
 
             for (int i = 1; i <= 40; i++)
             {
@@ -240,11 +250,9 @@ namespace Fiber_Optic_System_Designer.MyDialogBoxes
 
             oWB.Close();
             oXL.Quit();
-
-            MessageBox.Show("The Results has been successfully saved!\n" + saveFileDialog1.InitialDirectory, "File Saved", MessageBoxButtons.OK, MessageBoxIcon.Information);
         }
 
-        private static DataGridView GenerateRightSizeGridTable(List<Tuple<string, string>> values)
+        private static DataGridView GenerateRightSizeGridTable(List<Tuple<string, List<string>>> values)
         {
             DataGridView dataGridView = new DataGridView();
             dataGridView.AllowUserToAddRows = false;
@@ -273,14 +281,22 @@ namespace Fiber_Optic_System_Designer.MyDialogBoxes
             };
             DataTable table = new DataTable();
 
-            List<string> TMP = new();
+            List<List<string>> TMP = new();
 
             foreach (var x in values)
             {
                 table.Columns.Add(x.Item1);
-                TMP.Add(x.Item2);
+                for (int i = 0; i < x.Item2.Count; i++)
+                {
+                    if (TMP.Count < i + 1) TMP.Add(new List<string>());
+                    if (TMP[i] == null) TMP[i] = new();
+                    TMP[i].Add(x.Item2[i]);
+                }
             }
-            table.Rows.Add(TMP.ToArray());
+            foreach (var x in TMP)
+            {
+                table.Rows.Add(x.ToArray());
+            }
             dataGridView.DataSource = table;
             return dataGridView;
         }

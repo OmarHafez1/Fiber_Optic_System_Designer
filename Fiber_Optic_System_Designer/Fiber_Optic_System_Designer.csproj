@@ -9,6 +9,17 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <None Remove="JSON_Files\default_charts\connector.json" />
+    <None Remove="JSON_Files\default_charts\detector.json" />
+    <None Remove="JSON_Files\default_charts\optical_fiber.json" />
+    <None Remove="JSON_Files\default_charts\source.json" />
+    <None Remove="JSON_Files\user_charts\connector.json" />
+    <None Remove="JSON_Files\user_charts\detector.json" />
+    <None Remove="JSON_Files\user_charts\optical_fiber.json" />
+    <None Remove="JSON_Files\user_charts\source.json" />
+  </ItemGroup>
+
+  <ItemGroup>
     <EmbeddedResource Include="JSON_Files\default_charts\connector.json" />
     <EmbeddedResource Include="JSON_Files\default_charts\detector.json" />
     <EmbeddedResource Include="JSON_Files\default_charts\optical_fiber.json" />

@@ -99,9 +99,9 @@
             aboutus_button_label.Location = new Point(43, 17);
             aboutus_button_label.Margin = new Padding(0);
             aboutus_button_label.Name = "aboutus_button_label";
-            aboutus_button_label.Size = new Size(55, 15);
+            aboutus_button_label.Size = new Size(60, 15);
             aboutus_button_label.TabIndex = 0;
-            aboutus_button_label.Text = "About us";
+            aboutus_button_label.Text = "About me";
             // 
             // pictureBox1
             // 

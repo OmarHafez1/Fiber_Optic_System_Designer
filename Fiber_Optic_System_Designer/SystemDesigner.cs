@@ -18,14 +18,11 @@ namespace Fiber_Optic_System_Designer
         {
             InitializeComponent();
 
-            comboBox1.SelectedIndex = 0;
-
             FormDataInputsCompination = new List<Tuple<values_name, TextBox, Label>>() {
                 new Tuple<values_name, TextBox, Label> (values_name.REQUIRED_BIT_RATE, textBox2, notValid2),
                 new Tuple<values_name, TextBox, Label> (values_name.TRANSMISSION_DISTANCE, textBox3, notValid3),
                 new Tuple<values_name, TextBox, Label> (values_name.REQUIRED_BER, textBox4, notValid4),
                 new Tuple<values_name, TextBox, Label> (values_name.REQUIRED_SNR, textBox5, notValid5),
-                new Tuple<values_name, TextBox, Label> (values_name.NUMBER_OF_CONNECTORS, textBox6, notValid6),
             };
 
             MyButton designButton = new MyButton(designButtonPanel, DesignButtonLabel,
@@ -68,31 +65,44 @@ namespace Fiber_Optic_System_Designer
 
         private void DesignAndShow(bool accepted)
         {
-            List<List<Tuple<string, string>>> values = new List<List<Tuple<string, string>>>
+            List<List<Tuple<string, List<string>>>> values = new List<List<Tuple<string, List<string>>>>
                             {
-                                new List<Tuple<string, string>>(),
-                                new List<Tuple<string, string>>(),
-                                new List<Tuple<string, string>>(),
-                                new List<Tuple<string, string>>()
+                                new List<Tuple<string,  List<string>>>(),
+                                new List<Tuple<string,  List<string>>>(),
+                                new List<Tuple<string,  List<string>>>(),
+                                new List<Tuple<string,  List<string>>>()
                             };
+
             foreach (var entry in systemData.GetDetectorDictionary())
             {
-                values[0].Add(new Tuple<string, string>(entry.Key, entry.Value[systemData.GetUsedDetectorIndex()]));
+                values[0].Add(new Tuple<string, List<string>>(entry.Key, new List<string> { entry.Value[systemData.GetUsedDetectorIndex()] }));
             }
 
             foreach (var entry in systemData.GetConnectorDictionary())
             {
-                values[1].Add(new Tuple<string, string>(entry.Key, entry.Value[systemData.GetUsedConnectorIndex()]));
+                List<string> lst = new List<string>();
+                foreach (var connector in systemData.GetUsedConnectors())
+                {
+                    lst.Add(entry.Value[connector.Item1]);
+                }
+                values[1].Add(new Tuple<string, List<string>>(entry.Key, lst));
             }
+
+            List<string> NumberOfUsedConnector = new List<string>();
+            foreach (var entry in systemData.GetUsedConnectors())
+            {
+                NumberOfUsedConnector.Add(entry.Item2.ToString());
+            }
+            values[1].Add(new Tuple<string, List<string>>("Used connectors.", NumberOfUsedConnector));
 
             foreach (var entry in systemData.GetOpticalFiberDictionary())
             {
-                values[2].Add(new Tuple<string, string>(entry.Key, entry.Value[systemData.GetUsedOpticalFiberIndex()]));
+                values[2].Add(new Tuple<string, List<string>>(entry.Key, new List<string> { entry.Value[systemData.GetUsedOpticalFiberIndex()] }));
             }
 
             foreach (var entry in systemData.GetSourceDictionary())
             {
-                values[3].Add(new Tuple<string, string>(entry.Key, entry.Value[systemData.GetUsedSourceIndex()]));
+                values[3].Add(new Tuple<string, List<string>>(entry.Key, new List<string> { entry.Value[systemData.GetUsedSourceIndex()] }));
             }
 
             List<string> tablesNames = new() { "detector", "connector", "optical fiber", "source" };

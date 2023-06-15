@@ -7,6 +7,7 @@
         "MIN. ACCEPTABLE POWER LEVEL": "-80",
         "RESPONSITIVITY": "0.5",
         "PACKAGING ": "SMA",
+        "NOISE FACTOR" :  "1",
         "MODEL": "D01"
     },
     {
@@ -17,6 +18,7 @@
         "MIN. ACCEPTABLE POWER LEVEL": "-51",
         "RESPONSITIVITY": "1",
         "PACKAGING ": "SMA",
+        "NOISE FACTOR" :  ".1",
         "MODEL": "D02"
     },
     {
@@ -27,6 +29,7 @@
         "MIN. ACCEPTABLE POWER LEVEL": "-47",
         "RESPONSITIVITY": "0.5",
         "PACKAGING ": "SMA",
+        "NOISE FACTOR": "1",
         "MODEL": "D03"
     },
     {
@@ -37,6 +40,7 @@
         "MIN. ACCEPTABLE POWER LEVEL": "-41",
         "RESPONSITIVITY": "0.5",
         "PACKAGING ": "SMA",
+        "NOISE FACTOR" :  "1",
         "MODEL": "D04"
     },
     {
@@ -47,6 +51,7 @@
         "MIN. ACCEPTABLE POWER LEVEL": "-36",
         "RESPONSITIVITY": "1.5",
         "PACKAGING ": "SMA",
+        "NOISE FACTOR" :  ".1",
         "MODEL": "D05"
     },
     {
@@ -57,6 +62,7 @@
         "MIN. ACCEPTABLE POWER LEVEL": "-58",
         "RESPONSITIVITY": "2.1",
         "PACKAGING ": "pigtail",
+        "NOISE FACTOR" :  ".1",
         "MODEL": "D06"
     },
     {
@@ -67,6 +73,7 @@
         "MIN. ACCEPTABLE POWER LEVEL": "-28",
         "RESPONSITIVITY": "0.5",
         "PACKAGING ": "pigtail",
+        "NOISE FACTOR" :  "1",
         "MODEL": "D07"
     },
     {
@@ -77,6 +84,7 @@
         "MIN. ACCEPTABLE POWER LEVEL": "-51",
         "RESPONSITIVITY": "0.5",
         "PACKAGING ": "pigtail",
+        "NOISE FACTOR" :  "1",
         "MODEL": "D08"
     },
     {
@@ -87,6 +95,7 @@
         "MIN. ACCEPTABLE POWER LEVEL": "-36",
         "RESPONSITIVITY": "1.9",
         "PACKAGING ": "pigtail",
+        "NOISE FACTOR" :  ".4",
         "MODEL": "D09"
     },
     {
@@ -97,6 +106,7 @@
         "MIN. ACCEPTABLE POWER LEVEL": "-43",
         "RESPONSITIVITY": "5",
         "PACKAGING ": "pigtail",
+        "NOISE FACTOR" :  ".1",
         "MODEL": "D10"
     }
 ]

@@ -12,8 +12,8 @@ namespace Fiber_Optic_System_Designer.ValuesAndCalculations
             this.systemData = systemData;
             initializeSystemRequirements(SystemRequirements);
             calc = new Calculations(systemData);
-            // will call all other funciton :)
 
+            calc.ChoseDetector();
             calc.GetActualSNR();
             calc.GetReceiverSensitivity();
             calc.GetActualPowerAtReceiver();

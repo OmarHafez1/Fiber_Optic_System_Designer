@@ -6,7 +6,8 @@ namespace Fiber_Optic_System_Designer.ValuesAndCalculations
 {
     public class Calculations
     {
-        const double ELECTRON_CHARGE = 1.6e-19;
+        const double ELECTRON_CHARGE = 1.60217663e-19;
+        private string OpticalFiberColumnHeaderName = "BANDWIDTH DIST. PROD.";
 
         SystemData systemData;
         public Calculations(SystemData systemData)
@@ -28,18 +29,66 @@ namespace Fiber_Optic_System_Designer.ValuesAndCalculations
             return "NRZ";
         }
 
-        public double GetNoiseFactorOfPhotodetector()
+        public int ChoseDetector()
         {
-            return 1;
-            /*string photoDetectorType = systemData.GetValue(values_name.PHOTODETECTOR_TYPE).ToLower();
-            return (photoDetectorType.Contains("pin") ? "1" : photoDetectorType.Contains("si") ? ".4" : ".1");*/
+            if (systemData.GetUsedDetectorIndex() != -1) return systemData.GetUsedDetectorIndex();
+
+            List<string> minAccepablePowerLevelColumn = systemData.GetDetectorListOf("MIN. ACCEPTABLE POWER LEVEL");
+            List<string> noiseFactor = systemData.GetDetectorListOf("NOISE FACTOR");
+            List<string> responsitivity = systemData.GetDetectorListOf("RESPONSITIVITY");
+
+            List<List<string>> availableDetectors = new List<List<string>>
+            {
+                systemData.GetColumnsNamesOf(systemData.GetDetectorChart())
+            };
+
+            List<string> Pmin = new List<string>();
+
+            Dictionary<int, int> real_index = new Dictionary<int, int>();
+
+            int tmp_index = 0;
+            for (int i = 0; i < minAccepablePowerLevelColumn.Count; i++)
+            {
+                double R = double.Parse(responsitivity[i]);
+                double F = double.Parse(noiseFactor[i]);
+                double tmp;
+                if (double.Parse(minAccepablePowerLevelColumn[i]) <= (tmp = GetReceiverSensitivity(R, F)))
+                {
+                    real_index[tmp_index++] = i;
+                    availableDetectors.Add(systemData.GetRowValuesOf(systemData.GetDetectorChart(), i));
+                    Pmin.Add(tmp.ToString("0.0000"));
+                }
+            }
+
+            if (availableDetectors.Count - 1 == 0)
+            {
+                throw new CantFindSuitableComponentsException($"We couldn't find a suitable detector for your system.");
+            }
+
+            int chosed_index = 0;
+            if (availableDetectors.Count - 1 > 1)
+            {
+                string title = "Please choose a detector:";
+                string message = "We have identified several detectors that are compatible with your system. Please select one from the following options:";
+                chosed_index = ChoseTableDialoge.InputDialog(title, message, availableDetectors, Pmin);
+            }
+
+            systemData.SetValue(values_name.NOISE_FACTOR, double.Parse(noiseFactor[real_index[chosed_index]]));
+            systemData.SetValue(values_name.PHOTODETECTOR_RESPONSITIVITY, double.Parse(responsitivity[real_index[chosed_index]]));
+            systemData.setUsedDetectorIndex(real_index[chosed_index]);
+            return real_index[chosed_index];
         }
-        public double GetRespositivityOfPhotodetector()
+
+        public double GetReceiverSensitivity(double ResponsitivityOfPhotodetector, double NoiseFactor)
         {
-            return .5;
-            /*string photoDetectorType = systemData.GetValue(values_name.PHOTODETECTOR_TYPE).ToLower();
-            return (photoDetectorType.Contains("pin") ? ".58" : photoDetectorType.Contains("si") ? "100" : ".6");*/
+            double snr = systemData.GetValue(values_name.REQUIRED_SNR);
+            double k_2 = Math.Pow(10, .1 * snr);
+            double bitRate = systemData.GetValue(values_name.REQUIRED_BIT_RATE) * 1e6;
+            double recSens = 2 * ELECTRON_CHARGE * NoiseFactor * k_2 * bitRate / ResponsitivityOfPhotodetector;
+            recSens = 10 * Math.Log10(recSens / 1e-3);
+            return recSens;
         }
+
         public double GetReceiverSensitivity()
         {
             dynamic VAL;
@@ -47,53 +96,23 @@ namespace Fiber_Optic_System_Designer.ValuesAndCalculations
             {
                 return VAL;
             }
-            double snr = systemData.GetValue(values_name.REQUIRED_SNR);
-            double k_2 = Math.Pow(10, .1 * snr);
-            double F = GetNoiseFactorOfPhotodetector();
-            double bitRate = systemData.GetValue(values_name.REQUIRED_BIT_RATE) * 1e6;
-            double R = GetRespositivityOfPhotodetector();
-            double recSens = 2 * ELECTRON_CHARGE * F * k_2 * bitRate / R;
-            recSens = 10 * Math.Log10(recSens / 1e-3);
-            systemData.SetValue(values_name.RECEIVER_SENSITIVITY, recSens);
-            return recSens;
+            VAL = GetReceiverSensitivity(GetResponsitivityOfPhotodetector(), GetNoiseFactorOfPhotodetector());
+            systemData.SetValue(values_name.RECEIVER_SENSITIVITY, VAL);
+            return VAL;
         }
-
-        public int ChoseDetector()
+        public double GetNoiseFactorOfPhotodetector()
         {
-            if (systemData.GetUsedDetectorIndex() != -1) return systemData.GetUsedDetectorIndex();
-
-            List<string> minAccepablePowerLevelColumn = systemData.GetDetectorListOf("MIN. ACCEPTABLE POWER LEVEL");
-            List<string> deviceStructureColumnn = systemData.GetDetectorListOf("DEVICE STRUCTURE");
-
-            List<List<string>> availableDetectors = new List<List<string>>();
-
-            double receiverSens = GetReceiverSensitivity();
-
-            double optimal = double.PositiveInfinity;
-            int index = -1;
-
-            for (int i = 0; i < minAccepablePowerLevelColumn.Count; i++)
-            {
-                double tmp;
-                // TODO: HERE WE ASSUEMED THE PIN DEVICES. BUT I THE FUTURE WE WILL NEED TO EXTEND IT TO ACCEPT OTHER TYPES.
-                if ((tmp = double.Parse(minAccepablePowerLevelColumn[i])) <= receiverSens && deviceStructureColumnn[i].Trim() == "PIN")
-                {
-                    if (tmp < optimal)
-                    {
-                        optimal = tmp;
-                        index = i;
-                    }
-                }
-            }
-
-            if (index == -1)
-            {
-                throw new CantFindSuitableComponentsException($"We couldn't find a suitable detector for your system. You require a detector with sensitivity <= {receiverSens}.");
-            }
-
-            systemData.setUsedDetectorIndex(index);
-            return index;
+            dynamic VAL;
+            if ((VAL = systemData.GetValue(values_name.NOISE_FACTOR)) != null) return VAL;
+            throw new ValueNotSet("Didn't find the noise factor of the the detector");
         }
+        public double GetResponsitivityOfPhotodetector()
+        {
+            dynamic VAL;
+            if ((VAL = systemData.GetValue(values_name.PHOTODETECTOR_RESPONSITIVITY)) != null) return VAL;
+            throw new ValueNotSet("Didn't find the responsitivity of the the detector");
+        }
+
 
         public string GetFiberType()
         {
@@ -104,53 +123,109 @@ namespace Fiber_Optic_System_Designer.ValuesAndCalculations
             return VAL;
         }
 
+        public double GetDispersion()
+        {
+            dynamic VAL;
+            if ((VAL = systemData.GetValue(values_name.DISPERSION)) != null) return VAL;
+            double dispersion = .187 * 1000 / (systemData.GetValue(values_name.REQUIRED_BIT_RATE) * systemData.GetValue(values_name.TRANSMISSION_DISTANCE) * 4.0);
+            systemData.SetValue(values_name.DISPERSION, dispersion);
+            return dispersion;
+        }
+
+        private bool Is_Single_Mode()
+        {
+            return GetFiberType().Trim().ToLower()[0] == 's';
+        }
+
+        private bool Is_Multi_Mode()
+        {
+            return GetFiberType().Trim().ToLower()[0] == 'm';
+        }
+
+        private void UpdateOpticalFiberColumnHeaderName()
+        {
+            if (Is_Multi_Mode())
+            {
+                OpticalFiberColumnHeaderName = "BANDWIDTH DIST. PROD.";
+            }
+            else if (Is_Single_Mode())
+            {
+                OpticalFiberColumnHeaderName = "DISPERSION";
+            }
+        }
+
+        private string getOpticalFiberColumnHeaderName()
+        {
+            UpdateOpticalFiberColumnHeaderName();
+            return OpticalFiberColumnHeaderName;
+        }
+
         public int ChoseOpticalFiber()
         {
             if (systemData.GetUsedOpticalFiberIndex() != -1) return systemData.GetUsedOpticalFiberIndex();
 
-            List<string> BW_Distacne_Product_Column = systemData.GetOpticaFiberListOf("BANDWIDTH DIST. PROD.");
-
-            double bandWidthDistProduct = systemData.GetValue(values_name.REQUIRED_BIT_RATE) * systemData.GetValue(values_name.TRANSMISSION_DISTANCE);
+            List<string> Dispersion_BW_Distacne_Product_Column;
+            double Dispersion_BW_Distacne_Product;
+            if (Is_Multi_Mode())
+            {
+                Dispersion_BW_Distacne_Product_Column = systemData.GetOpticaFiberListOf(getOpticalFiberColumnHeaderName());
+                Dispersion_BW_Distacne_Product = systemData.GetValue(values_name.REQUIRED_BIT_RATE) * systemData.GetValue(values_name.TRANSMISSION_DISTANCE);
+            }
+            else if (Is_Single_Mode())
+            {
+                Dispersion_BW_Distacne_Product_Column = systemData.GetOpticaFiberListOf(getOpticalFiberColumnHeaderName());
+                Dispersion_BW_Distacne_Product = GetDispersion();
+            }
+            else
+            {
+                throw new Exception("Fiber type is not valid.");
+            }
 
             string detector_operating_wave_length = systemData.GetDetectorListOf("WAVELENGTH OF PEAK SENSITIVITY")[ChoseDetector()].Trim().ToLower();
             List<string> optical_fiber_oprating_wave_length = systemData.GetOpticaFiberListOf("OPERATING WAVELENGTH OF MODEL");
 
-            int index = -1;
-            double optimal = double.PositiveInfinity;
-
-            for (int i = 0; i < BW_Distacne_Product_Column.Count; i++)
+            List<List<string>> availableOpticalFibers = new List<List<string>>
             {
-                // i.e. this cell in the chart is empty.
-                if (BW_Distacne_Product_Column[i] == null || !double.TryParse(BW_Distacne_Product_Column[i], out _)) continue;
+                systemData.GetColumnsNamesOf(systemData.GetOpticalFiberChart())
+            };
 
-                // TODO: IN THE FUTURE UPDATE WE WILL NEED TO CHECK IF THE OPERATING WAVELENGTH OF MODEL OF THIS OPTICAL FIBER
-                //       IS THE SAME AS THE WAVELENGTH OF PEAK SENSITIVITY OF THE DETECTOR WE CHOSED !!
+            Dictionary<int, int> real_index = new Dictionary<int, int>();
 
-                double tmp;
-                if ((tmp = double.Parse(BW_Distacne_Product_Column[i])) >= bandWidthDistProduct)
+            int tmp_indx = 0;
+            for (int i = 0; i < Dispersion_BW_Distacne_Product_Column.Count; i++)
+            {
+                if (Dispersion_BW_Distacne_Product_Column[i] == null || !double.TryParse(Dispersion_BW_Distacne_Product_Column[i], out _)) continue;
+
+                if (double.Parse(Dispersion_BW_Distacne_Product_Column[i]) >= Dispersion_BW_Distacne_Product)
                 {
                     foreach (var x in optical_fiber_oprating_wave_length[i].Split(":"))
                     {
                         if (x.ToLower().Trim() == detector_operating_wave_length)
                         {
-                            if (tmp < optimal)
-                            {
-                                optimal = tmp;
-                                index = i;
-                            }
+                            real_index[tmp_indx++] = i;
+                            availableOpticalFibers.Add(systemData.GetRowValuesOf(systemData.GetOpticalFiberChart(), i));
                             break;
                         }
                     }
                 }
             }
 
-            if (index == -1)
+            if (availableOpticalFibers.Count - 1 == 0)
             {
-                throw new CantFindSuitableComponentsException($"We couldn't find a suitable optical fiber for your system. You require an optical fiber with a BW Distance product >= {bandWidthDistProduct}.");
+                string tmp = Is_Multi_Mode() ? "BW distance product" : "dispersion";
+                throw new CantFindSuitableComponentsException($"We couldn't find a suitable optical fiber for your system. You require an optical fiber with a {tmp} >= {Dispersion_BW_Distacne_Product}.");
             }
 
-            systemData.setUsedOpticalFiberIndex(index);
-            return index;
+            int chosed_index = 0;
+            if (availableOpticalFibers.Count - 1 > 1)
+            {
+                string title = "Please choose an optical fiber:";
+                string message = "We have identified several optical fibers that are compatible with your system. Please select one from the following options:";
+                chosed_index = ChoseTableDialoge.InputDialog(title, message, availableOpticalFibers);
+            }
+
+            systemData.setUsedOpticalFiberIndex(real_index[chosed_index]);
+            return real_index[chosed_index];
         }
 
         public double GetFiberAttenuation()
@@ -159,6 +234,7 @@ namespace Fiber_Optic_System_Designer.ValuesAndCalculations
             if ((VAL = systemData.GetValue(values_name.FIBER_ATTENUATION)) != null) return VAL;
             string tmp = systemData.GetOpticaFiberListOf("ATTENUATION")[ChoseOpticalFiber()];
             if (tmp.Contains(':')) VAL = double.Parse(tmp.Split(':')[1]);
+            else VAL = double.Parse(tmp);
             systemData.SetValue(values_name.FIBER_ATTENUATION, VAL);
             return VAL;
         }
@@ -277,17 +353,20 @@ namespace Fiber_Optic_System_Designer.ValuesAndCalculations
             return VAL;
         }
 
-        public int ChoseConnector()
+        public List<Tuple<int, int>> ChoseConnectors()
         {
-            if (systemData.GetUsedConnectorIndex() != -1) return systemData.GetUsedConnectorIndex();
+            if (systemData.GetUsedConnectors() != null) return systemData.GetUsedConnectors();
             List<string> ConnectorsFiberType = systemData.GetConnectorListOf("FIBER TYPE");
             List<string> ConnectorsFiberSize = systemData.GetConnectorListOf("FIBER SIZE");
-            List<string> ConnectorsAttenuation = systemData.GetConnectorListOf("ATTENUATION");
+            List<List<string>> availableConnnectors = new List<List<string>>
+            {
+                systemData.GetColumnsNamesOf(systemData.GetConnectorChart())
+            };
 
             string OpticalFiberSize = systemData.GetOpticaFiberListOf("FIBER SIZE")[ChoseOpticalFiber()].Trim();
 
-            int index = -1;
-            double optimalAttenuation = double.PositiveInfinity;
+            Dictionary<int, int> real_index = new Dictionary<int, int>();
+            int tmp_index = 0;
 
             for (int i = 0; i < ConnectorsFiberType.Count; i++)
             {
@@ -295,38 +374,63 @@ namespace Fiber_Optic_System_Designer.ValuesAndCalculations
                 {
                     if (OpticalFiberSize == ConnectorsFiberSize[i].Trim())
                     {
-                        double tmp;
-                        if ((tmp = double.Parse(ConnectorsAttenuation[i])) < optimalAttenuation)
-                        {
-                            optimalAttenuation = tmp;
-                            index = i;
-                        }
+                        real_index[tmp_index++] = i;
+                        availableConnnectors.Add(systemData.GetRowValuesOf(systemData.GetConnectorChart(), i));
                     }
                 }
             }
 
-            if (index == -1)
+            if (availableConnnectors.Count - 1 == 0)
             {
                 throw new CantFindSuitableComponentsException($"We couldn't find a suitable connector for your system. You require {GetFiberType()} fiber with size == {OpticalFiberSize}.");
             }
 
-            systemData.setUsedConnectorIndex(index);
-            return index;
+            string title = "Please chose the connectors:";
+            string message = "The following connectors are compatible with your system. Please chose the connectors:";
+
+            ChoseTableDialoge.InputDialog(title, message, availableConnnectors, isConnector: true);
+
+            List<Tuple<int, int>> tuples = new List<Tuple<int, int>>();
+
+            int cnt = 0;
+            int number_of_connectors = 0;
+            foreach (int x in ChoseTableDialoge.getConnectosCount())
+            {
+                if (x != 0)
+                {
+                    tuples.Add(new Tuple<int, int>(real_index[cnt], x));
+                    number_of_connectors += x;
+                }
+                cnt++;
+            }
+            systemData.SetValue(values_name.NUMBER_OF_CONNECTORS, number_of_connectors);
+            systemData.setUsedConnectorIndex(tuples);
+            return tuples;
         }
-        public double GetConnectorsInsertionLoss()
-        {
-            dynamic VAL;
-            if ((VAL = systemData.GetValue(values_name.CONNECTOR_INSERTION_LOSS)) != null) return VAL;
-            VAL = double.Parse(systemData.GetConnectorListOf("ATTENUATION")[ChoseConnector()]);
-            systemData.SetValue(values_name.CONNECTOR_INSERTION_LOSS, VAL);
-            return VAL;
-        }
+
+        /*        public double GetConnectorsInsertionLoss()
+                {
+                    dynamic VAL;
+                    if ((VAL = systemData.GetValue(values_name.CONNECTOR_INSERTION_LOSS)) != null) return VAL;
+                    var connectors = ChoseConnectors();
+                    foreach (var x in connectors)
+                    {
+                        VAL = double.Parse(systemData.GetConnectorListOf("ATTENUATION")[ChoseConnector()]);
+                    }
+                    systemData.SetValue(values_name.CONNECTOR_INSERTION_LOSS, VAL);
+                    return VAL;
+                }*/
 
         public double GetTotalConnectorLoss()
         {
             dynamic VAL;
             if ((VAL = systemData.GetValue(values_name.TOTAL_CONNECTOR_LOSS)) != null) return VAL;
-            VAL = GetConnectorsInsertionLoss() * systemData.GetValue(values_name.NUMBER_OF_CONNECTORS);
+            var connectors_attenuation = systemData.GetConnectorListOf("ATTENUATION");
+            var connectors = ChoseConnectors();
+            foreach (var x in connectors)
+            {
+                VAL = x.Item2 * double.Parse(connectors_attenuation[x.Item1]);
+            }
             systemData.SetValue(values_name.TOTAL_CONNECTOR_LOSS, VAL);
             return VAL;
         }
@@ -395,7 +499,8 @@ namespace Fiber_Optic_System_Designer.ValuesAndCalculations
         {
             dynamic VAL;
             if ((VAL = systemData.GetValue(values_name.FIBER_BANDWIDTH)) != null) return VAL;
-            VAL = double.Parse(systemData.GetOpticaFiberListOf("BANDWIDTH DIST. PROD.")[ChoseOpticalFiber()]) / systemData.GetValue(values_name.TRANSMISSION_DISTANCE);
+
+            VAL = double.Parse(systemData.GetOpticaFiberListOf(getOpticalFiberColumnHeaderName())[ChoseOpticalFiber()]) / systemData.GetValue(values_name.TRANSMISSION_DISTANCE);
             systemData.SetValue(values_name.FIBER_BANDWIDTH, VAL);
             return VAL;
         }
@@ -452,7 +557,7 @@ namespace Fiber_Optic_System_Designer.ValuesAndCalculations
             if ((VAL = systemData.GetValue(values_name.ACTUAL_SNR)) != null) return VAL;
 
             double p = Math.Pow(10, GetActualPowerAtReceiver() / 10.0) * 1e-3;
-            VAL = 10 * Math.Log10(p * GetRespositivityOfPhotodetector() / (2 * ELECTRON_CHARGE * GetNoiseFactorOfPhotodetector() * GetActualBitRate() * 1e6));
+            VAL = 10 * Math.Log10(p * GetResponsitivityOfPhotodetector() / (2 * ELECTRON_CHARGE * GetNoiseFactorOfPhotodetector() * GetActualBitRate() * 1e6));
             systemData.SetValue(values_name.ACTUAL_SNR, VAL);
             return VAL;
         }

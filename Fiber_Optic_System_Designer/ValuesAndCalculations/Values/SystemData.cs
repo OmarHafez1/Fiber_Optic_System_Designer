@@ -25,7 +25,8 @@ namespace Fiber_Optic_System_Designer.ValuesAndCalculations.Values
         private Dictionary<string, List<string>> OpticalFiberDictionary = new Dictionary<string, List<string>>();
         private Dictionary<string, List<string>> ConnectorDictionary = new Dictionary<string, List<string>>();
 
-        private int UsedDetectorIndex = -1, UsedSourceIndex = -1, UsedOpticalFiberIndex = -1, UsedConnectorIndex = -1;
+        private int UsedDetectorIndex = -1, UsedSourceIndex = -1, UsedOpticalFiberIndex = -1;
+        private List<Tuple<int, int>> UsedConnectors;
 
         public SystemData()
         {
@@ -48,6 +49,9 @@ namespace Fiber_Optic_System_Designer.ValuesAndCalculations.Values
                 {values_name.TRANSMISSION_DISTANCE, new Data("Transmissionn Distance", "Km")},
                 {values_name.NUMBER_OF_CONNECTORS, new Data("Number of connectors")},
                 {values_name.PHOTODETECTOR_TYPE, new Data("Photodetector type")},
+                {values_name.NOISE_FACTOR, new Data()},
+                {values_name.PHOTODETECTOR_RESPONSITIVITY, new Data()},
+                {values_name.DISPERSION, new Data()},
                 //
                 {values_name.MODULATION_CODE, new Data("Modulation code")},
                 {values_name.ENVIRONMENT, new Data("Environment")},
@@ -61,7 +65,7 @@ namespace Fiber_Optic_System_Designer.ValuesAndCalculations.Values
                 {values_name.NUMBER_OF_SPLICES, new Data("Number of splices")},
                 {values_name.SPLICE_INSERTION_LOSS, new Data("Splice insertion loss", "dB/splice")},
                 {values_name.TOTAL_SPLICE_LOSS, new Data("Total splice loss", "dB")},
-                {values_name.CONNECTOR_INSERTION_LOSS, new Data("Connector insertion loss", "dB/connector")},
+               // {values_name.CONNECTOR_INSERTION_LOSS, new Data("Connector insertion loss", "dB/connector")},
                 {values_name.TOTAL_CONNECTOR_LOSS, new Data("Total connector loss", "dB")},
                 {values_name.TIME_DEGRADATION_FACTOR, new Data("Time degradation factor", "dB")},
                 {values_name.ENV_DEGRADATION_FACTOR, new Data("Env. Degradation factor", "dB")},
@@ -104,7 +108,7 @@ namespace Fiber_Optic_System_Designer.ValuesAndCalculations.Values
                 values_name.NUMBER_OF_SPLICES,
                 values_name.SPLICE_INSERTION_LOSS,
                 values_name.TOTAL_SPLICE_LOSS,
-                values_name.CONNECTOR_INSERTION_LOSS,
+              //  values_name.CONNECTOR_INSERTION_LOSS,
                 values_name.TOTAL_CONNECTOR_LOSS,
                 values_name.TIME_DEGRADATION_FACTOR,
                 values_name.ENV_DEGRADATION_FACTOR,
@@ -222,7 +226,6 @@ namespace Fiber_Optic_System_Designer.ValuesAndCalculations.Values
             return OpticalFiberDictionary[name];
         }
 
-
         public List<values_name> GetAllValuesNames()
         {
             return AllValuesNames;
@@ -282,9 +285,9 @@ namespace Fiber_Optic_System_Designer.ValuesAndCalculations.Values
         {
             return UsedDetectorIndex;
         }
-        public int GetUsedConnectorIndex()
+        public List<Tuple<int, int>> GetUsedConnectors()
         {
-            return UsedConnectorIndex;
+            return UsedConnectors;
         }
         public int GetUsedOpticalFiberIndex()
         {
@@ -295,7 +298,7 @@ namespace Fiber_Optic_System_Designer.ValuesAndCalculations.Values
             return UsedSourceIndex;
         }
         public void setUsedDetectorIndex(int indx) => UsedDetectorIndex = indx;
-        public void setUsedConnectorIndex(int indx) => UsedConnectorIndex = indx;
+        public void setUsedConnectorIndex(List<Tuple<int, int>> vals) => UsedConnectors = vals;
         public void setUsedOpticalFiberIndex(int indx) => UsedOpticalFiberIndex = indx;
         public void setUsedSourceIndex(int indx) => UsedSourceIndex = indx;
 
