@@ -125,7 +125,7 @@ namespace Fiber_Optic_System_Designer.MyDialogBoxes
             label2.Size = new Size(usedWidth, 120);
             label2.Text = finalAnalysis;
             label2.Font = new Font("Arial", 13);
-            label2.AutoSize = false;
+            label2.AutoSize = true;
             label2.AutoEllipsis = true;
             if (!accepted)
             {

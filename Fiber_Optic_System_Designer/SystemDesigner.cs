@@ -116,7 +116,7 @@ namespace Fiber_Optic_System_Designer
                              $"required system rise time {systemData.GetValue(values_name.REQUIRED_SYSTEM_RISE_TIME):0.0000}{systemData.GetData(values_name.REQUIRED_SYSTEM_RISE_TIME).getUnit()}  " + (accepted ? "\u2714\n" : "\u2718\n");
             finalAnalysis += $"Actual BER = {SNR_BER_Conversion.ConverSNRTOBER(systemData.GetValue(values_name.ACTUAL_SNR))}{systemData.GetData(values_name.ACTUAL_SNR).getUnit()}" + (accepted ? " <= " : " > ") +
                              $"required BER {systemData.GetValue(values_name.REQUIRED_BER)}{systemData.GetData(values_name.REQUIRED_BER).getUnit()}  " + (accepted ? "\u2714\n" : "\u2718\n");
-
+            // Get all data may be bugy ! we will need to rewrite it in the systyemData class
             ShowResults.ShowResultsDialog("Results", systemData.GetAllData(), values, tablesNames, finalAnalysis, accepted);
         }
 

@@ -42,11 +42,11 @@ namespace Fiber_Optic_System_Designer.ValuesAndCalculations.Values
 
             ValuesDictionary = new Dictionary<values_name, Data>() {
                 {values_name.SYSTEM_TYPE, new Data("System type", "Digital")},
-                {values_name.REQUIRED_BW, new Data("Required BW")},
                 {values_name.REQUIRED_BIT_RATE, new Data("Required Bit Rate", "Mbps")},
-                {values_name.REQUIRED_BER, new Data("Required BER")},
-                {values_name.REQUIRED_SNR, new Data("Required SNR", "dB")},
                 {values_name.TRANSMISSION_DISTANCE, new Data("Transmissionn Distance", "Km")},
+                {values_name.REQUIRED_BER, new Data("Required BER")},
+                {values_name.REQUIRED_BW, new Data("Required BW")},
+                {values_name.REQUIRED_SNR, new Data("Required SNR", "dB")},
                 {values_name.NUMBER_OF_CONNECTORS, new Data("Number of connectors")},
                 {values_name.PHOTODETECTOR_TYPE, new Data("Photodetector type")},
                 {values_name.NOISE_FACTOR, new Data()},
@@ -90,6 +90,7 @@ namespace Fiber_Optic_System_Designer.ValuesAndCalculations.Values
                 values_name.SYSTEM_TYPE,
                 values_name.REQUIRED_BW,
                 values_name.REQUIRED_BIT_RATE,
+                values_name.TRANSMISSION_DISTANCE,
                 values_name.REQUIRED_BER,
                 values_name.REQUIRED_SNR,
                 values_name.NUMBER_OF_CONNECTORS
@@ -231,6 +232,7 @@ namespace Fiber_Optic_System_Designer.ValuesAndCalculations.Values
             return AllValuesNames;
         }
 
+        // This may be bugy we will need to rewrite this.
         public List<Data> GetAllData()
         {
             AllData = new List<Data> { };
